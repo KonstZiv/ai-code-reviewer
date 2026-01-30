@@ -707,13 +707,19 @@ tag v1.0.0a1 → release.yml (test → build → PyPI → GitHub Release)
 
 **Нотатки:**
 ```
+2026-01-30: QA виявило критичну помилку — виправлено ✅
+- Проблема: Action показував --help замість виконання
+- Причина: github_token не передавався явно в прикладах
+- Виправлено: оновлено всі приклади (6 мов) + troubleshooting
+- Реліз v1.0.0a2 опубліковано
+
 2026-01-28: План тестування розпочато
 - Визначено 5 груп з різними сценаріями
 - Концепція: функціональність + документація паралельно
 - Детальний план Групи 1 готовий
 - Плани груп 2-5 потрібно деталізувати
 
-Далі: Деталізувати плани груп 2-5, роздати студентам
+Далі: Продовжити QA, деталізувати плани груп 2-5
 ```
 
 ---
@@ -723,13 +729,13 @@ tag v1.0.0a1 → release.yml (test → build → PyPI → GitHub Release)
 **Призначено:** Human
 **Оцінка часу:** 1 година
 
-> **Примітка:** Alpha реліз v1.0.0a1 вже опубліковано в Task 8.
+> **Примітка:** Alpha реліз v1.0.0a2 вже опубліковано (виправлено помилку з --help).
 > Це завдання — фінальний стабільний реліз після QA.
 
 **Чеклист:**
 - [ ] Всі баги з ручного тестування виправлено
 - [ ] Документація оновлена за результатами тестування
-- [ ] Версія оновлена в `pyproject.toml` (1.0.0a1 → 1.0.0)
+- [ ] Версія оновлена в `pyproject.toml` (1.0.0a2 → 1.0.0)
 - [ ] CHANGELOG.md написано
 - [ ] Тег `v1.0.0` створено
 - [ ] GitHub Release (стабільний, не pre-release)
@@ -811,6 +817,19 @@ tag v1.0.0a1 → release.yml (test → build → PyPI → GitHub Release)
 
 ### Прогрес з останнього оновлення
 ```
+2026-01-30: Критичне виправлення — Action показував --help ✅
+  🐛 Issue від студентів: "В логах CI видно --help замість ревʼю"
+
+  Причина:
+    - github_token / GITLAB_TOKEN не передавались явно в прикладах
+    - CLI виводить help коли не може визначити контекст (PR/MR)
+
+  ✅ Виправлено (коміти be35c67, 8ed614e):
+    - Додано github_token до всіх прикладів quick-start (6 мов)
+    - Додано GITLAB_TOKEN до прикладів GitLab CI
+    - Нова секція в troubleshooting
+    - Реліз v1.0.0a2 опубліковано
+
 2026-01-29: Критичні виправлення GitHub Action та Docker ✅
   🐛 Issue від студентів: "Unable to resolve action @v1"
 
@@ -1034,6 +1053,16 @@ tag v1.0.0a1 → release.yml (test → build → PyPI → GitHub Release)
 **Рішення:** Додано `${GITHUB_REPOSITORY,,}` bash lowercase конвертацію
 **Статус:** ✅ Виправлено
 
+### Проблема 7: Action показує --help замість виконання — 2026-01-30
+**Проблема:** В логах CI job видно `--help` output замість виконання ревʼю
+**Причина:** `github_token` / `GITLAB_TOKEN` не передавались явно в прикладах workflow. CLI виводить help коли не може визначити контекст (PR/MR).
+**Рішення:**
+1. Додано `github_token: ${{ secrets.GITHUB_TOKEN }}` до всіх прикладів quick-start (6 мов)
+2. Додано `GITLAB_TOKEN: $CI_JOB_TOKEN` до прикладів GitLab CI
+3. Нова секція в troubleshooting — "Action показує --help замість виконання"
+4. Оновлено чеклист діагностики — "чи передано github_token явно?"
+**Статус:** ✅ Виправлено, реліз v1.0.0a2
+
 ---
 
 ## 💡 Висновки та інсайти
@@ -1089,7 +1118,7 @@ tag v1.0.0a1 → release.yml (test → build → PyPI → GitHub Release)
 - [x] Docker image опубліковано (DockerHub + GHCR)
 - [x] GitHub Action опубліковано (Marketplace)
 - [x] GitLab template працює
-- [x] PyPI package опубліковано (ai-reviewbot 1.0.0a1)
+- [x] PyPI package опубліковано (ai-reviewbot 1.0.0a2)
 
 ### Документація
 - [x] 6 мов документації
@@ -1098,6 +1127,7 @@ tag v1.0.0a1 → release.yml (test → build → PyPI → GitHub Release)
 
 ### Реліз (Alpha)
 - [x] Тег v1.0.0a1 створено
+- [x] Тег v1.0.0a2 створено (виправлення --help)
 - [x] GitHub Release опубліковано (pre-release)
 - [ ] CHANGELOG.md написано
 
@@ -1167,18 +1197,18 @@ tag v1.0.0a1 → release.yml (test → build → PyPI → GitHub Release)
 
 ## 🔄 Відновлення сесії (Session Recovery)
 
-**Останнє оновлення:** 2026-01-29
+**Останнє оновлення:** 2026-01-30
 
 ### Поточний стан
 - **Sprint 1:** майже завершено (9/10 завдань done, QA в роботі)
-- **Реліз:** v1.0.0a1 опубліковано (alpha)
+- **Реліз:** v1.0.0a2 опубліковано (alpha) — виправлено помилку з `--help`
 - **Гілка:** main (всі виправлення змержені)
-- **Тег v1:** d2918a9 (актуальний)
+- **Тег v1:** 8ed614e (актуальний, вказує на v1.0.0a2)
 
 ### Опубліковані артефакти (всі працюють ✅)
 | Артефакт | URL/Image |
 |----------|-----------|
-| PyPI | https://pypi.org/project/ai-reviewbot/1.0.0a1/ |
+| PyPI | https://pypi.org/project/ai-reviewbot/1.0.0a2/ |
 | DockerHub | `koszivdocker/ai-reviewbot:1` |
 | GHCR | `ghcr.io/konstziv/ai-code-reviewer:1` |
 | Marketplace | https://github.com/marketplace/actions/ai-reviewbot |
