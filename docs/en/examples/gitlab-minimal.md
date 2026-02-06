@@ -56,6 +56,12 @@ Done! AI review will appear as comments on the MR.
 | No inline discussions | Need PAT with scope `api` |
 | MR blocked on error | Add `allow_failure: true` |
 
+!!! info "PAT vs Project Access Token"
+    **Personal Access Token** (PAT) works on **all GitLab plans**, including Free.
+
+    **Project Access Token** requires **GitLab Premium/Ultimate**.
+    For the Free plan, always use a Personal Access Token.
+
 ---
 
 ## Next Step

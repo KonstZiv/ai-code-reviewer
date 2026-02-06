@@ -14,6 +14,7 @@ Tutte le impostazioni vengono configurate tramite variabili d'ambiente.
 
 !!! warning "Almeno un provider necessario"
     Hai bisogno di `GITHUB_TOKEN` **o** `GITLAB_TOKEN` a seconda della piattaforma.
+    I token sono specifici per il provider: `GITHUB_TOKEN` serve solo per GitHub, `GITLAB_TOKEN` solo per GitLab.
 
 ---
 

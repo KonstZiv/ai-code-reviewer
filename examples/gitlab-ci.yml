@@ -46,10 +46,13 @@ ai-review:
 # =============================================================================
 # Alternative: Using your own GitLab token with more permissions
 # =============================================================================
-# If CI_JOB_TOKEN doesn't have enough permissions, create a Project Access Token:
-# 1. Go to Settings > Access Tokens
+# If CI_JOB_TOKEN doesn't have enough permissions, use a Personal Access Token:
+# 1. Go to User Settings > Access Tokens > Add new token
 # 2. Create token with 'api' scope
-# 3. Add as CI/CD variable: GITLAB_API_TOKEN
+# 3. Add as CI/CD variable: GITLAB_API_TOKEN (masked, protected)
+#
+# Note: Project Access Tokens require GitLab Premium/Ultimate plan.
+# Personal Access Tokens work on all plans including Free.
 #
 # Then use this configuration:
 #

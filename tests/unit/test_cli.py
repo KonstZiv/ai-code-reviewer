@@ -255,6 +255,40 @@ class TestCliApp:
         mock_review.assert_called_once()
 
     @patch("ai_reviewer.cli.get_settings")
+    def test_cli_github_no_token_fails(self, mock_get_settings: MagicMock) -> None:
+        """Test that GitHub provider without token fails."""
+        mock_settings = MagicMock()
+        mock_settings.github_token = None
+        mock_get_settings.return_value = mock_settings
+
+        env = {
+            "GITHUB_ACTIONS": "true",
+            "GITHUB_REPOSITORY": "owner/repo",
+            "GITHUB_REF": "refs/pull/1/merge",
+        }
+        with patch.dict(os.environ, env, clear=True):
+            result = runner.invoke(app, ["--provider", "github"])
+            assert result.exit_code == 1
+            assert "GITHUB_TOKEN" in result.stdout
+
+    @patch("ai_reviewer.cli.get_settings")
+    def test_cli_github_short_token_fails(self, mock_get_settings: MagicMock) -> None:
+        """Test that GitHub provider with short token fails."""
+        mock_settings = MagicMock()
+        mock_settings.github_token.get_secret_value.return_value = "short"
+        mock_get_settings.return_value = mock_settings
+
+        env = {
+            "GITHUB_ACTIONS": "true",
+            "GITHUB_REPOSITORY": "owner/repo",
+            "GITHUB_REF": "refs/pull/1/merge",
+        }
+        with patch.dict(os.environ, env, clear=True):
+            result = runner.invoke(app, ["--provider", "github"])
+            assert result.exit_code == 1
+            assert "too short" in result.stdout
+
+    @patch("ai_reviewer.cli.get_settings")
     def test_cli_gitlab_no_token_fails(self, mock_get_settings: MagicMock) -> None:
         """Test that GitLab provider without token fails."""
         mock_settings = MagicMock()
@@ -355,7 +389,7 @@ class TestCliApp:
             "GITHUB_ACTIONS": "true",
             "GITHUB_REPOSITORY": "owner/repo",
             "GITHUB_REF": "refs/pull/1/merge",
-            # Missing required tokens - this should cause config error
+            # Missing GOOGLE_API_KEY - this should cause config error
         }
         with patch.dict(os.environ, env, clear=True):
             result = runner.invoke(app, [])

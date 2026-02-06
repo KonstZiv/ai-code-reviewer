@@ -18,7 +18,7 @@ import typer
 from rich.console import Console
 from rich.logging import RichHandler
 
-from ai_reviewer.core.config import get_settings
+from ai_reviewer.core.config import MIN_SECRET_LENGTH, get_settings
 from ai_reviewer.integrations.github import GitHubClient
 from ai_reviewer.integrations.gitlab import GitLabClient
 from ai_reviewer.reviewer import review_pull_request
@@ -46,9 +46,14 @@ _ERR_GITLAB_MR_NOT_FOUND = (
     "Could not determine MR number from GitLab CI context. "
     "Ensure this job runs on merge request pipelines."
 )
+_ERR_GITHUB_TOKEN_MISSING = (
+    "GITHUB_TOKEN environment variable not found. Please provide a GitHub personal access token."
+)
+_ERR_GITHUB_TOKEN_SHORT = f"GITHUB_TOKEN is too short (minimum {MIN_SECRET_LENGTH} characters)."
 _ERR_GITLAB_TOKEN_MISSING = (
     "GITLAB_TOKEN environment variable not found. Please provide a GitLab personal access token."
 )
+_ERR_GITLAB_TOKEN_SHORT = f"GITLAB_TOKEN is too short (minimum {MIN_SECRET_LENGTH} characters)."
 _MIN_REF_PARTS = 3
 
 
@@ -220,6 +225,18 @@ def main(  # noqa: PLR0912, PLR0915
 
         # 3. Execute based on provider
         if provider == Provider.GITHUB:
+            # Check for GitHub token
+            if not settings.github_token:
+                console.print(
+                    f"[bold red]Configuration Error:[/bold red] {_ERR_GITHUB_TOKEN_MISSING}"
+                )
+                _exit_app(code=1)
+            if len(settings.github_token.get_secret_value()) < MIN_SECRET_LENGTH:
+                console.print(
+                    f"[bold red]Configuration Error:[/bold red] {_ERR_GITHUB_TOKEN_SHORT}"
+                )
+                _exit_app(code=1)
+
             # Auto-detect context if missing
             if not repo or not pr:
                 try:
@@ -245,6 +262,11 @@ def main(  # noqa: PLR0912, PLR0915
             if not settings.gitlab_token:
                 console.print(
                     f"[bold red]Configuration Error:[/bold red] {_ERR_GITLAB_TOKEN_MISSING}"
+                )
+                _exit_app(code=1)
+            if len(settings.gitlab_token.get_secret_value()) < MIN_SECRET_LENGTH:
+                console.print(
+                    f"[bold red]Configuration Error:[/bold red] {_ERR_GITLAB_TOKEN_SHORT}"
                 )
                 _exit_app(code=1)
 

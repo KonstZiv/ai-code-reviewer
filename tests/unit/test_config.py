@@ -21,7 +21,6 @@ class TestSettings:
     def minimal_env(self) -> dict[str, str]:
         """Return minimal required environment variables."""
         return {
-            "GITHUB_TOKEN": "ghp_test_token_12345",
             "GOOGLE_API_KEY": "AIza_test_key_12345",
         }
 
@@ -42,7 +41,7 @@ class TestSettings:
         with patch.dict(os.environ, minimal_env, clear=True):
             settings = Settings()
 
-            assert settings.github_token.get_secret_value() == "ghp_test_token_12345"
+            assert settings.github_token is None
             assert settings.google_api_key.get_secret_value() == "AIza_test_key_12345"
             # Check defaults
             assert settings.gemini_model == "gemini-2.5-flash"
@@ -60,37 +59,48 @@ class TestSettings:
             assert settings.review_max_files == 50
             assert settings.review_max_diff_lines == 1000
 
-    def test_missing_github_token_raises_error(self) -> None:
-        """Test that missing GITHUB_TOKEN raises ValidationError."""
+    def test_github_token_default_none(self) -> None:
+        """Test that github_token is None by default when not provided."""
         env = {"GOOGLE_API_KEY": "AIza_test_key_12345"}
         with patch.dict(os.environ, env, clear=True):
-            with pytest.raises(ValidationError) as exc_info:
-                Settings()
-            assert "github_token" in str(exc_info.value).lower()
+            settings = Settings()
+            assert settings.github_token is None
+
+    def test_github_token_from_env(self) -> None:
+        """Test that github_token loads correctly when provided."""
+        env = {
+            "GITHUB_TOKEN": "ghp_test_token_12345",
+            "GOOGLE_API_KEY": "AIza_test_key_12345",
+        }
+        with patch.dict(os.environ, env, clear=True):
+            settings = Settings()
+            assert settings.github_token is not None
+            assert settings.github_token.get_secret_value() == "ghp_test_token_12345"
 
     def test_missing_google_api_key_raises_error(self) -> None:
         """Test that missing GOOGLE_API_KEY raises ValidationError."""
-        env = {"GITHUB_TOKEN": "ghp_test_token_12345"}
-        with patch.dict(os.environ, env, clear=True):
+        with patch.dict(os.environ, {}, clear=True):
             with pytest.raises(ValidationError) as exc_info:
                 Settings()
             assert "google_api_key" in str(exc_info.value).lower()
 
-    def test_github_token_too_short_raises_error(self) -> None:
-        """Test that short GITHUB_TOKEN raises ValidationError."""
+    def test_github_token_short_value_accepted(self) -> None:
+        """Test that short GITHUB_TOKEN is accepted at Settings level.
+
+        Length validation is done at CLI level, not in Settings.
+        """
         env = {
             "GITHUB_TOKEN": "short",
             "GOOGLE_API_KEY": "AIza_test_key_12345",
         }
         with patch.dict(os.environ, env, clear=True):
-            with pytest.raises(ValidationError) as exc_info:
-                Settings()
-            assert "too short" in str(exc_info.value).lower()
+            settings = Settings()
+            assert settings.github_token is not None
+            assert settings.github_token.get_secret_value() == "short"
 
     def test_google_api_key_too_short_raises_error(self) -> None:
         """Test that short GOOGLE_API_KEY raises ValidationError."""
         env = {
-            "GITHUB_TOKEN": "ghp_test_token_12345",
             "GOOGLE_API_KEY": "short",
         }
         with patch.dict(os.environ, env, clear=True):
@@ -165,9 +175,13 @@ class TestSettings:
             settings = Settings()
             assert settings.review_max_diff_lines == 5000
 
-    def test_secrets_are_hidden(self, minimal_env: dict[str, str]) -> None:
+    def test_secrets_are_hidden(self) -> None:
         """Test that secrets are not exposed in string representation."""
-        with patch.dict(os.environ, minimal_env, clear=True):
+        env = {
+            "GITHUB_TOKEN": "ghp_test_token_12345",
+            "GOOGLE_API_KEY": "AIza_test_key_12345",
+        }
+        with patch.dict(os.environ, env, clear=True):
             settings = Settings()
 
             # Check that secrets are SecretStr
@@ -180,6 +194,18 @@ class TestSettings:
 
             assert "ghp_test_token_12345" not in settings_str
             assert "ghp_test_token_12345" not in settings_repr
+            assert "AIza_test_key_12345" not in settings_str
+            assert "AIza_test_key_12345" not in settings_repr
+
+    def test_secrets_hidden_when_github_token_none(self, minimal_env: dict[str, str]) -> None:
+        """Test that secrets are not exposed when github_token is None."""
+        with patch.dict(os.environ, minimal_env, clear=True):
+            settings = Settings()
+
+            assert settings.github_token is None
+            # String representation should not cause errors
+            settings_str = str(settings)
+            settings_repr = repr(settings)
             assert "AIza_test_key_12345" not in settings_str
             assert "AIza_test_key_12345" not in settings_repr
 
@@ -198,7 +224,6 @@ class TestGetSettings:
     def test_get_settings_returns_settings_instance(self) -> None:
         """Test that get_settings returns a Settings instance."""
         env = {
-            "GITHUB_TOKEN": "ghp_test_token_12345",
             "GOOGLE_API_KEY": "AIza_test_key_12345",
         }
         clear_settings_cache()
@@ -209,7 +234,6 @@ class TestGetSettings:
     def test_get_settings_returns_same_cached_instance(self) -> None:
         """Test that get_settings returns the same cached instance."""
         env = {
-            "GITHUB_TOKEN": "ghp_test_token_12345",
             "GOOGLE_API_KEY": "AIza_test_key_12345",
         }
         clear_settings_cache()
@@ -230,7 +254,6 @@ class TestGetSettings:
     def test_clear_settings_cache_allows_new_instance(self) -> None:
         """Test that clear_settings_cache allows creating new instance."""
         env = {
-            "GITHUB_TOKEN": "ghp_test_token_12345",
             "GOOGLE_API_KEY": "AIza_test_key_12345",
         }
         clear_settings_cache()
@@ -265,7 +288,6 @@ class TestNewSettings:
     def minimal_env(self) -> dict[str, str]:
         """Return minimal required environment variables."""
         return {
-            "GITHUB_TOKEN": "ghp_test_token_12345",
             "GOOGLE_API_KEY": "AIza_test_key_12345",
         }
 
@@ -392,7 +414,6 @@ class TestLanguageValidation:
     def minimal_env(self) -> dict[str, str]:
         """Return minimal required environment variables."""
         return {
-            "GITHUB_TOKEN": "ghp_test_token_12345",
             "GOOGLE_API_KEY": "AIza_test_key_12345",
         }
 

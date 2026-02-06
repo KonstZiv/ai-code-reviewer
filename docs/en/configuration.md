@@ -9,11 +9,16 @@ All settings are configured via environment variables.
 | Variable | Description | Example | How to get |
 |----------|-------------|---------|------------|
 | `GOOGLE_API_KEY` | Google Gemini API key | `AIza...` | [Google AI Studio](https://aistudio.google.com/) |
-| `GITHUB_TOKEN` | GitHub PAT (for GitHub) | `ghp_...` | [Instructions](github.md#get-token) |
-| `GITLAB_TOKEN` | GitLab PAT (for GitLab) | `glpat-...` | [Instructions](gitlab.md#get-token) |
+| `GITHUB_TOKEN` | GitHub token (for GitHub) | `ghp_...` | [Instructions](github.md#get-token) |
+| `GITLAB_TOKEN` | GitLab token (for GitLab) | `glpat-...` | [Instructions](gitlab.md#get-token) |
 
-!!! warning "At least one provider required"
+!!! warning "At least one provider token required"
     You need `GITHUB_TOKEN` **or** `GITLAB_TOKEN` depending on the platform.
+    These tokens are **provider-specific** — only one is required, matching the platform you use.
+
+!!! info "GitLab token types"
+    For GitLab, you can use a **Personal Access Token** (works on all plans, including Free)
+    or a **Project Access Token** (requires GitLab Premium/Ultimate).
 
 ---
 

@@ -14,6 +14,7 @@ Sva podešavanja se konfigurišu putem varijabli okruženja.
 
 !!! warning "Potreban je barem jedan provajder"
     Trebate `GITHUB_TOKEN` **ili** `GITLAB_TOKEN` zavisno od platforme.
+    Tokeni su specifični za provajdera: `GITHUB_TOKEN` je potreban samo za GitHub, `GITLAB_TOKEN` samo za GitLab.
 
 ---
 

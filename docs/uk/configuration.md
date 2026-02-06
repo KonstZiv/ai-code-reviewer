@@ -9,11 +9,16 @@
 | Змінна | Опис | Приклад | Як отримати |
 |--------|------|---------|-------------|
 | `GOOGLE_API_KEY` | API ключ Google Gemini | `AIza...` | [Google AI Studio](https://aistudio.google.com/) |
-| `GITHUB_TOKEN` | GitHub PAT (для GitHub) | `ghp_...` | [Інструкція](github.md#get-token) |
-| `GITLAB_TOKEN` | GitLab PAT (для GitLab) | `glpat-...` | [Інструкція](gitlab.md#get-token) |
+| `GITHUB_TOKEN` | GitHub токен (для GitHub) | `ghp_...` | [Інструкція](github.md#get-token) |
+| `GITLAB_TOKEN` | GitLab токен (для GitLab) | `glpat-...` | [Інструкція](gitlab.md#get-token) |
 
-!!! warning "Мінімум один провайдер"
+!!! warning "Мінімум один токен провайдера"
     Потрібен `GITHUB_TOKEN` **або** `GITLAB_TOKEN` залежно від платформи.
+    Ці токени **специфічні для провайдера** — потрібен лише один, відповідний до платформи, яку ви використовуєте.
+
+!!! info "Типи токенів GitLab"
+    Для GitLab можна використовувати **Personal Access Token** (працює на всіх планах, включаючи Free)
+    або **Project Access Token** (потребує GitLab Premium/Ultimate).
 
 ---
 

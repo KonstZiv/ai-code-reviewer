@@ -4,7 +4,7 @@ Production-ready конфігурація з усіма best practices.
 
 ---
 
-## Крок 1: Створіть PAT
+## Крок 1: Створіть Personal Access Token (PAT)
 
 `User Settings → Access Tokens → Add new token`
 
@@ -13,6 +13,11 @@ Production-ready конфігурація з усіма best practices.
 | Name | `ai-code-reviewer` |
 | Scopes | `api` |
 | Expiration | За потреби |
+
+!!! info "Free план"
+    **Personal Access Token** працює на **всіх планах GitLab**, включаючи Free.
+
+    **Project Access Token** доступний лише на **GitLab Premium/Ultimate**.
 
 ---
 
@@ -137,7 +142,7 @@ ai-review:
 | Inline discussions | :x: | :white_check_mark: |
 | Потребує налаштування | :x: | :white_check_mark: |
 
-**Рекомендація:** Використовуйте PAT для повної функціональності.
+**Рекомендація:** Використовуйте Personal Access Token для повної функціональності. Він працює на всіх планах GitLab, включаючи Free.
 
 ---
 

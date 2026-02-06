@@ -47,6 +47,12 @@ variables:
 !!! warning "Guarda el token"
     GitLab muestra el token **solo una vez**. Guárdalo inmediatamente.
 
+!!! info "Personal Access Token vs Project Access Token"
+    **Personal Access Token** (PAT) funciona en **todos los planes de GitLab**, incluido Free.
+
+    **Project Access Token** solo está disponible en **GitLab Premium/Ultimate**.
+    Si estás en el plan Free, usa un Personal Access Token.
+
 ---
 
 ## Variables CI/CD

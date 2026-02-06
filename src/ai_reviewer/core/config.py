@@ -10,11 +10,10 @@ provider-specific modules (e.g., gemini.py).
 
 Example:
     >>> import os
-    >>> os.environ["GITHUB_TOKEN"] = "ghp_xxxx"
     >>> os.environ["GOOGLE_API_KEY"] = "AIza_xxxx"
     >>> settings = Settings()
-    >>> settings.github_token.get_secret_value()
-    'ghp_xxxx'
+    >>> settings.github_token is None
+    True
 """
 
 from __future__ import annotations
@@ -118,7 +117,6 @@ def _validate_language_code(v: str) -> str:
 
 
 # Type aliases with validation
-GitHubToken = Annotated[SecretStr, _create_secret_validator("GITHUB_TOKEN")]
 GoogleApiKey = Annotated[SecretStr, _create_secret_validator("GOOGLE_API_KEY")]
 LogLevel = Annotated[str, AfterValidator(_validate_log_level)]
 LanguageCode = Annotated[str, AfterValidator(_validate_language_code)]
@@ -140,9 +138,9 @@ class Settings(BaseSettings):
 
     Attributes:
         github_token: GitHub personal access token for API access.
-            Required for fetching PR data and posting review comments.
+            Optional. Required only when using GitHub as the provider.
         gitlab_token: GitLab personal access token for API access.
-            Required when using GitLab as the provider.
+            Optional. Required only when using GitLab as the provider.
         gitlab_url: GitLab server URL (for self-hosted instances).
             Defaults to https://gitlab.com for GitLab.com.
         google_api_key: Google API key for Gemini access.
@@ -163,7 +161,7 @@ class Settings(BaseSettings):
             ADAPTIVE auto-detects from context, FIXED uses the language setting.
 
     Environment Variables:
-        GITHUB_TOKEN: GitHub personal access token (required for GitHub)
+        GITHUB_TOKEN: GitHub personal access token (optional, required for GitHub)
         GITLAB_TOKEN: GitLab personal access token (required for GitLab)
         GITLAB_URL: GitLab server URL (default: https://gitlab.com)
         GOOGLE_API_KEY: Google Gemini API key (required)
@@ -183,19 +181,19 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # Required credentials (validated for minimum length only)
-    github_token: GitHubToken = Field(
-        ...,
-        description="GitHub personal access token for API access",
-    )
+    # Required credentials (validated for minimum length)
     google_api_key: GoogleApiKey = Field(
         ...,
         description="Google API key for Gemini access",
     )
 
-    # GitLab credentials (optional - only required when using GitLab provider)
-    # Note: We use SecretStr without validator since it's optional.
-    # Validation is done at CLI level when GitLab provider is selected.
+    # Provider-specific credentials (optional - validated at CLI level)
+    # Note: We use SecretStr without validator since tokens are optional.
+    # Validation is done at CLI level when the corresponding provider is selected.
+    github_token: SecretStr | None = Field(
+        default=None,
+        description="GitHub personal access token for API access",
+    )
     gitlab_token: SecretStr | None = Field(
         default=None,
         description="GitLab personal access token for API access",

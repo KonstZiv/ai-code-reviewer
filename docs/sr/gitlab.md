@@ -47,6 +47,12 @@ variables:
 !!! warning "Sačuvajte token"
     GitLab prikazuje token **samo jednom**. Sačuvajte ga odmah.
 
+!!! info "Personal Access Token vs Project Access Token"
+    **Personal Access Token** (PAT) radi na **svim GitLab planovima**, uključujući Free.
+
+    **Project Access Token** je dostupan samo na **GitLab Premium/Ultimate**.
+    Ako ste na Free planu, koristite Personal Access Token.
+
 ---
 
 ## CI/CD varijable
