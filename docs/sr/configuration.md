@@ -54,17 +54,17 @@ Sva podešavanja se konfigurišu putem varijabli okruženja.
 | Varijabla | Opis | Podrazumijevano |
 |----------|-------------|---------|
 | `AI_REVIEWER_GEMINI_MODEL` | Gemini model | `gemini-2.5-flash` |
-| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Fallback model chain (comma-separated) | `gemini-3.1-flash-preview` |
+| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Lanac rezervnih modela (odvojenih zarezima) | `gemini-3.1-flash-preview` |
 | `AI_REVIEWER_REVIEW_SPLIT_THRESHOLD` | Prag karaktera za podijeljen pregled kod+testovi | `30000` |
 
 **Dostupni modeli:**
 
-| Model | Description | Cost |
-|-------|-------------|------|
-| `gemini-2.5-flash` | Fast, stable, reasoning (default) | $0.075 / 1M input |
-| `gemini-3.1-flash-preview` | Frontier-class flash (preview) | $0.075 / 1M input |
-| `gemini-2.5-flash-lite` | Fastest and cheapest in 2.5 | $0.01875 / 1M input |
-| `gemini-2.5-pro` | Most powerful, deep reasoning | $1.25 / 1M input |
+| Model | Opis | Cena |
+|-------|------|------|
+| `gemini-2.5-flash` | Brz, stabilan, sa sposobnošću rasuđivanja (podrazumevano) | $0.075 / 1M ulaz |
+| `gemini-3.1-flash-preview` | Frontier-klasa flash (pregled) | $0.075 / 1M ulaz |
+| `gemini-2.5-flash-lite` | Najbrži i najjeftiniji u 2.5 | $0.01875 / 1M ulaz |
+| `gemini-2.5-pro` | Najmoćniji, sa dubokim rasuđivanjem | $1.25 / 1M ulaz |
 
 !!! note "Tačnost cijena"
     Cijene su navedene na datum izdanja i mogu se promijeniti.

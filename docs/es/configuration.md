@@ -54,17 +54,17 @@ Todas las configuraciones se hacen mediante variables de entorno.
 | Variable | Descripción | Por defecto |
 |----------|-------------|-------------|
 | `AI_REVIEWER_GEMINI_MODEL` | Modelo Gemini | `gemini-2.5-flash` |
-| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Fallback model chain (comma-separated) | `gemini-3.1-flash-preview` |
+| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Cadena de modelos de respaldo (separados por comas) | `gemini-3.1-flash-preview` |
 | `AI_REVIEWER_REVIEW_SPLIT_THRESHOLD` | Umbral de caracteres para revisión dividida código+tests | `30000` |
 
 **Modelos disponibles:**
 
-| Model | Description | Cost |
-|-------|-------------|------|
-| `gemini-2.5-flash` | Fast, stable, reasoning (default) | $0.075 / 1M input |
-| `gemini-3.1-flash-preview` | Frontier-class flash (preview) | $0.075 / 1M input |
-| `gemini-2.5-flash-lite` | Fastest and cheapest in 2.5 | $0.01875 / 1M input |
-| `gemini-2.5-pro` | Most powerful, deep reasoning | $1.25 / 1M input |
+| Modelo | Descripción | Costo |
+|--------|-------------|-------|
+| `gemini-2.5-flash` | Rápido, estable, con razonamiento (predeterminado) | $0.075 / 1M entrada |
+| `gemini-3.1-flash-preview` | Flash de clase frontier (vista previa) | $0.075 / 1M entrada |
+| `gemini-2.5-flash-lite` | El más rápido y económico en 2.5 | $0.01875 / 1M entrada |
+| `gemini-2.5-pro` | El más potente, razonamiento profundo | $1.25 / 1M entrada |
 
 !!! note "Precisión de precios"
     Los precios están listados a la fecha de lanzamiento y pueden cambiar.
