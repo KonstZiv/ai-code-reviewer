@@ -29,7 +29,7 @@ from ai_reviewer.discovery.comment import (
 from ai_reviewer.integrations.base import LineComment, ReviewSubmission, parse_diff_valid_lines
 from ai_reviewer.integrations.gemini import analyze_code_changes
 from ai_reviewer.utils.language import get_language_for_review
-from ai_reviewer.utils.retry import QuotaExhaustedError
+from ai_reviewer.utils.retry import AllModelsFailedError, QuotaExhaustedError
 
 if TYPE_CHECKING:
     from ai_reviewer.core.config import Settings
@@ -316,7 +316,7 @@ def _post_error_comment(
         error: The exception that caused the failure.
     """
     try:
-        if isinstance(error, QuotaExhaustedError):
+        if isinstance(error, AllModelsFailedError) and error.is_quota:
             error_msg = (
                 f"## \u26a0\ufe0f {BOT_NAME}: API Quota Exhausted\n\n"
                 "All configured Gemini models have exceeded their API quota.\n"
@@ -325,6 +325,17 @@ def _post_error_comment(
                 "- Wait for quota to reset (usually resets daily)\n"
                 "- Upgrade your [Gemini API plan](https://ai.google.dev/pricing)\n"
                 "- Re-run this workflow once quota is available\n"
+            )
+        elif isinstance(error, (AllModelsFailedError, QuotaExhaustedError)):
+            error_msg = (
+                f"## \u26a0\ufe0f {BOT_NAME}: All Models Unavailable\n\n"
+                "All configured Gemini models failed (server errors or rate limits).\n"
+                f"**Details:** `{error!s}`\n\n"
+                "**What to do:**\n"
+                "- Check [Gemini API status](https://status.cloud.google.com/)\n"
+                "- Re-run this workflow in a few minutes\n"
+                "- If the issue persists, check your "
+                "[API quota](https://ai.google.dev/pricing)\n"
             )
         else:
             error_msg = (

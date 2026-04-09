@@ -31,7 +31,12 @@ from ai_reviewer.llm.gemini import (
     calculate_cost,
 )
 from ai_reviewer.llm.key_pool import KeyPool, RotatingGeminiProvider
-from ai_reviewer.utils.retry import QuotaExhaustedError, RateLimitError, ServerError
+from ai_reviewer.utils.retry import (
+    AllModelsFailedError,
+    QuotaExhaustedError,
+    RateLimitError,
+    ServerError,
+)
 
 if TYPE_CHECKING:
     from pydantic import SecretStr
@@ -157,9 +162,10 @@ def _call_llm(
     prompt: str,
     system_prompt: str,
 ) -> ReviewResult:
-    """Call Gemini with key rotation and model fallback.
+    """Call Gemini with key rotation and model fallback chain.
 
-    Strategy: all keys on primary model, then all keys on fallback model.
+    Strategy: try each model in order (primary, then fallback chain),
+    rotating through all API keys per model before moving on.
 
     Args:
         key_pool: Pool of API keys to rotate through.
@@ -169,50 +175,46 @@ def _call_llm(
 
     Returns:
         ReviewResult with metrics attached.
+
+    Raises:
+        AllModelsFailedError: When all models in the chain fail.
+        ServerError: When primary fails and no fallback is configured.
+        RateLimitError: When primary fails and no fallback is configured.
+        QuotaExhaustedError: When primary fails and no fallback is configured.
     """
+    models = [settings.gemini_model, *settings.fallback_models]
+    failures: list[tuple[str, Exception]] = []
     fallback_reason: str | None = None
 
-    try:
-        provider = RotatingGeminiProvider(key_pool=key_pool, model_name=settings.gemini_model)
-        response = provider.generate(
-            prompt,
-            system_prompt=system_prompt,
-            response_schema=ReviewResult,
-        )
-    except (ServerError, RateLimitError, QuotaExhaustedError) as primary_err:
-        if not settings.gemini_model_fallback:
-            raise
-        logger.warning(
-            "Primary model %s failed (%s: %s). Trying fallback %s",
-            settings.gemini_model,
-            type(primary_err).__name__,
-            primary_err,
-            settings.gemini_model_fallback,
-        )
-        fallback_reason = f"{settings.gemini_model} \u2192 {type(primary_err).__name__}"
-        fallback_provider = RotatingGeminiProvider(
-            key_pool=key_pool,
-            model_name=settings.gemini_model_fallback,
-        )
+    for model in models:
         try:
-            response = fallback_provider.generate(
+            provider = RotatingGeminiProvider(key_pool=key_pool, model_name=model)
+            response = provider.generate(
                 prompt,
                 system_prompt=system_prompt,
                 response_schema=ReviewResult,
             )
-        except (ServerError, RateLimitError, QuotaExhaustedError) as fallback_err:
-            logger.exception(
-                "Fallback model %s also failed (%s). Both models exhausted.",
-                settings.gemini_model_fallback,
-                type(fallback_err).__name__,
+            break  # success
+        except (ServerError, RateLimitError, QuotaExhaustedError) as err:
+            failures.append((model, err))
+            logger.warning(
+                "Model %s failed (%s: %s). %d model(s) remaining in chain.",
+                model,
+                type(err).__name__,
+                str(err)[:120],
+                len(models) - len(failures),
             )
-            msg = (
-                f"Both models failed — primary {settings.gemini_model} "
-                f"({type(primary_err).__name__}) and fallback "
-                f"{settings.gemini_model_fallback} ({type(fallback_err).__name__}). "
-                f"Check your Gemini API quota at https://ai.dev/rate-limit"
-            )
-            raise QuotaExhaustedError(msg) from fallback_err
+            if len(failures) == 1:
+                fallback_reason = f"{model} \u2192 {type(err).__name__}"
+    else:
+        # All models exhausted
+        if len(failures) == 1:
+            # Single model (no fallback chain) — re-raise as-is
+            raise failures[0][1]
+        details = ", ".join(f"{m} ({type(e).__name__})" for m, e in failures)
+        is_quota = all(isinstance(e, QuotaExhaustedError) for _, e in failures)
+        msg = f"All {len(failures)} model(s) failed: {details}"
+        raise AllModelsFailedError(msg, is_quota=is_quota) from failures[-1][1]
 
     result = response.content
     assert isinstance(result, ReviewResult)  # guaranteed by response_schema

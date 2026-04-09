@@ -226,7 +226,7 @@ jobs:
 | `review_max_comment_chars` | Max. MR-Kommentarzeichen im Prompt | `3000` |
 | `review_include_bot_comments` | Bot-Kommentare in Prompt einbeziehen | `true` |
 | `review_post_inline_comments` | Inline-Kommentare an Codezeilen posten | `true` |
-| `gemini_model_fallback` | Fallback-Modell bei Kontingenterschöpfung | `gemini-3-flash-preview` |
+| `gemini_model_fallback` | Fallback-Modellkette (durch Komma getrennt) | `gemini-3.1-flash-preview` |
 | `review_enable_dialogue` | Kommentare in Dialoge gruppieren | `true` |
 | `discovery_enabled` | Project Discovery aktivieren | `true` |
 | `discovery_verbose` | Discovery-Kommentar immer posten | `false` |

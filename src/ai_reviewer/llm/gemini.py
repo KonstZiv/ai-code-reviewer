@@ -42,21 +42,22 @@ logger = logging.getLogger(__name__)
 # Gemini pricing per 1M tokens (as of February 2026)
 # https://ai.google.dev/pricing
 GEMINI_PRICING: dict[str, dict[str, float]] = {
-    # Gemini 3 Flash (preview)
-    "gemini-3-flash-preview": {"input": 0.075, "output": 0.30},
-    # Gemini 2.5 Flash
+    # Gemini 3.1 (preview)
+    "gemini-3.1-flash-preview": {"input": 0.075, "output": 0.30},
+    "gemini-3.1-flash-lite-preview": {"input": 0.01875, "output": 0.075},
+    "gemini-3.1-pro-preview": {"input": 1.25, "output": 5.00},
+    # Gemini 2.5
     "gemini-2.5-flash": {"input": 0.075, "output": 0.30},
-    "gemini-2.5-flash-preview-05-20": {"input": 0.075, "output": 0.30},
+    "gemini-2.5-flash-lite": {"input": 0.01875, "output": 0.075},
+    "gemini-2.5-pro": {"input": 1.25, "output": 5.00},
     # Gemini 2.0 Flash
     "gemini-2.0-flash": {"input": 0.10, "output": 0.40},
     "gemini-2.0-flash-001": {"input": 0.10, "output": 0.40},
-    # Gemini 1.5 Flash
+    # Legacy models
     "gemini-1.5-flash": {"input": 0.075, "output": 0.30},
     "gemini-1.5-flash-latest": {"input": 0.075, "output": 0.30},
-    # Gemini 1.5 Pro
     "gemini-1.5-pro": {"input": 1.25, "output": 5.00},
     "gemini-1.5-pro-latest": {"input": 1.25, "output": 5.00},
-    # Gemini Pro (legacy)
     "gemini-pro": {"input": 0.50, "output": 1.50},
 }
 

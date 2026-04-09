@@ -227,9 +227,9 @@ class Settings(BaseSettings):
         description="Gemini model to use for analysis",
     )
     gemini_model_fallback: str | None = Field(
-        default="gemini-3-flash-preview",
+        default="gemini-3.1-flash-preview,gemini-2.5-flash-lite,gemini-3.1-flash-lite-preview",
         validation_alias=AliasChoices("AI_REVIEWER_GEMINI_MODEL_FALLBACK", "GEMINI_MODEL_FALLBACK"),
-        description="Fallback model when primary is unavailable (None to disable)",
+        description="Comma-separated fallback model chain (empty to disable)",
     )
     log_level: LogLevel = Field(
         default="INFO",
@@ -345,6 +345,17 @@ class Settings(BaseSettings):
         """
         raw = self.google_api_key.get_secret_value()
         return [k.strip() for k in raw.split(",") if k.strip()]
+
+    @property
+    def fallback_models(self) -> list[str]:
+        """Parse comma-separated fallback model names.
+
+        Returns:
+            List of model name strings (may be empty if fallback disabled).
+        """
+        if not self.gemini_model_fallback:
+            return []
+        return [m.strip() for m in self.gemini_model_fallback.split(",") if m.strip()]
 
     @model_validator(mode="after")
     def _validate_individual_keys(self) -> Settings:

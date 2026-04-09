@@ -226,7 +226,7 @@ jobs:
 | `review_max_comment_chars` | Макс. символів коментаря MR у промпті | `3000` |
 | `review_include_bot_comments` | Включати коментарі ботів у промпт | `true` |
 | `review_post_inline_comments` | Публікувати inline коментарі до рядків | `true` |
-| `gemini_model_fallback` | Fallback модель при вичерпанні квоти | `gemini-3-flash-preview` |
+| `gemini_model_fallback` | Ланцюжок fallback-моделей (через кому) | `gemini-3.1-flash-preview` |
 | `review_enable_dialogue` | Групувати коментарі в діалоги | `true` |
 | `discovery_enabled` | Увімкнути project discovery | `true` |
 | `discovery_verbose` | Завжди публікувати discovery коментар | `false` |

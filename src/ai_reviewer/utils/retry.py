@@ -109,6 +109,23 @@ class QuotaExhaustedError(Exception):
         self.quota_id = quota_id
 
 
+class AllModelsFailedError(Exception):
+    """All configured Gemini models failed (primary + fallback chain).
+
+    Wraps the list of per-model failures so the caller can determine
+    the dominant error category (quota vs server vs rate-limit).
+
+    Args:
+        message: Human-readable summary.
+        is_quota: True when **all** failures are QuotaExhaustedError.
+    """
+
+    def __init__(self, message: str, *, is_quota: bool = False) -> None:
+        """Initialize AllModelsFailedError."""
+        super().__init__(message)
+        self.is_quota = is_quota
+
+
 class APIClientError(Exception):
     """Base class for client errors that should NOT trigger retry (Fail Fast)."""
 
