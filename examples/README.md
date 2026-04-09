@@ -28,7 +28,7 @@ Or copy the job from `gitlab-ci.yml` to your pipeline.
 |----------|-------------|---------|
 | `AI_REVIEWER_LANGUAGE` | Response language (ISO 639 code) | `en` |
 | `AI_REVIEWER_LANGUAGE_MODE` | `adaptive` (detect from PR) or `fixed` | `adaptive` |
-| `AI_REVIEWER_GEMINI_MODEL` | Gemini model to use | `gemini-3-flash-preview` |
+| `AI_REVIEWER_GEMINI_MODEL` | Gemini model to use | `gemini-2.5-flash` |
 | `AI_REVIEWER_LOG_LEVEL` | Logging verbosity | `INFO` |
 | `AI_REVIEWER_DISCOVERY_ENABLED` | Enable project discovery | `true` |
 
@@ -106,6 +106,6 @@ The reviewer displays estimated costs in the review footer. Typical costs:
 
 | Model | ~2000 tokens | ~10000 tokens |
 |-------|--------------|---------------|
-| gemini-3-flash-preview | ~$0.0002 | ~$0.001 |
 | gemini-2.5-flash | ~$0.0002 | ~$0.001 |
-| gemini-1.5-pro | ~$0.005 | ~$0.025 |
+| gemini-3.1-flash-preview | ~$0.0002 | ~$0.001 |
+| gemini-2.5-pro | ~$0.005 | ~$0.025 |

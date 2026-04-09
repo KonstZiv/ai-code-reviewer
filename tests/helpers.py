@@ -84,6 +84,7 @@ def make_mock_settings(**overrides: object) -> Mock:
     settings.google_api_keys = ["test-key-for-unit-tests"]
     settings.gemini_model = "gemini-test"
     settings.gemini_model_fallback = "gemini-2.5-flash"
+    settings.fallback_models = ["gemini-2.5-flash"]
     settings.review_max_files = 20
     settings.review_max_diff_lines = 500
     settings.review_split_threshold = 30_000

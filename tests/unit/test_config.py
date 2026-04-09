@@ -45,7 +45,9 @@ class TestSettings:
             assert settings.google_api_key.get_secret_value() == "AIza_test_key_12345"
             # Check defaults
             assert settings.gemini_model == "gemini-2.5-flash"
-            assert settings.gemini_model_fallback == "gemini-3-flash-preview"
+            assert settings.gemini_model_fallback == (
+                "gemini-3.1-flash-preview,gemini-2.5-flash-lite,gemini-3.1-flash-lite-preview"
+            )
             assert settings.log_level == "INFO"
             assert settings.review_max_files == 20
             assert settings.review_max_diff_lines == 500

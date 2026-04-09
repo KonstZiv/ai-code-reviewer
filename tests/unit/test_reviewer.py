@@ -297,6 +297,7 @@ def _make_settings() -> Mock:
     settings.google_api_keys = ["test-key"]
     settings.gemini_model = "gemini-pro"
     settings.gemini_model_fallback = "gemini-2.5-flash"
+    settings.fallback_models = ["gemini-2.5-flash"]
     settings.discovery_enabled = True
     settings.discovery_timeout = 30
     settings.language_mode = LanguageMode.FIXED
@@ -541,28 +542,42 @@ class TestPostErrorComment:
         assert "Review Failed" in comment
         assert "something broke" in comment
 
-    def test_quota_exhausted_uses_quota_heading(self) -> None:
-        """Test that QuotaExhaustedError produces 'Quota Exhausted' comment."""
-        from ai_reviewer.utils.retry import QuotaExhaustedError
+    def test_all_models_failed_quota_uses_quota_heading(self) -> None:
+        """Test AllModelsFailedError with is_quota=True shows 'Quota Exhausted'."""
+        from ai_reviewer.utils.retry import AllModelsFailedError
 
         provider = MagicMock(spec=GitProvider)
-        error = QuotaExhaustedError("Both models failed — primary and fallback")
+        error = AllModelsFailedError("All 2 model(s) failed", is_quota=True)
 
         _post_error_comment(provider, "owner/repo", 1, error)
 
         args, _ = provider.post_comment.call_args
         comment = args[2]
         assert "Quota Exhausted" in comment
-        assert "Both models failed" in comment
         assert "Gemini API plan" in comment
+
+    def test_all_models_failed_server_error_uses_unavailable_heading(self) -> None:
+        """Test AllModelsFailedError with is_quota=False shows 'All Models Unavailable'."""
+        from ai_reviewer.utils.retry import AllModelsFailedError
+
+        provider = MagicMock(spec=GitProvider)
+        error = AllModelsFailedError("All 2 model(s) failed: ServerError", is_quota=False)
+
+        _post_error_comment(provider, "owner/repo", 1, error)
+
+        args, _ = provider.post_comment.call_args
+        comment = args[2]
+        assert "All Models Unavailable" in comment
+        assert "server errors or rate limits" in comment
+        assert "Review Failed" not in comment
 
     def test_quota_comment_does_not_say_review_failed(self) -> None:
         """Test that quota comment uses softer wording, not 'Review Failed'."""
-        from ai_reviewer.utils.retry import QuotaExhaustedError
+        from ai_reviewer.utils.retry import AllModelsFailedError
 
         provider = MagicMock(spec=GitProvider)
 
-        _post_error_comment(provider, "owner/repo", 1, QuotaExhaustedError("quota exceeded"))
+        _post_error_comment(provider, "owner/repo", 1, AllModelsFailedError("quota", is_quota=True))
 
         args, _ = provider.post_comment.call_args
         assert "Review Failed" not in args[2]

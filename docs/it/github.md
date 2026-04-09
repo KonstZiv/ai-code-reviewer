@@ -226,7 +226,7 @@ jobs:
 | `review_max_comment_chars` | Max caratteri commento MR nel prompt | `3000` |
 | `review_include_bot_comments` | Includi commenti bot nel prompt | `true` |
 | `review_post_inline_comments` | Pubblica commenti inline sulle righe | `true` |
-| `gemini_model_fallback` | Modello di riserva per esaurimento quota | `gemini-3-flash-preview` |
+| `gemini_model_fallback` | Fallback model chain (comma-separated) | `gemini-3.1-flash-preview` |
 | `review_enable_dialogue` | Raggruppare i commenti in dialoghi | `true` |
 | `discovery_enabled` | Attivare project discovery | `true` |
 | `discovery_verbose` | Pubblicare sempre il commento discovery | `false` |

@@ -54,6 +54,7 @@ def _make_settings(**overrides: object) -> Mock:
     settings.review_enable_dialogue = True
     settings.gemini_model = "gemini-test"
     settings.gemini_model_fallback = None
+    settings.fallback_models = []
     settings.google_api_key = Mock()
     settings.google_api_key.get_secret_value.return_value = "test-key"
     settings.google_api_keys = ["test-key"]

@@ -226,7 +226,7 @@ jobs:
 | `review_max_comment_chars` | Maks. znakova komentara MR-a u promptu | `3000` |
 | `review_include_bot_comments` | Uključi komentare botova u prompt | `true` |
 | `review_post_inline_comments` | Objavi inline komentare na linijama | `true` |
-| `gemini_model_fallback` | Rezervni model pri iscrpljivanju kvote | `gemini-3-flash-preview` |
+| `gemini_model_fallback` | Fallback model chain (comma-separated) | `gemini-3.1-flash-preview` |
 | `review_enable_dialogue` | Grupisati komentare u dijaloge | `true` |
 | `discovery_enabled` | Aktivirati project discovery | `true` |
 | `discovery_verbose` | Uvijek objaviti discovery komentar | `false` |

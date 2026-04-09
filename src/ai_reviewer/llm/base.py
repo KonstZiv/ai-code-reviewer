@@ -55,7 +55,7 @@ class LLMProvider(ABC):
     @property
     @abstractmethod
     def model_name(self) -> str:
-        """Return the model identifier (e.g. ``gemini-3-flash-preview``)."""
+        """Return the model identifier (e.g. ``gemini-2.5-flash``)."""
         ...
 
     @overload

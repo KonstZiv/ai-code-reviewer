@@ -222,7 +222,7 @@ jobs:
 | `language` | Response language | `en` |
 | `language_mode` | Language mode | `adaptive` |
 | `gemini_model` | Gemini model | `gemini-2.5-flash` |
-| `gemini_model_fallback` | Fallback model on quota exhaustion | `gemini-3-flash-preview` |
+| `gemini_model_fallback` | Fallback model chain (comma-separated) | `gemini-3.1-flash-preview` |
 | `log_level` | Log level | `INFO` |
 | `review_max_comment_chars` | Max MR comment chars in prompt | `3000` |
 | `review_include_bot_comments` | Include bot comments in prompt | `true` |

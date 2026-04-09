@@ -133,7 +133,7 @@ Full documentation available in **6 languages**:
 | `AI_REVIEWER_LANGUAGE` | `en` | Response language (ISO 639 code) |
 | `AI_REVIEWER_LANGUAGE_MODE` | `adaptive` | `adaptive` (detect from PR) or `fixed` |
 | `AI_REVIEWER_GEMINI_MODEL` | `gemini-2.5-flash` | Gemini model to use |
-| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | `gemini-3-flash-preview` | Fallback model when primary is unavailable |
+| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | `gemini-3.1-flash-preview` | Fallback model chain (comma-separated) |
 | `AI_REVIEWER_LOG_LEVEL` | `INFO` | Logging level |
 | `AI_REVIEWER_REVIEW_MAX_COMMENT_CHARS` | `3000` | Max characters per comment |
 | `AI_REVIEWER_REVIEW_INCLUDE_BOT_COMMENTS` | `true` | Include bot comments in context |
@@ -210,7 +210,7 @@ uv run mkdocs serve
 
 ## 💰 Cost Estimate
 
-Using Gemini 3 Flash Preview:
+Using Gemini 2.5 Flash:
 - **Input:** $0.075 / 1M tokens
 - **Output:** $0.30 / 1M tokens
 - **Average review:** ~$0.002 (1,500 tokens)

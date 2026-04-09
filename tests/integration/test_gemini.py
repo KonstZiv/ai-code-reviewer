@@ -31,6 +31,7 @@ from ai_reviewer.integrations.gemini import (
     calculate_cost,
 )
 from ai_reviewer.utils.retry import (
+    AllModelsFailedError,
     AuthenticationError,
     QuotaExhaustedError,
     RateLimitError,
@@ -122,6 +123,7 @@ class TestAnalyzeCodeChanges:
         settings.google_api_keys = ["test-key"]
         settings.gemini_model = "gemini-pro"
         settings.gemini_model_fallback = "gemini-2.5-flash"
+        settings.fallback_models = ["gemini-2.5-flash"]
         settings.review_max_files = 5
         settings.review_max_diff_lines = 10
         settings.review_split_threshold = 30_000
@@ -275,6 +277,7 @@ class TestAnalyzeCodeChanges:
         """Test that ServerError propagates when fallback is disabled."""
         mock_build_prompt.return_value = "prompt"
         mock_settings.gemini_model_fallback = None
+        mock_settings.fallback_models = []
         mock_provider_cls.return_value.generate.side_effect = ServerError("503")
 
         with pytest.raises(ServerError):
@@ -310,14 +313,14 @@ class TestAnalyzeCodeChanges:
 
     @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
-    def test_both_models_exhausted_raises_quota_error(
+    def test_all_models_exhausted_raises_all_models_failed(
         self,
         mock_build_prompt: MagicMock,
         mock_provider_cls: MagicMock,
         mock_context: ReviewContext,
         mock_settings: Settings,
     ) -> None:
-        """Test that QuotaExhaustedError with clear message when both models fail."""
+        """Test AllModelsFailedError with is_quota=True when all models hit quota."""
         mock_build_prompt.return_value = "prompt"
 
         primary = Mock()
@@ -327,12 +330,38 @@ class TestAnalyzeCodeChanges:
         primary.generate.side_effect = QuotaExhaustedError("primary quota exceeded")
         fallback.generate.side_effect = QuotaExhaustedError("fallback quota exceeded")
 
-        with pytest.raises(QuotaExhaustedError, match="Both models failed"):
+        with pytest.raises(AllModelsFailedError, match="All 2 model") as exc_info:
             analyze_code_changes(mock_context, mock_settings)
+        assert exc_info.value.is_quota is True
 
     @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
-    def test_both_models_exhausted_message_contains_model_names(
+    def test_all_models_exhausted_server_error_not_quota(
+        self,
+        mock_build_prompt: MagicMock,
+        mock_provider_cls: MagicMock,
+        mock_context: ReviewContext,
+        mock_settings: Settings,
+    ) -> None:
+        """Test AllModelsFailedError with is_quota=False on mixed errors."""
+        mock_build_prompt.return_value = "prompt"
+
+        primary = Mock()
+        fallback = Mock()
+        mock_provider_cls.side_effect = [primary, fallback]
+
+        primary.generate.side_effect = ServerError("503 overloaded")
+        fallback.generate.side_effect = ServerError("503 overloaded")
+
+        with pytest.raises(
+            AllModelsFailedError, match=r"gemini-pro.*gemini-2\.5-flash"
+        ) as exc_info:
+            analyze_code_changes(mock_context, mock_settings)
+        assert exc_info.value.is_quota is False
+
+    @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
+    @patch("ai_reviewer.integrations.gemini.build_review_prompt")
+    def test_all_models_exhausted_message_contains_model_names(
         self,
         mock_build_prompt: MagicMock,
         mock_provider_cls: MagicMock,
@@ -349,7 +378,7 @@ class TestAnalyzeCodeChanges:
         primary.generate.side_effect = QuotaExhaustedError("exhausted")
         fallback.generate.side_effect = ServerError("503 overloaded")
 
-        with pytest.raises(QuotaExhaustedError, match=r"gemini-pro.*gemini-2\.5-flash"):
+        with pytest.raises(AllModelsFailedError, match=r"gemini-pro.*gemini-2\.5-flash"):
             analyze_code_changes(mock_context, mock_settings)
 
     @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
@@ -385,7 +414,7 @@ class TestReExports:
 
     def test_gemini_pricing_reexported(self) -> None:
         """Test that GEMINI_PRICING is re-exported."""
-        assert "gemini-3-flash-preview" in GEMINI_PRICING
+        assert "gemini-3.1-flash-preview" in GEMINI_PRICING
 
     def test_default_model_reexported(self) -> None:
         """Test that DEFAULT_MODEL is re-exported."""
