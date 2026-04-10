@@ -451,6 +451,7 @@ AI Reviewer підтримує декілька LLM-провайдерів. Об
 |--------|----------|
 | Налаштувати мову відповідей | [Конфігурація](configuration.md) |
 | Розширені налаштування LLM-провайдерів | [Конфігурація → LLM](configuration.md#llm) |
+| Перемикання моделей без зміни коду | [GitHub → Конфігурація через Variables](github.md#variable-driven) |
 | Розширені налаштування GitHub | [GitHub Guide](github.md) |
 | Розширені налаштування GitLab | [GitLab Guide](gitlab.md) |
 | Приклади workflows | [Приклади](examples/index.md) |

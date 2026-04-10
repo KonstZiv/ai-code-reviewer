@@ -451,6 +451,7 @@ Wait a minute and try again, or configure a [fallback provider](configuration.md
 |------|----------|
 | Configure response language | [Configuration](configuration.md) |
 | Advanced LLM provider settings | [Configuration → LLM](configuration.md#llm) |
+| Switch models without changing code | [GitHub → Variable-Driven Config](github.md#variable-driven) |
 | Advanced GitHub settings | [GitHub Guide](github.md) |
 | Advanced GitLab settings | [GitLab Guide](gitlab.md) |
 | Workflow examples | [Examples](examples/index.md) |

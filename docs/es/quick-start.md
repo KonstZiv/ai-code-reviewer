@@ -451,6 +451,7 @@ Espera un minuto e intenta de nuevo, o configura un [proveedor de fallback](conf
 |-------|-----------|
 | Configurar idioma de respuestas | [Configuración](configuration.md) |
 | Configuración avanzada de proveedores LLM | [Configuración → LLM](configuration.md#llm) |
+| Cambiar modelos sin modificar código | [GitHub → Configuración mediante Variables](github.md#variable-driven) |
 | Configuración avanzada de GitHub | [Guía de GitHub](github.md) |
 | Configuración avanzada de GitLab | [Guía de GitLab](gitlab.md) |
 | Ejemplos de workflows | [Ejemplos](examples/index.md) |

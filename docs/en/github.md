@@ -246,6 +246,81 @@ jobs:
 
 ---
 
+## Variable-Driven Configuration {#variable-driven}
+
+Use **Repository Variables** to switch between LLM providers and models without changing the workflow file. This is useful for comparing review quality across different models on the same PR.
+
+### Setup
+
+**Secrets** (set once, do not change):
+
+| Secret | Description |
+|--------|-------------|
+| `AI_REVIEWER_GOOGLE_API_KEY` | Gemini API key |
+| `AI_REVIEWER_MISTRAL_API_KEY` | Mistral API key |
+
+**Variables** (`Settings → Secrets and variables → Actions → Variables` tab):
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `LLM_PROVIDER` | Primary provider (`google`, `mistral`) | `google` |
+| `LLM_FALLBACK_PROVIDER` | Fallback provider | _(empty)_ |
+| `MISTRAL_MODEL` | Mistral model to use | `mistral-large-latest` |
+| `MISTRAL_API_URL` | Custom API URL (for Codestral free tier) | _(empty)_ |
+
+### Workflow
+
+```yaml
+name: AI Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ai-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: KonstZiv/ai-code-reviewer@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          google_api_key: ${{ secrets.AI_REVIEWER_GOOGLE_API_KEY }}
+          mistral_api_key: ${{ secrets.AI_REVIEWER_MISTRAL_API_KEY }}
+          llm_provider: ${{ vars.LLM_PROVIDER || 'google' }}
+          llm_fallback_provider: ${{ vars.LLM_FALLBACK_PROVIDER || '' }}
+          mistral_model: ${{ vars.MISTRAL_MODEL || 'mistral-large-latest' }}
+          mistral_api_url: ${{ vars.MISTRAL_API_URL || '' }}
+```
+
+### Switching Presets
+
+Change Variables in the GitHub UI, then **Re-run** the workflow on the same PR:
+
+| Preset | `LLM_PROVIDER` | `MISTRAL_MODEL` | `MISTRAL_API_URL` | `LLM_FALLBACK_PROVIDER` |
+|--------|----------------|-----------------|---------------------|------------------------|
+| Gemini (default) | `google` | _(empty)_ | _(empty)_ | _(empty)_ |
+| Mistral Large | `mistral` | `mistral-large-latest` | _(empty)_ | `google` |
+| Codestral free | `mistral` | `codestral-latest` | `https://codestral.mistral.ai` | `google` |
+| Devstral | `mistral` | `devstral-latest` | _(empty)_ | `google` |
+
+!!! tip "Codestral free tier key"
+    For the "Codestral free" preset, `AI_REVIEWER_MISTRAL_API_KEY` must contain a key from [codestral.mistral.ai](https://codestral.mistral.ai/), not from `console.mistral.ai`.
+
+!!! info "Variables vs Secrets"
+    **Secrets** are encrypted and hidden in logs — use for API keys.
+    **Variables** are visible in logs — use for non-sensitive config like model names.
+
+---
+
 ## Review Result
 
 ### Inline Comments

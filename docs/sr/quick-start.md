@@ -451,6 +451,7 @@ Sačekajte minut i pokušajte ponovo, ili konfigurišite [fallback provajder](co
 |--------|----------|
 | Konfigurišite jezik odgovora | [Konfiguracija](configuration.md) |
 | Napredna podešavanja LLM provajdera | [Konfiguracija → LLM](configuration.md#llm) |
+| Prebacivanje modela bez promjene koda | [GitHub → Konfiguracija putem Variables](github.md#variable-driven) |
 | Napredna podešavanja GitHub | [GitHub vodič](github.md) |
 | Napredna podešavanja GitLab | [GitLab vodič](gitlab.md) |
 | Primjeri workflow-a | [Primjeri](examples/index.md) |

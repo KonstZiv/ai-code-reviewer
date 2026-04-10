@@ -237,6 +237,81 @@ jobs:
 
 ---
 
+## Konfiguracija putem Variables {#variable-driven}
+
+Koristite **Repository Variables** za prebacivanje između LLM provajdera i modela bez mijenjanja workflow fajla. Ovo je korisno za poređenje kvaliteta revizije različitih modela na istom PR-u.
+
+### Podešavanje
+
+**Secrets** (postaviti jednom):
+
+| Secret | Opis |
+|--------|------|
+| `AI_REVIEWER_GOOGLE_API_KEY` | Gemini API ključ |
+| `AI_REVIEWER_MISTRAL_API_KEY` | Mistral API ključ |
+
+**Variables** (`Settings → Secrets and variables → Actions → Variables`):
+
+| Variable | Opis | Podrazumijevano |
+|----------|------|-----------------|
+| `LLM_PROVIDER` | Primarni provajder (`google`, `mistral`) | `google` |
+| `LLM_FALLBACK_PROVIDER` | Fallback provajder | _(nema)_ |
+| `MISTRAL_MODEL` | Mistral model | `mistral-large-latest` |
+| `MISTRAL_API_URL` | Prilagođeni URL API-ja (za Codestral free tier) | _(nema)_ |
+
+### Workflow
+
+```yaml
+name: AI Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ai-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: KonstZiv/ai-code-reviewer@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          google_api_key: ${{ secrets.AI_REVIEWER_GOOGLE_API_KEY }}
+          mistral_api_key: ${{ secrets.AI_REVIEWER_MISTRAL_API_KEY }}
+          llm_provider: ${{ vars.LLM_PROVIDER || 'google' }}
+          llm_fallback_provider: ${{ vars.LLM_FALLBACK_PROVIDER || '' }}
+          mistral_model: ${{ vars.MISTRAL_MODEL || 'mistral-large-latest' }}
+          mistral_api_url: ${{ vars.MISTRAL_API_URL || '' }}
+```
+
+### Prebacivanje preseta
+
+Promijenite Variables u GitHub interfejsu, zatim pokrenite workflow ponovo (**Re-run**) na istom PR-u:
+
+| Preset | `LLM_PROVIDER` | `MISTRAL_MODEL` | `MISTRAL_API_URL` | `LLM_FALLBACK_PROVIDER` |
+|--------|----------------|-----------------|---------------------|------------------------|
+| Gemini (podrazumijevano) | `google` | _(prazno)_ | _(prazno)_ | _(prazno)_ |
+| Mistral Large | `mistral` | `mistral-large-latest` | _(prazno)_ | `google` |
+| Codestral free | `mistral` | `codestral-latest` | `https://codestral.mistral.ai` | `google` |
+| Devstral | `mistral` | `devstral-latest` | _(prazno)_ | `google` |
+
+!!! tip "Codestral free tier ključ"
+    Za preset „Codestral free" `AI_REVIEWER_MISTRAL_API_KEY` mora sadržavati ključ sa [codestral.mistral.ai](https://codestral.mistral.ai/), ne sa `console.mistral.ai`.
+
+!!! info "Variables vs Secrets"
+    **Secrets** — šifrovani, skriveni u logovima — za API ključeve.
+    **Variables** — vidljivi u logovima — za nesenzitivnu konfiguraciju (imena modela).
+
+---
+
 ## Rezultat revizije
 
 ### Inline komentari

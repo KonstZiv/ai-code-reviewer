@@ -451,6 +451,7 @@ Warten Sie eine Minute und versuchen Sie es erneut, oder konfigurieren Sie einen
 |---------|----------|
 | Antwortsprache konfigurieren | [Konfiguration](configuration.md) |
 | Erweiterte LLM-Provider-Einstellungen | [Konfiguration → LLM](configuration.md#llm) |
+| Modelle ohne Codeänderung wechseln | [GitHub → Variable-gesteuerte Konfiguration](github.md#variable-driven) |
 | Erweiterte GitHub-Einstellungen | [GitHub-Leitfaden](github.md) |
 | Erweiterte GitLab-Einstellungen | [GitLab-Leitfaden](gitlab.md) |
 | Workflow-Beispiele | [Beispiele](examples/index.md) |
