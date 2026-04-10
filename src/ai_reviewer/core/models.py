@@ -293,7 +293,10 @@ class CodeIssue(BaseModel):
         default=IssueCategory.CODE_QUALITY,
         description="Category of the issue",
     )
-    severity: IssueSeverity = Field(..., description="Severity level")
+    severity: IssueSeverity = Field(
+        default=IssueSeverity.WARNING,
+        description="Severity level",
+    )
     title: str = Field(..., min_length=1, description="Short title of the issue")
     description: str = Field(..., min_length=1, description="Detailed description")
     file_path: str | None = Field(default=None, description="File where found")
@@ -302,6 +305,41 @@ class CodeIssue(BaseModel):
     proposed_code: str | None = Field(default=None, description="Suggested replacement code")
     why_matters: str | None = Field(default=None, description="Educational explanation")
     learn_more_url: str | None = Field(default=None, description="URL to learn more")
+
+    @field_validator("line_number", mode="before")
+    @classmethod
+    def _coerce_line_number(cls, v: object) -> int | None:
+        """Coerce line_number: extract int from string or discard."""
+        if v is None or isinstance(v, int):
+            return v
+        if isinstance(v, str):
+            import re  # noqa: PLC0415
+
+            m = re.search(r"\d+", v)
+            return int(m.group()) if m else None
+        return None
+
+    @field_validator("category", mode="before")
+    @classmethod
+    def _coerce_category(cls, v: object) -> str:
+        """Accept unknown category values gracefully."""
+        if isinstance(v, str):
+            try:
+                return IssueCategory(v).value
+            except ValueError:
+                return IssueCategory.CODE_QUALITY.value
+        return IssueCategory.CODE_QUALITY.value
+
+    @field_validator("severity", mode="before")
+    @classmethod
+    def _coerce_severity(cls, v: object) -> str:
+        """Accept unknown severity values gracefully."""
+        if isinstance(v, str):
+            try:
+                return IssueSeverity(v).value
+            except ValueError:
+                return IssueSeverity.WARNING.value
+        return IssueSeverity.WARNING.value
 
     @property
     def has_suggestion(self) -> bool:
@@ -335,6 +373,19 @@ class GoodPractice(BaseModel):
     description: str = Field(..., min_length=1, description="What was done well")
     file_path: str | None = Field(default=None, description="File where found")
     line_number: int | None = Field(default=None, ge=1, description="Line number")
+
+    @field_validator("line_number", mode="before")
+    @classmethod
+    def _coerce_line_number(cls, v: object) -> int | None:
+        """Coerce line_number: extract int from string or discard."""
+        if v is None or isinstance(v, int):
+            return v
+        if isinstance(v, str):
+            import re  # noqa: PLC0415
+
+            m = re.search(r"\d+", v)
+            return int(m.group()) if m else None
+        return None
 
 
 class TaskAlignmentStatus(str, Enum):
@@ -433,6 +484,17 @@ class ReviewResult(BaseModel):
     metrics: ReviewMetrics | None = Field(
         default=None, description="Performance metrics from the review"
     )
+
+    @field_validator("task_alignment", mode="before")
+    @classmethod
+    def _coerce_task_alignment(cls, v: object) -> str:
+        """Accept unknown task_alignment values gracefully."""
+        if isinstance(v, str):
+            try:
+                return TaskAlignmentStatus(v).value
+            except ValueError:
+                return TaskAlignmentStatus.INSUFFICIENT_DATA.value
+        return TaskAlignmentStatus.INSUFFICIENT_DATA.value
 
     @field_validator("reviewed_at")
     @classmethod

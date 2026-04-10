@@ -71,17 +71,38 @@ Look for: clean code, good naming, proper error handling, good tests, security a
 - `INSUFFICIENT_DATA`: No task linked or task description too vague
 
 ## Output Format
-Return valid JSON matching this structure:
+Return valid JSON matching this **exact** structure and types:
 ```json
 {
-  "issues": [...],
-  "good_practices": [...],
+  "issues": [
+    {
+      "category": "security|code_quality|architecture|performance|testing",
+      "severity": "critical|warning|info",
+      "title": "string (required)",
+      "description": "string (required)",
+      "file_path": "string or null",
+      "line_number": 42,
+      "existing_code": "string or null",
+      "proposed_code": "string or null",
+      "why_matters": "string or null",
+      "learn_more_url": "string or null"
+    }
+  ],
+  "good_practices": [
+    {
+      "description": "string (required)",
+      "file_path": "string or null",
+      "line_number": 42
+    }
+  ],
   "task_alignment": "aligned|misaligned|insufficient_data",
   "task_alignment_reasoning": "Brief explanation",
   "summary": "2-3 sentence overview of the review",
   "detected_language": "ISO 639-1 code (e.g., en, uk, de)"
 }
 ```
+**IMPORTANT:** `line_number` must be an integer or null — never a string. \
+`category` and `severity` must be one of the listed enum values exactly.
 
 ## Important Guidelines
 - Be specific: Always include file paths and line numbers when possible
