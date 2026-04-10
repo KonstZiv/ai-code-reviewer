@@ -225,6 +225,59 @@ Ne morate proslijeđivati `--repo` i `--pr` — uzimaju se iz CI-ja automatski.
 
 ---
 
+## Konfiguracija putem CI/CD varijabli {#variable-driven}
+
+Koristite **CI/CD Variables** za prebacivanje između LLM provajdera i modela bez mijenjanja `.gitlab-ci.yml`. Ovo je korisno za poređenje kvaliteta revizije različitih modela na istom MR-u.
+
+### Podešavanje
+
+**CI/CD Variables** (`Settings → CI/CD → Variables`):
+
+| Varijabla | Opis | Opcije |
+|-----------|------|--------|
+| `AI_REVIEWER_GOOGLE_API_KEY` | Gemini API ključ | :white_check_mark: Masked, :x: Isključiti Protected |
+| `AI_REVIEWER_MISTRAL_API_KEY` | Mistral API ključ | :white_check_mark: Masked, :x: Isključiti Protected |
+| `AI_REVIEWER_GITLAB_TOKEN` | GitLab token | :white_check_mark: Masked, :x: Isključiti Protected |
+| `AI_REVIEWER_LLM_PROVIDER` | Primarni provajder (`google`, `mistral`) | :x: Isključiti Protected |
+| `AI_REVIEWER_LLM_FALLBACK_PROVIDER` | Fallback provajder | :x: Isključiti Protected |
+| `AI_REVIEWER_MISTRAL_MODEL` | Mistral model | :x: Isključiti Protected |
+| `AI_REVIEWER_MISTRAL_API_URL` | Prilagođeni URL API-ja (za Codestral free tier) | :x: Isključiti Protected |
+
+### Konfiguracija job-a
+
+```yaml
+ai-review:
+  image: ghcr.io/konstziv/ai-code-reviewer:1
+  stage: review
+  script:
+    - ai-review
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  allow_failure: true
+  interruptible: true
+```
+
+Sekcija `variables:` nije potrebna — sve `AI_REVIEWER_*` CI/CD varijable se nasljeđuju automatski.
+
+### Prebacivanje preseta
+
+Promijenite CI/CD Variables u GitLab interfejsu i kliknite **Retry** na pipeline istog MR-a:
+
+| Preset | `AI_REVIEWER_LLM_PROVIDER` | `AI_REVIEWER_MISTRAL_MODEL` | `AI_REVIEWER_MISTRAL_API_URL` | `AI_REVIEWER_LLM_FALLBACK_PROVIDER` |
+|--------|---------------------------|---------------------------|-------------------------------|-------------------------------------|
+| Gemini (podrazumijevano) | `google` | _(prazno)_ | _(prazno)_ | _(prazno)_ |
+| Mistral Large | `mistral` | `mistral-large-latest` | _(prazno)_ | `google` |
+| Codestral free | `mistral` | `codestral-latest` | `https://codestral.mistral.ai` | `google` |
+| Devstral | `mistral` | `devstral-latest` | _(prazno)_ | `google` |
+
+!!! tip "Codestral free tier ključ"
+    Za preset „Codestral free" `AI_REVIEWER_MISTRAL_API_KEY` mora sadržavati ključ sa [codestral.mistral.ai](https://codestral.mistral.ai/), ne sa `console.mistral.ai`.
+
+!!! info "Nije potrebno unositi u YAML"
+    Za razliku od GitHub Actions (gdje se inputi moraju eksplicitno mapirati), GitLab CI automatski prosljeđuje sve CI/CD varijable kao varijable okruženja. Samo ih postavite u interfejsu — aplikacija ih prepoznaje preko prefiksa `AI_REVIEWER_*`.
+
+---
+
 ## Rezultat revizije
 
 ### Bilješke (komentari)

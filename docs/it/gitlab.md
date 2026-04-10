@@ -225,6 +225,59 @@ Non hai bisogno di passare `--repo` e `--pr` — vengono presi automaticamente d
 
 ---
 
+## Configurazione tramite Variabili CI/CD {#variable-driven}
+
+Usa le **CI/CD Variables** per passare da un provider LLM e modello all'altro senza modificare `.gitlab-ci.yml`. Utile per confrontare la qualità della revisione di diversi modelli sullo stesso MR.
+
+### Configurazione
+
+**CI/CD Variables** (`Settings → CI/CD → Variables`):
+
+| Variabile | Descrizione | Opzioni |
+|-----------|------------|---------|
+| `AI_REVIEWER_GOOGLE_API_KEY` | Chiave API Gemini | :white_check_mark: Masked, :x: Deselezionare Protected |
+| `AI_REVIEWER_MISTRAL_API_KEY` | Chiave API Mistral | :white_check_mark: Masked, :x: Deselezionare Protected |
+| `AI_REVIEWER_GITLAB_TOKEN` | Token GitLab | :white_check_mark: Masked, :x: Deselezionare Protected |
+| `AI_REVIEWER_LLM_PROVIDER` | Provider principale (`google`, `mistral`) | :x: Deselezionare Protected |
+| `AI_REVIEWER_LLM_FALLBACK_PROVIDER` | Provider di fallback | :x: Deselezionare Protected |
+| `AI_REVIEWER_MISTRAL_MODEL` | Modello Mistral | :x: Deselezionare Protected |
+| `AI_REVIEWER_MISTRAL_API_URL` | URL API personalizzato (per Codestral free tier) | :x: Deselezionare Protected |
+
+### Configurazione del job
+
+```yaml
+ai-review:
+  image: ghcr.io/konstziv/ai-code-reviewer:1
+  stage: review
+  script:
+    - ai-review
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  allow_failure: true
+  interruptible: true
+```
+
+Nessuna sezione `variables:` necessaria — tutte le variabili CI/CD `AI_REVIEWER_*` vengono ereditate automaticamente.
+
+### Cambiare preset
+
+Modifica le CI/CD Variables nell'interfaccia GitLab e clicca su **Retry** nella pipeline dello stesso MR:
+
+| Preset | `AI_REVIEWER_LLM_PROVIDER` | `AI_REVIEWER_MISTRAL_MODEL` | `AI_REVIEWER_MISTRAL_API_URL` | `AI_REVIEWER_LLM_FALLBACK_PROVIDER` |
+|--------|---------------------------|---------------------------|-------------------------------|-------------------------------------|
+| Gemini (predefinito) | `google` | _(vuoto)_ | _(vuoto)_ | _(vuoto)_ |
+| Mistral Large | `mistral` | `mistral-large-latest` | _(vuoto)_ | `google` |
+| Codestral free | `mistral` | `codestral-latest` | `https://codestral.mistral.ai` | `google` |
+| Devstral | `mistral` | `devstral-latest` | _(vuoto)_ | `google` |
+
+!!! tip "Chiave Codestral free tier"
+    Per il preset "Codestral free", `AI_REVIEWER_MISTRAL_API_KEY` deve contenere una chiave da [codestral.mistral.ai](https://codestral.mistral.ai/), non da `console.mistral.ai`.
+
+!!! info "Non serve codificare nel YAML"
+    A differenza di GitHub Actions (dove gli input devono essere mappati esplicitamente), GitLab CI passa automaticamente tutte le variabili CI/CD come variabili d'ambiente. Basta impostarle nell'interfaccia — l'applicazione le rileva tramite il prefisso `AI_REVIEWER_*`.
+
+---
+
 ## Risultato della Review
 
 ### Note (commenti)
