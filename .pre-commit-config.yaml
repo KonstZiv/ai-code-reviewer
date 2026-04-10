@@ -32,6 +32,7 @@ repos:
           - python-iso639>=0.0.10
           - tenacity>=9.0.0
           - httpx>=0.28.0
+          - mistralai>=2.3.1
           - types-PyYAML
           - types-requests
         args: [--strict]

@@ -311,12 +311,12 @@ def _make_settings() -> Mock:
 class TestRunDiscovery:
     """Tests for _run_discovery."""
 
-    @patch("ai_reviewer.llm.key_pool.RotatingGeminiProvider")
+    @patch("ai_reviewer.llm.router.create_router")
     @patch("ai_reviewer.discovery.DiscoveryOrchestrator")
     def test_success_returns_profile(
         self,
         mock_orch_cls: MagicMock,
-        mock_gemini_cls: MagicMock,
+        mock_create_router: MagicMock,
     ) -> None:
         """Test that successful discovery returns a ProjectProfile."""
         profile = make_profile()
@@ -329,12 +329,12 @@ class TestRunDiscovery:
         assert result is profile
         mock_orch_cls.return_value.discover.assert_called_once_with("owner/repo", 1)
 
-    @patch("ai_reviewer.llm.key_pool.RotatingGeminiProvider")
+    @patch("ai_reviewer.llm.router.create_router")
     @patch("ai_reviewer.discovery.DiscoveryOrchestrator")
     def test_failure_returns_none(
         self,
         mock_orch_cls: MagicMock,
-        mock_gemini_cls: MagicMock,
+        mock_create_router: MagicMock,
     ) -> None:
         """Test that discovery failure returns None (fail-open)."""
         mock_orch_cls.return_value.discover.side_effect = RuntimeError("API down")
@@ -345,14 +345,14 @@ class TestRunDiscovery:
 
         assert result is None
 
-    @patch("ai_reviewer.llm.key_pool.RotatingGeminiProvider")
+    @patch("ai_reviewer.llm.router.create_router")
     @patch("ai_reviewer.discovery.DiscoveryOrchestrator")
-    def test_rotating_provider_receives_settings(
+    def test_router_creates_provider_with_correct_model(
         self,
         mock_orch_cls: MagicMock,
-        mock_rotating_cls: MagicMock,
+        mock_create_router: MagicMock,
     ) -> None:
-        """Test that RotatingGeminiProvider is created with correct settings."""
+        """Test that router creates provider with the model from settings."""
         profile = make_profile()
         mock_orch_cls.return_value.discover.return_value = profile
         provider = MagicMock(spec=GitProvider)
@@ -360,16 +360,16 @@ class TestRunDiscovery:
 
         _run_discovery(provider, "owner/repo", 1, settings)
 
-        mock_rotating_cls.assert_called_once()
-        call_kwargs = mock_rotating_cls.call_args[1]
-        assert call_kwargs["model_name"] == "gemini-pro"
+        mock_create_router.assert_called_once_with(settings)
+        mock_router = mock_create_router.return_value
+        mock_router.create_provider.assert_called_once_with(model="gemini-pro")
 
-    @patch("ai_reviewer.llm.key_pool.RotatingGeminiProvider")
+    @patch("ai_reviewer.llm.router.create_router")
     @patch("ai_reviewer.discovery.DiscoveryOrchestrator")
     def test_provider_passed_as_repo_and_conversation(
         self,
         mock_orch_cls: MagicMock,
-        mock_rotating_cls: MagicMock,
+        mock_create_router: MagicMock,
     ) -> None:
         """Test that provider is used for both repo_provider and conversation."""
         profile = make_profile()
@@ -383,12 +383,12 @@ class TestRunDiscovery:
         assert call_kwargs.kwargs["repo_provider"] is provider
         assert call_kwargs.kwargs["conversation"] is provider
 
-    @patch("ai_reviewer.llm.key_pool.RotatingGeminiProvider")
+    @patch("ai_reviewer.llm.router.create_router")
     @patch("ai_reviewer.discovery.DiscoveryOrchestrator")
     def test_timeout_returns_none(
         self,
         mock_orch_cls: MagicMock,
-        mock_gemini_cls: MagicMock,
+        mock_create_router: MagicMock,
     ) -> None:
         """Test that discovery timeout returns None (fail-open)."""
         import time
@@ -405,12 +405,12 @@ class TestRunDiscovery:
 
         assert result is None
 
-    @patch("ai_reviewer.llm.key_pool.RotatingGeminiProvider")
+    @patch("ai_reviewer.llm.router.create_router")
     @patch("ai_reviewer.discovery.DiscoveryOrchestrator")
     def test_timeout_uses_settings_value(
         self,
         mock_orch_cls: MagicMock,
-        mock_gemini_cls: MagicMock,
+        mock_create_router: MagicMock,
     ) -> None:
         """Test that discovery_timeout from settings is used."""
         profile = make_profile()

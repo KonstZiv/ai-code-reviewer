@@ -18,7 +18,7 @@ AI-powered code review tool for **GitHub** and **GitLab** that provides intellig
 
 ## ✨ Features
 
-- 🤖 **AI-Powered Analysis** — Uses Google Gemini for deep code understanding
+- 🤖 **AI-Powered Analysis** — Uses Google Gemini or Mistral AI for deep code understanding
 - 💡 **Inline Suggestions** — Comments directly on code lines with GitHub's "Apply suggestion" button
 - 🔒 **Security Focus** — Identifies vulnerabilities with severity levels (Critical, Warning, Info)
 - 🌍 **Multi-Language** — Responds in your PR/MR language (adaptive mode)
@@ -71,6 +71,9 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           google_api_key: ${{ secrets.AI_REVIEWER_GOOGLE_API_KEY }}
+          # Or use Mistral:
+          # mistral_api_key: ${{ secrets.AI_REVIEWER_MISTRAL_API_KEY }}
+          # llm_provider: mistral
 ```
 
 ### GitLab CI
@@ -85,16 +88,20 @@ ai-review:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 ```
 
-> **Note:** Set `AI_REVIEWER_GOOGLE_API_KEY` and `AI_REVIEWER_GITLAB_TOKEN` as CI/CD variables in Settings -- they are inherited by jobs automatically.
+> **Note:** Set LLM API key (`AI_REVIEWER_GOOGLE_API_KEY` or `AI_REVIEWER_MISTRAL_API_KEY`) and `AI_REVIEWER_GITLAB_TOKEN` as CI/CD variables in Settings.
 
 ### PyPI
 
 ```bash
 pip install ai-reviewbot
 
-# Set environment variables
+# Set environment variables (Google)
 export AI_REVIEWER_GOOGLE_API_KEY="your-key"
 export AI_REVIEWER_GITHUB_TOKEN="your-token"
+
+# Or use Mistral
+# export AI_REVIEWER_MISTRAL_API_KEY="your-key"
+# export AI_REVIEWER_LLM_PROVIDER=mistral
 
 # Run review
 ai-review --repo owner/repo --pr 123
@@ -127,21 +134,21 @@ Full documentation available in **6 languages**:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `AI_REVIEWER_GOOGLE_API_KEY` | — | **Required.** Google Gemini API key |
+| `AI_REVIEWER_GOOGLE_API_KEY` | — | Google Gemini API key |
+| `AI_REVIEWER_MISTRAL_API_KEY` | — | Mistral API key |
+| `AI_REVIEWER_LLM_PROVIDER` | `google` | Primary LLM provider (`google`, `mistral`) |
+| `AI_REVIEWER_LLM_FALLBACK_PROVIDER` | — | Fallback provider when primary is exhausted |
 | `AI_REVIEWER_GITHUB_TOKEN` | — | GitHub token (for GitHub) |
 | `AI_REVIEWER_GITLAB_TOKEN` | — | GitLab token (for GitLab) |
 | `AI_REVIEWER_LANGUAGE` | `en` | Response language (ISO 639 code) |
 | `AI_REVIEWER_LANGUAGE_MODE` | `adaptive` | `adaptive` (detect from PR) or `fixed` |
 | `AI_REVIEWER_GEMINI_MODEL` | `gemini-2.5-flash` | Gemini model to use |
-| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | `gemini-3.1-flash-preview` | Fallback model chain (comma-separated) |
+| `AI_REVIEWER_MISTRAL_MODEL` | `mistral-large-latest` | Mistral model to use |
+| `AI_REVIEWER_MISTRAL_API_URL` | — | Custom Mistral API URL (e.g. `https://codestral.mistral.ai`) |
 | `AI_REVIEWER_LOG_LEVEL` | `INFO` | Logging level |
-| `AI_REVIEWER_REVIEW_MAX_COMMENT_CHARS` | `3000` | Max characters per comment |
-| `AI_REVIEWER_REVIEW_INCLUDE_BOT_COMMENTS` | `true` | Include bot comments in context |
-| `AI_REVIEWER_REVIEW_POST_INLINE_COMMENTS` | `true` | Post inline comments on code lines |
-| `AI_REVIEWER_REVIEW_ENABLE_DIALOGUE` | `true` | Enable dialogue threading |
 | `AI_REVIEWER_DISCOVERY_ENABLED` | `true` | Enable project discovery before review |
 
-> **Note:** Old variable names without `AI_REVIEWER_` prefix still work as fallback.
+> **Note:** At least one LLM API key is required. Old variable names without `AI_REVIEWER_` prefix still work as fallback.
 
 See [Configuration Guide](https://konstziv.github.io/ai-code-reviewer/configuration/) for all options.
 

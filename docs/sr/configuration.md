@@ -10,14 +10,22 @@ Sva podešavanja se konfigurišu putem varijabli okruženja.
 ## Obavezne varijable
 
 | Varijabla | Opis | Primjer | Kako dobiti |
-|----------|-------------|---------|------------|
-| `AI_REVIEWER_GOOGLE_API_KEY` | Google Gemini API ključ (раздвојене зарезом за ротацију кључева) | `AIza...` | [Google AI Studio](https://aistudio.google.com/) |
-| `AI_REVIEWER_GITHUB_TOKEN` | GitHub PAT (za GitHub) | `ghp_...` | [Instrukcije](github.md#get-token) |
-| `AI_REVIEWER_GITLAB_TOKEN` | GitLab PAT (za GitLab) | `glpat-...` | [Instrukcije](gitlab.md#get-token) |
+|----------|------|---------|------------|
+| `AI_REVIEWER_GOOGLE_API_KEY` | Google Gemini API ključ (odvojeni zarezima za rotaciju ključeva) | `AIza...` | [Google AI Studio](https://aistudio.google.com/) |
+| `AI_REVIEWER_MISTRAL_API_KEY` | Mistral API ključ (odvojeni zarezima za rotaciju ključeva) | `sk-...` | [Mistral Console](https://console.mistral.ai/) |
+| `AI_REVIEWER_GITHUB_TOKEN` | GitHub token (za GitHub) | `ghp_...` | [Instrukcije](github.md#get-token) |
+| `AI_REVIEWER_GITLAB_TOKEN` | GitLab token (za GitLab) | `glpat-...` | [Instrukcije](gitlab.md#get-token) |
 
-!!! warning "Potreban je barem jedan provajder"
+!!! warning "Potreban je barem jedan LLM API ključ"
+    Trebate barem jedan LLM API ključ: `AI_REVIEWER_GOOGLE_API_KEY` **ili** `AI_REVIEWER_MISTRAL_API_KEY` (ili oba).
+    Ključ za primarnog provajdera (podešen putem `AI_REVIEWER_LLM_PROVIDER`) je obavezan.
+
+!!! warning "Potreban je barem jedan token platforme"
     Trebate `AI_REVIEWER_GITHUB_TOKEN` **ili** `AI_REVIEWER_GITLAB_TOKEN` zavisno od platforme.
-    Tokeni su specifični za provajdera: `AI_REVIEWER_GITHUB_TOKEN` je potreban samo za GitHub, `AI_REVIEWER_GITLAB_TOKEN` samo za GitLab.
+
+!!! info "Tipovi GitLab tokena"
+    Za GitLab, možete koristiti **Personal Access Token** (radi na svim planovima, uključujući Free)
+    ili **Project Access Token** (zahtijeva GitLab Premium/Ultimate).
 
 ---
 
@@ -26,14 +34,14 @@ Sva podešavanja se konfigurišu putem varijabli okruženja.
 ### Opšte
 
 | Varijabla | Opis | Podrazumijevano | Opseg |
-|----------|-------------|---------|-------|
+|----------|------|---------|-------|
 | `AI_REVIEWER_LOG_LEVEL` | Nivo logovanja | `INFO` | DEBUG, INFO, WARNING, ERROR, CRITICAL |
 | `AI_REVIEWER_API_TIMEOUT` | Timeout zahtjeva (sek) | `60` | 1-300 |
 
 ### Jezik
 
 | Varijabla | Opis | Podrazumijevano | Primjeri |
-|----------|-------------|---------|----------|
+|----------|------|---------|----------|
 | `AI_REVIEWER_LANGUAGE` | Jezik odgovora | `en` | `uk`, `de`, `es`, `it`, `me` |
 | `AI_REVIEWER_LANGUAGE_MODE` | Režim detekcije | `adaptive` | `adaptive`, `fixed` |
 
@@ -49,37 +57,78 @@ Sva podešavanja se konfigurišu putem varijabli okruženja.
     - 3-slovna: `ukr`, `deu`, `spa`
     - Imena: `English`, `Ukrainian`, `German`
 
-### LLM
+### LLM {#llm}
+
+#### Izbor provajdera
 
 | Varijabla | Opis | Podrazumijevano |
-|----------|-------------|---------|
-| `AI_REVIEWER_GEMINI_MODEL` | Gemini model | `gemini-2.5-flash` |
-| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Lanac rezervnih modela (odvojenih zarezima) | `gemini-3.1-flash-preview` |
-| `AI_REVIEWER_REVIEW_SPLIT_THRESHOLD` | Prag karaktera za podijeljen pregled kod+testovi | `30000` |
+|----------|------|---------|
+| `AI_REVIEWER_LLM_PROVIDER` | Primarni LLM provajder | `google` |
+| `AI_REVIEWER_LLM_FALLBACK_PROVIDER` | Fallback provajder (koristi se kada je primarni iscrpljen) | _(nema)_ |
 
-**Dostupni modeli:**
+Podržani provajderi: `google`, `mistral`.
 
-| Model | Opis | Cena |
-|-------|------|------|
-| `gemini-2.5-flash` | Brz, stabilan, sa sposobnošću rasuđivanja (podrazumevano) | $0.075 / 1M ulaz |
+Kada su konfigurisani i primarni i fallback provajder, sistem prvo isprobava sve modele primarnog provajdera, pa zatim sve modele fallback provajdera. Primjer sa `LLM_PROVIDER=mistral` i `LLM_FALLBACK_PROVIDER=google`:
+
+```
+mistral-large → mistral-small → gemini-2.5-flash → gemini-2.5-flash-lite
+```
+
+#### Google Gemini Models
+
+| Varijabla | Opis | Podrazumijevano |
+|----------|------|---------|
+| `AI_REVIEWER_GEMINI_MODEL` | Primarni Gemini model | `gemini-2.5-flash` |
+| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Lanac rezervnih modela (odvojenih zarezima) | `gemini-3.1-flash-preview,...` |
+
+| Model | Opis | Cijena |
+|-------|------|--------|
+| `gemini-2.5-flash` | Brz, stabilan, sa sposobnošću rasuđivanja (podrazumijevano) | $0.075 / 1M ulaz |
 | `gemini-3.1-flash-preview` | Frontier-klasa flash (pregled) | $0.075 / 1M ulaz |
 | `gemini-2.5-flash-lite` | Najbrži i najjeftiniji u 2.5 | $0.01875 / 1M ulaz |
 | `gemini-2.5-pro` | Najmoćniji, sa dubokim rasuđivanjem | $1.25 / 1M ulaz |
 
-!!! note "Tačnost cijena"
-    Cijene su navedene na datum izdanja i mogu se promijeniti.
+:material-link: [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing)
 
-    Aktuelne informacije: [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing)
+#### Mistral modeli
+
+| Varijabla | Opis | Podrazumijevano |
+|-----------|------|-----------------|
+| `AI_REVIEWER_MISTRAL_MODEL` | Primarni Mistral model | `mistral-large-latest` |
+| `AI_REVIEWER_MISTRAL_MODEL_FALLBACK` | Lanac fallback modela (razdvojeno zarezom) | _(nema)_ |
+| `AI_REVIEWER_MISTRAL_API_URL` | Prilagođeni bazni URL API-ja | _(nema)_ |
+
+| Model | Opis | Kontekst | Cijena (input / output) |
+|-------|------|----------|------------------------|
+| `mistral-large-latest` | Najmoćniji, MoE 41B/675B (podrazumijevano) | 256k | $0.50 / $1.50 |
+| `mistral-medium-latest` | Balans performansi i cijene | 128k | $0.40 / $2.00 |
+| `mistral-small-latest` | Brz i jeftin, hybrid 6.5B/119B | 256k | $0.15 / $0.60 |
+| `codestral-latest` | Optimizovan za kod, FIM podrška | 128k | $0.30 / $0.90 |
+| `devstral-latest` | Coding agent, najjeftiniji Mistral | 256k | $0.10 / $0.30 |
+
+!!! tip "Besplatni Codestral"
+    Codestral ima odvojeni besplatni nivo na `https://codestral.mistral.ai` sa vlastitim API ključem.
+    Postavite `AI_REVIEWER_MISTRAL_API_URL=https://codestral.mistral.ai` i koristite ključ sa [codestral.mistral.ai](https://codestral.mistral.ai/).
+    Plaćeni Codestral preko `api.mistral.ai` **ne** zahtijeva prilagođeni URL.
+
+:material-link: [Mistral Pricing](https://mistral.ai/products/la-plateforme#pricing)
+
+#### Ostala podešavanja
+
+| Varijabla | Opis | Podrazumijevano |
+|----------|------|---------|
+| `AI_REVIEWER_REVIEW_SPLIT_THRESHOLD` | Prag karaktera za podijeljen pregled kod+testovi | `30000` |
+
+!!! note "Tačnost cijena"
+    Cijene su navedene na datum izdanja i mogu se promijeniti. Provjerite stranicu sa cijenama provajdera za aktuelne informacije.
 
 !!! tip "Besplatni nivo"
-    Obratite pažnju na **Free Tier** kada koristite određene modele.
-
-    U ogromnoj većini slučajeva, besplatno ograničenje je dovoljno za reviziju koda tima od **4-8 programera**.
+    I Google Gemini i Mistral nude besplatne nivoe dovoljne za reviziju koda tima od **4-8 programera**. Kombinujte dva provajdera za maksimalnu pouzdanost.
 
 ### Revizija
 
 | Varijabla | Opis | Podrazumijevano | Opseg |
-|----------|-------------|---------|-------|
+|----------|------|---------|-------|
 | `AI_REVIEWER_REVIEW_MAX_FILES` | Maksimalno fajlova u kontekstu | `20` | 1-100 |
 | `AI_REVIEWER_REVIEW_MAX_DIFF_LINES` | Maksimalno linija diff-a po fajlu | `500` | 1-5000 |
 | `AI_REVIEWER_REVIEW_MAX_COMMENT_CHARS` | Maks. karaktera komentara MR u promptu | `3000` | 0-20000 |
@@ -101,7 +150,7 @@ Sva podešavanja se konfigurišu putem varijabli okruženja.
 ### Discovery
 
 | Varijabla | Opis | Podrazumijevano | Opseg |
-|----------|-------------|---------|-------|
+|----------|------|---------|-------|
 | `AI_REVIEWER_DISCOVERY_ENABLED` | Aktiviranje analize projekta prije pregleda | `true` | true/false |
 | `AI_REVIEWER_DISCOVERY_VERBOSE` | Uvijek objaviti discovery komentar (podrazumijevano: samo pri prazninama) | `false` | true/false |
 | `AI_REVIEWER_DISCOVERY_TIMEOUT` | Timeout discovery pipeline-a u sekundama | `30` | 1-300 |
@@ -115,11 +164,11 @@ Sva podešavanja se konfigurišu putem varijabli okruženja.
 ### GitLab
 
 | Varijabla | Opis | Podrazumijevano |
-|----------|-------------|---------|
+|----------|------|---------|
 | `AI_REVIEWER_GITLAB_URL` | URL GitLab servera | `https://gitlab.com` |
 
 !!! info "Self-hosted GitLab"
-    Za self-hosted GitLab, podesite `AI_REVIEWER_GITLAB_URL`:
+    Za self-hosted GitLab, podešite `AI_REVIEWER_GITLAB_URL`:
     ```bash
     export AI_REVIEWER_GITLAB_URL=https://gitlab.mycompany.com
     ```
@@ -132,7 +181,14 @@ Praktično je čuvati konfiguraciju u `.env`:
 
 ```bash
 # .env
+
+# LLM provajder (izaberite jednog ili oba)
 AI_REVIEWER_GOOGLE_API_KEY=AIza...
+# AI_REVIEWER_MISTRAL_API_KEY=sk-...
+# AI_REVIEWER_LLM_PROVIDER=google
+# AI_REVIEWER_LLM_FALLBACK_PROVIDER=mistral
+
+# Token platforme
 AI_REVIEWER_GITHUB_TOKEN=ghp_...
 
 # Opciono
@@ -169,8 +225,8 @@ env:
 
 ```yaml
 variables:
-  AI_REVIEWER_GOOGLE_API_KEY: $AI_REVIEWER_GOOGLE_API_KEY  # Iz CI/CD Variables
-  AI_REVIEWER_GITLAB_TOKEN: $AI_REVIEWER_GITLAB_TOKEN      # Project Access Token
+  # AI_REVIEWER_GOOGLE_API_KEY i AI_REVIEWER_GITLAB_TOKEN
+  # se nasljeđuju automatski iz CI/CD Variables
   AI_REVIEWER_LANGUAGE: uk
   AI_REVIEWER_LANGUAGE_MODE: adaptive
 ```
@@ -196,7 +252,7 @@ ValidationError: Invalid language code 'xyz'
 **Rješenje:** Koristite validan ISO 639 kod.
 
 ```
-ValidationError: AI_REVIEWER_LOG_LEVEL must be one of: DEBUG, INFO, WARNING, ERROR, CRITICAL
+ValidationError: LOG_LEVEL must be one of: DEBUG, INFO, WARNING, ERROR, CRITICAL
 ```
 
 **Rješenje:** Koristite jedan od dozvoljenih nivoa.

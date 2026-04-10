@@ -364,6 +364,7 @@ class ReviewMetrics(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     model_name: str = Field(..., min_length=1, description="AI model used")
+    operator: str | None = Field(default=None, description="LLM operator (e.g. Google, Anthropic)")
     prompt_tokens: int = Field(default=0, ge=0, description="Tokens in prompt")
     completion_tokens: int = Field(default=0, ge=0, description="Tokens in completion")
     total_tokens: int = Field(default=0, ge=0, description="Total tokens used")

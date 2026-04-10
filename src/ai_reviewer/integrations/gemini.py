@@ -30,7 +30,7 @@ from ai_reviewer.llm.gemini import (
     GeminiProvider,
     calculate_cost,
 )
-from ai_reviewer.llm.key_pool import KeyPool, RotatingGeminiProvider
+from ai_reviewer.llm.router import create_router
 from ai_reviewer.utils.retry import (
     AllModelsFailedError,
     QuotaExhaustedError,
@@ -43,6 +43,7 @@ if TYPE_CHECKING:
 
     from ai_reviewer.core.config import Settings
     from ai_reviewer.core.models import FileChange, ReviewContext
+    from ai_reviewer.llm.router import LLMRouter
 
 logger = logging.getLogger(__name__)
 
@@ -99,6 +100,7 @@ class GeminiClient:
 
         metrics = ReviewMetrics(
             model_name=response.model_name,
+            operator="Google",
             prompt_tokens=response.prompt_tokens,
             completion_tokens=response.completion_tokens,
             total_tokens=response.total_tokens,
@@ -156,19 +158,57 @@ def analyze_code_changes(context: ReviewContext, settings: Settings) -> ReviewRe
 # ── Internal helpers ──────────────────────────────────────────────────
 
 
+def _build_fallback_chain(
+    settings: Settings,
+) -> list[tuple[str, str]]:
+    """Build model fallback chain from settings.
+
+    Returns a list of ``(model_name, operator_label)`` tuples. The primary
+    provider's models come first, followed by the fallback provider's
+    models (if configured).
+
+    Args:
+        settings: Application settings.
+
+    Returns:
+        Ordered list of (model, operator_label) to try.
+    """
+    chain: list[tuple[str, str]] = []
+
+    # Primary provider models
+    primary = settings.llm_provider
+    primary_label = primary.capitalize()
+    primary_model = settings.get_provider_model(primary)
+    primary_fallbacks = settings.get_provider_fallback_models(primary)
+    for m in [primary_model, *primary_fallbacks]:
+        chain.append((m, primary_label))
+
+    # Fallback provider models (if configured and different from primary)
+    fallback = settings.llm_fallback_provider
+    if fallback and fallback != primary:
+        fb_label = fallback.capitalize()
+        fb_model = settings.get_provider_model(fallback)
+        fb_fallbacks = settings.get_provider_fallback_models(fallback)
+        for m in [fb_model, *fb_fallbacks]:
+            chain.append((m, fb_label))
+
+    return chain
+
+
 def _call_llm(
-    key_pool: KeyPool,
+    router: LLMRouter,
     settings: Settings,
     prompt: str,
     system_prompt: str,
 ) -> ReviewResult:
-    """Call Gemini with key rotation and model fallback chain.
+    """Call LLM with cross-provider model fallback chain.
 
-    Strategy: try each model in order (primary, then fallback chain),
-    rotating through all API keys per model before moving on.
+    Strategy: try each model in order (primary provider models first,
+    then fallback provider models), using the router to create the
+    appropriate provider per model.
 
     Args:
-        key_pool: Pool of API keys to rotate through.
+        router: Configured LLM router.
         settings: Application settings.
         prompt: User prompt.
         system_prompt: System prompt.
@@ -182,13 +222,13 @@ def _call_llm(
         RateLimitError: When primary fails and no fallback is configured.
         QuotaExhaustedError: When primary fails and no fallback is configured.
     """
-    models = [settings.gemini_model, *settings.fallback_models]
+    chain = _build_fallback_chain(settings)
     failures: list[tuple[str, Exception]] = []
     fallback_reason: str | None = None
 
-    for model in models:
+    for model_name, operator_label in chain:
         try:
-            provider = RotatingGeminiProvider(key_pool=key_pool, model_name=model)
+            provider = router.create_provider(model=model_name)
             response = provider.generate(
                 prompt,
                 system_prompt=system_prompt,
@@ -196,31 +236,35 @@ def _call_llm(
             )
             break  # success
         except (ServerError, RateLimitError, QuotaExhaustedError) as err:
-            failures.append((model, err))
+            failures.append((model_name, err))
             logger.warning(
-                "Model %s failed (%s: %s). %d model(s) remaining in chain.",
-                model,
+                "Model %s (%s) failed (%s: %s). %d model(s) remaining.",
+                model_name,
+                operator_label,
                 type(err).__name__,
                 str(err)[:120],
-                len(models) - len(failures),
+                len(chain) - len(failures),
             )
             if len(failures) == 1:
-                fallback_reason = f"{model} \u2192 {type(err).__name__}"
+                fallback_reason = f"{model_name} \u2192 {type(err).__name__}"
     else:
         # All models exhausted
         if len(failures) == 1:
-            # Single model (no fallback chain) — re-raise as-is
             raise failures[0][1]
         details = ", ".join(f"{m} ({type(e).__name__})" for m, e in failures)
         is_quota = all(isinstance(e, QuotaExhaustedError) for _, e in failures)
         msg = f"All {len(failures)} model(s) failed: {details}"
-        raise AllModelsFailedError(msg, is_quota=is_quota) from failures[-1][1]
+        raise AllModelsFailedError(
+            msg,
+            is_quota=is_quota,
+        ) from failures[-1][1]
 
     result = response.content
     assert isinstance(result, ReviewResult)  # guaranteed by response_schema
 
     metrics = ReviewMetrics(
         model_name=response.model_name,
+        operator=operator_label,
         prompt_tokens=response.prompt_tokens,
         completion_tokens=response.completion_tokens,
         total_tokens=response.total_tokens,
@@ -236,7 +280,7 @@ def _analyze_single(
     settings: Settings,
     prompt: str,
 ) -> ReviewResult:
-    """Perform single-pass review (original behavior).
+    """Perform single-pass review.
 
     Args:
         settings: Application settings.
@@ -245,8 +289,8 @@ def _analyze_single(
     Returns:
         Review result with metrics.
     """
-    key_pool = KeyPool(settings.google_api_keys)
-    result = _call_llm(key_pool, settings, prompt, SYSTEM_PROMPT)
+    router = create_router(settings)
+    result = _call_llm(router, settings, prompt, SYSTEM_PROMPT)
     logger.info("Analysis complete. Found %d issues.", result.issue_count)
     return result
 
@@ -271,24 +315,24 @@ def _analyze_split(
     Returns:
         Merged review result from both passes.
     """
-    key_pool = KeyPool(settings.google_api_keys)
+    router = create_router(settings)
 
     # Pass 1: Production code with code_summary instruction
     code_prompt = build_split_review_prompt(context, settings, prod_changes)
     system_with_summary = SYSTEM_PROMPT + CODE_SUMMARY_INSTRUCTION
 
-    code_result = _call_llm(key_pool, settings, code_prompt, system_with_summary)
+    code_result = _call_llm(router, settings, code_prompt, system_with_summary)
     logger.info(
         "Code pass complete: %d issue(s), summary %d chars",
         code_result.issue_count,
         len(code_result.code_summary),
     )
 
-    # Pass 2: Test files with code_summary context (same key pool)
+    # Pass 2: Test files with code_summary context
     test_prompt = build_split_review_prompt(
         context, settings, test_changes, code_summary=code_result.code_summary
     )
-    test_result = _call_llm(key_pool, settings, test_prompt, SYSTEM_PROMPT)
+    test_result = _call_llm(router, settings, test_prompt, SYSTEM_PROMPT)
     logger.info("Test pass complete: %d issue(s)", test_result.issue_count)
 
     return _merge_review_results(code_result, test_result)
@@ -357,6 +401,7 @@ def _merge_metrics(
     if code_metrics and test_metrics:
         return ReviewMetrics(
             model_name=code_metrics.model_name,
+            operator=code_metrics.operator,
             prompt_tokens=code_metrics.prompt_tokens + test_metrics.prompt_tokens,
             completion_tokens=code_metrics.completion_tokens + test_metrics.completion_tokens,
             total_tokens=code_metrics.total_tokens + test_metrics.total_tokens,

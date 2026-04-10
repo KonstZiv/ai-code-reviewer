@@ -80,11 +80,33 @@ def make_mock_settings(**overrides: object) -> Mock:
         settings = make_mock_settings(discovery_enabled=False, language="uk")
     """
     settings = Mock(spec=Settings)
+    # LLM provider selection
+    settings.llm_provider = "google"
+    settings.llm_fallback_provider = None
+    # Google / Gemini
     settings.google_api_key = SecretStr("test-key-for-unit-tests")
     settings.google_api_keys = ["test-key-for-unit-tests"]
     settings.gemini_model = "gemini-test"
     settings.gemini_model_fallback = "gemini-2.5-flash"
     settings.fallback_models = ["gemini-2.5-flash"]
+    settings.gemini_fallback_models = ["gemini-2.5-flash"]
+    # Mistral
+    settings.mistral_api_key = None
+    settings.mistral_api_keys = []
+    settings.mistral_model = "mistral-large-latest"
+    settings.mistral_model_fallback = None
+    settings.mistral_fallback_models = []
+    # Provider-agnostic helpers
+    settings.get_provider_model = lambda p: (
+        settings.mistral_model if p == "mistral" else settings.gemini_model
+    )
+    settings.get_provider_fallback_models = lambda p: (
+        settings.mistral_fallback_models if p == "mistral" else settings.gemini_fallback_models
+    )
+    settings.get_provider_api_keys = lambda p: (
+        settings.mistral_api_keys if p == "mistral" else settings.google_api_keys
+    )
+    # Review settings
     settings.review_max_files = 20
     settings.review_max_diff_lines = 500
     settings.review_split_threshold = 30_000

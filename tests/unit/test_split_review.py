@@ -44,6 +44,8 @@ def _make_change(filename: str) -> FileChange:
 
 def _make_settings(**overrides: object) -> Mock:
     settings = Mock()
+    settings.llm_provider = "google"
+    settings.llm_fallback_provider = None
     settings.review_max_files = 20
     settings.review_max_diff_lines = 500
     settings.review_split_threshold = 30_000
@@ -55,9 +57,23 @@ def _make_settings(**overrides: object) -> Mock:
     settings.gemini_model = "gemini-test"
     settings.gemini_model_fallback = None
     settings.fallback_models = []
+    settings.gemini_fallback_models = []
     settings.google_api_key = Mock()
     settings.google_api_key.get_secret_value.return_value = "test-key"
     settings.google_api_keys = ["test-key"]
+    settings.mistral_api_key = None
+    settings.mistral_api_keys = []
+    settings.mistral_model = "mistral-large-latest"
+    settings.mistral_fallback_models = []
+    settings.get_provider_model = lambda p: (
+        settings.mistral_model if p == "mistral" else settings.gemini_model
+    )
+    settings.get_provider_fallback_models = lambda p: (
+        settings.mistral_fallback_models if p == "mistral" else settings.gemini_fallback_models
+    )
+    settings.get_provider_api_keys = lambda p: (
+        settings.mistral_api_keys if p == "mistral" else settings.google_api_keys
+    )
     for k, v in overrides.items():
         setattr(settings, k, v)
     return settings
@@ -332,12 +348,14 @@ class TestBuildSplitReviewPrompt:
 class TestAnalyzeCodeChanges:
     """Integration tests for analyze_code_changes split logic."""
 
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini._call_llm")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_under_threshold_single_call(
         self,
         mock_build: Mock,
         mock_call: Mock,
+        _mock_router: Mock,  # noqa: PT019
     ) -> None:
         """Under threshold -> single LLM call."""
         mock_build.return_value = "x" * 1000  # Under 30K
@@ -350,12 +368,14 @@ class TestAnalyzeCodeChanges:
         mock_call.assert_called_once()
         assert result.issue_count == 1
 
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini._call_llm")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_over_threshold_split(
         self,
         mock_build: Mock,
         mock_call: Mock,
+        _mock_router: Mock,  # noqa: PT019
     ) -> None:
         """Over threshold with mixed files -> two LLM calls."""
         mock_build.return_value = "x" * 50_000  # Over 30K
@@ -370,12 +390,14 @@ class TestAnalyzeCodeChanges:
         assert mock_call.call_count == 2
         assert result.issue_count == 3
 
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini._call_llm")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_over_threshold_all_production_no_split(
         self,
         mock_build: Mock,
         mock_call: Mock,
+        _mock_router: Mock,  # noqa: PT019
     ) -> None:
         """Over threshold but all production files -> single call."""
         mock_build.return_value = "x" * 50_000
@@ -388,12 +410,14 @@ class TestAnalyzeCodeChanges:
         mock_call.assert_called_once()
         assert result.issue_count == 1
 
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini._call_llm")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_over_threshold_all_tests_no_split(
         self,
         mock_build: Mock,
         mock_call: Mock,
+        _mock_router: Mock,  # noqa: PT019
     ) -> None:
         """Over threshold but all test files -> single call."""
         mock_build.return_value = "x" * 50_000

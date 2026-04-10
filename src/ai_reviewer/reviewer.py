@@ -269,11 +269,11 @@ def _run_discovery(
         ProjectProfile if discovery succeeds, None otherwise.
     """
     from ai_reviewer.discovery import DiscoveryOrchestrator  # noqa: PLC0415
-    from ai_reviewer.llm.key_pool import KeyPool, RotatingGeminiProvider  # noqa: PLC0415
+    from ai_reviewer.llm.router import create_router  # noqa: PLC0415
 
     try:
-        key_pool = KeyPool(settings.google_api_keys)
-        llm = RotatingGeminiProvider(key_pool=key_pool, model_name=settings.gemini_model)
+        router = create_router(settings)
+        llm = router.create_provider(model=settings.gemini_model)
         # GitHubClient/GitLabClient implement RepositoryProvider + ConversationProvider
         # via triple inheritance, so the cast is safe at runtime.
         discovery = DiscoveryOrchestrator(

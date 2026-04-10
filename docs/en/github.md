@@ -113,25 +113,28 @@ on:
 
 | Secret | Required | Description |
 |--------|----------|-------------|
-| `AI_REVIEWER_GOOGLE_API_KEY` | :white_check_mark: | Gemini API key |
+| `AI_REVIEWER_GOOGLE_API_KEY` | When using Google provider | Gemini API key |
+| `AI_REVIEWER_MISTRAL_API_KEY` | When using Mistral provider | Mistral API key |
+
+At least one LLM API key is required (for the primary provider).
 
 ### Usage
 
 ```yaml
+# Google (default provider)
 env:
   AI_REVIEWER_GOOGLE_API_KEY: ${{ secrets.AI_REVIEWER_GOOGLE_API_KEY }}
+
+# Mistral as primary, Google as fallback
+env:
+  AI_REVIEWER_MISTRAL_API_KEY: ${{ secrets.AI_REVIEWER_MISTRAL_API_KEY }}
+  AI_REVIEWER_GOOGLE_API_KEY: ${{ secrets.AI_REVIEWER_GOOGLE_API_KEY }}
+  AI_REVIEWER_LLM_PROVIDER: mistral
+  AI_REVIEWER_LLM_FALLBACK_PROVIDER: google
 ```
 
 !!! danger "Never hardcode secrets"
-    ```yaml
-    # ❌ WRONG
-    env:
-      AI_REVIEWER_GOOGLE_API_KEY: AIza...
-
-    # ✅ CORRECT
-    env:
-      AI_REVIEWER_GOOGLE_API_KEY: ${{ secrets.AI_REVIEWER_GOOGLE_API_KEY }}
-    ```
+    Always use `${{ secrets.* }}` — never paste keys directly in YAML.
 
 ---
 
@@ -217,12 +220,18 @@ jobs:
 
 | Input | Description | Default |
 |-------|-------------|---------|
-| `google_api_key` | Gemini API key | **required** |
+| `google_api_key` | Google Gemini API key | _(required for Google)_ |
+| `mistral_api_key` | Mistral API key | _(required for Mistral)_ |
+| `llm_provider` | Primary LLM provider (`google`, `mistral`) | `google` |
+| `llm_fallback_provider` | Fallback LLM provider | _(none)_ |
 | `github_token` | GitHub token | `${{ github.token }}` |
+| `gemini_model` | Gemini model | `gemini-2.5-flash` |
+| `gemini_model_fallback` | Gemini fallback model chain | `gemini-3.1-flash-preview,...` |
+| `mistral_model` | Mistral model | `mistral-large-latest` |
+| `mistral_model_fallback` | Mistral fallback model chain | _(none)_ |
+| `mistral_api_url` | Custom Mistral API URL (e.g. `https://codestral.mistral.ai`) | _(none)_ |
 | `language` | Response language | `en` |
 | `language_mode` | Language mode | `adaptive` |
-| `gemini_model` | Gemini model | `gemini-2.5-flash` |
-| `gemini_model_fallback` | Fallback model chain (comma-separated) | `gemini-3.1-flash-preview` |
 | `log_level` | Log level | `INFO` |
 | `review_max_comment_chars` | Max MR comment chars in prompt | `3000` |
 | `review_include_bot_comments` | Include bot comments in prompt | `true` |

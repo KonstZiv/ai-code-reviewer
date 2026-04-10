@@ -12,7 +12,27 @@ inputs:
     required: true
   google_api_key:
     description: 'Google API key for Gemini (comma-separated for multi-key rotation)'
-    required: true
+    required: false
+  mistral_api_key:
+    description: 'Mistral API key (comma-separated for multi-key rotation)'
+    required: false
+  llm_provider:
+    description: 'Primary LLM provider (google, mistral)'
+    required: false
+    default: 'google'
+  llm_fallback_provider:
+    description: 'Fallback LLM provider (used when primary is exhausted)'
+    required: false
+  mistral_model:
+    description: 'Mistral model to use'
+    required: false
+    default: 'mistral-large-latest'
+  mistral_model_fallback:
+    description: 'Comma-separated Mistral fallback model chain'
+    required: false
+  mistral_api_url:
+    description: 'Custom Mistral API base URL (e.g. https://codestral.mistral.ai for free-tier Codestral)'
+    required: false
   language:
     description: 'Response language (ISO 639 code, e.g., en, uk, de)'
     required: false
@@ -81,4 +101,10 @@ runs:
     AI_REVIEWER_DISCOVERY_VERBOSE: ${{ inputs.discovery_verbose }}
     AI_REVIEWER_DISCOVERY_TIMEOUT: ${{ inputs.discovery_timeout }}
     AI_REVIEWER_GEMINI_MODEL_FALLBACK: ${{ inputs.gemini_model_fallback }}
+    AI_REVIEWER_LLM_PROVIDER: ${{ inputs.llm_provider }}
+    AI_REVIEWER_LLM_FALLBACK_PROVIDER: ${{ inputs.llm_fallback_provider }}
+    AI_REVIEWER_MISTRAL_API_KEY: ${{ inputs.mistral_api_key }}
+    AI_REVIEWER_MISTRAL_MODEL: ${{ inputs.mistral_model }}
+    AI_REVIEWER_MISTRAL_MODEL_FALLBACK: ${{ inputs.mistral_model_fallback }}
+    AI_REVIEWER_MISTRAL_API_URL: ${{ inputs.mistral_api_url }}
     GITHUB_ACTIONS: 'true'

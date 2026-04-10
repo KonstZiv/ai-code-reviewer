@@ -121,8 +121,12 @@ def _validate_language_code(v: str) -> str:
 
 # Type aliases with validation
 GoogleApiKey = Annotated[SecretStr, _create_secret_validator("GOOGLE_API_KEY")]
+MistralApiKey = Annotated[SecretStr, _create_secret_validator("MISTRAL_API_KEY")]
 LogLevel = Annotated[str, AfterValidator(_validate_log_level)]
 LanguageCode = Annotated[str, AfterValidator(_validate_language_code)]
+
+# Supported LLM providers (keep in sync with llm.models.Operator)
+SUPPORTED_LLM_PROVIDERS = frozenset({"google", "mistral"})
 
 
 class Settings(BaseSettings):
@@ -194,11 +198,30 @@ class Settings(BaseSettings):
         populate_by_name=True,
     )
 
-    # Required credentials (validated for minimum length)
-    google_api_key: GoogleApiKey = Field(
-        ...,
+    # ── LLM provider selection ──────────────────────────────────────
+    llm_provider: str = Field(
+        default="google",
+        validation_alias=AliasChoices("AI_REVIEWER_LLM_PROVIDER", "LLM_PROVIDER"),
+        description="Primary LLM provider (google, mistral)",
+    )
+    llm_fallback_provider: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("AI_REVIEWER_LLM_FALLBACK_PROVIDER", "LLM_FALLBACK_PROVIDER"),
+        description="Fallback LLM provider used when primary is exhausted",
+    )
+
+    # ── Google / Gemini credentials ──────────────────────────────
+    google_api_key: GoogleApiKey | None = Field(
+        default=None,
         validation_alias=AliasChoices("AI_REVIEWER_GOOGLE_API_KEY", "GOOGLE_API_KEY"),
-        description="Google API key for Gemini access",
+        description="Google API key for Gemini access (comma-separated for rotation)",
+    )
+
+    # ── Mistral credentials ──────────────────────────────────────
+    mistral_api_key: MistralApiKey | None = Field(
+        default=None,
+        validation_alias=AliasChoices("AI_REVIEWER_MISTRAL_API_KEY", "MISTRAL_API_KEY"),
+        description="Mistral API key (comma-separated for rotation)",
     )
 
     # Provider-specific credentials (optional - validated at CLI level)
@@ -231,6 +254,26 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("AI_REVIEWER_GEMINI_MODEL_FALLBACK", "GEMINI_MODEL_FALLBACK"),
         description="Comma-separated fallback model chain (empty to disable)",
     )
+
+    # Mistral model configuration
+    mistral_model: str = Field(
+        default="mistral-large-latest",
+        validation_alias=AliasChoices("AI_REVIEWER_MISTRAL_MODEL", "MISTRAL_MODEL"),
+        description="Mistral model to use for analysis",
+    )
+    mistral_model_fallback: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices(
+            "AI_REVIEWER_MISTRAL_MODEL_FALLBACK", "MISTRAL_MODEL_FALLBACK"
+        ),
+        description="Comma-separated Mistral fallback model chain",
+    )
+    mistral_api_url: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("AI_REVIEWER_MISTRAL_API_URL", "MISTRAL_API_URL"),
+        description="Custom Mistral API base URL (e.g. https://codestral.mistral.ai)",
+    )
+
     log_level: LogLevel = Field(
         default="INFO",
         validation_alias=AliasChoices("AI_REVIEWER_LOG_LEVEL", "LOG_LEVEL"),
@@ -341,25 +384,108 @@ class Settings(BaseSettings):
         """Parse comma-separated API keys from google_api_key.
 
         Returns:
-            List of individual API key strings (at least one).
+            List of individual API key strings (empty if key not set).
         """
+        if not self.google_api_key:
+            return []
         raw = self.google_api_key.get_secret_value()
         return [k.strip() for k in raw.split(",") if k.strip()]
 
     @property
+    def mistral_api_keys(self) -> list[str]:
+        """Parse comma-separated API keys from mistral_api_key.
+
+        Returns:
+            List of individual API key strings (empty if key not set).
+        """
+        if not self.mistral_api_key:
+            return []
+        raw = self.mistral_api_key.get_secret_value()
+        return [k.strip() for k in raw.split(",") if k.strip()]
+
+    @property
     def fallback_models(self) -> list[str]:
-        """Parse comma-separated fallback model names.
+        """Parse comma-separated fallback model names for the primary provider.
 
         Returns:
             List of model name strings (may be empty if fallback disabled).
+        """
+        fallback_str = self._get_provider_model_fallback(self.llm_provider)
+        if not fallback_str:
+            return []
+        return [m.strip() for m in fallback_str.split(",") if m.strip()]
+
+    @property
+    def mistral_fallback_models(self) -> list[str]:
+        """Parse comma-separated Mistral fallback model names.
+
+        Returns:
+            List of model name strings (may be empty).
+        """
+        if not self.mistral_model_fallback:
+            return []
+        return [m.strip() for m in self.mistral_model_fallback.split(",") if m.strip()]
+
+    @property
+    def gemini_fallback_models(self) -> list[str]:
+        """Parse comma-separated Gemini fallback model names.
+
+        Returns:
+            List of model name strings (may be empty).
         """
         if not self.gemini_model_fallback:
             return []
         return [m.strip() for m in self.gemini_model_fallback.split(",") if m.strip()]
 
+    def get_provider_model(self, provider: str) -> str:
+        """Return the primary model name for a given provider.
+
+        Args:
+            provider: Provider identifier (``"google"`` or ``"mistral"``).
+
+        Returns:
+            Model name string.
+        """
+        if provider == "mistral":
+            return self.mistral_model
+        return self.gemini_model
+
+    def get_provider_fallback_models(self, provider: str) -> list[str]:
+        """Return fallback model names for a given provider.
+
+        Args:
+            provider: Provider identifier (``"google"`` or ``"mistral"``).
+
+        Returns:
+            List of fallback model name strings (may be empty).
+        """
+        if provider == "mistral":
+            return self.mistral_fallback_models
+        return self.gemini_fallback_models
+
+    def get_provider_api_keys(self, provider: str) -> list[str]:
+        """Return API keys for a given provider.
+
+        Args:
+            provider: Provider identifier (``"google"`` or ``"mistral"``).
+
+        Returns:
+            List of API key strings (may be empty).
+        """
+        if provider == "mistral":
+            return self.mistral_api_keys
+        return self.google_api_keys
+
+    def _get_provider_model_fallback(self, provider: str) -> str | None:
+        """Return raw fallback string for a provider."""
+        if provider == "mistral":
+            return self.mistral_model_fallback
+        return self.gemini_model_fallback
+
     @model_validator(mode="after")
-    def _validate_individual_keys(self) -> Settings:
-        """Validate each comma-separated key meets minimum length."""
+    def _validate_provider_keys(self) -> Settings:
+        """Validate that the primary provider has API keys configured."""
+        # Validate individual Google key lengths
         for key in self.google_api_keys:
             if len(key) < MIN_SECRET_LENGTH:
                 msg = (
@@ -368,6 +494,24 @@ class Settings(BaseSettings):
                     f"Key ending '...{key[-4:]}' is only {len(key)} characters."
                 )
                 raise ValueError(msg)
+        # Validate individual Mistral key lengths
+        for key in self.mistral_api_keys:
+            if len(key) < MIN_SECRET_LENGTH:
+                msg = (
+                    f"One of the MISTRAL_API_KEY values is too short "
+                    f"(minimum {MIN_SECRET_LENGTH} characters). "
+                    f"Key ending '...{key[-4:]}' is only {len(key)} characters."
+                )
+                raise ValueError(msg)
+        # Primary provider must have keys
+        primary_keys = self.get_provider_api_keys(self.llm_provider)
+        if not primary_keys:
+            msg = (
+                f"Primary LLM provider '{self.llm_provider}' has no API keys. "
+                f"Set AI_REVIEWER_{self.llm_provider.upper()}_API_KEY "
+                f"(or AI_REVIEWER_GOOGLE_API_KEY for Google)."
+            )
+            raise ValueError(msg)
         return self
 
 

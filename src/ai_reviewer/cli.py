@@ -385,7 +385,7 @@ def discover(
 ) -> None:
     """Discover project context without creating a review."""
     from ai_reviewer.discovery import DiscoveryOrchestrator  # noqa: PLC0415
-    from ai_reviewer.llm.key_pool import KeyPool, RotatingGeminiProvider  # noqa: PLC0415
+    from ai_reviewer.llm.router import create_router  # noqa: PLC0415
 
     try:
         settings = get_settings()
@@ -404,8 +404,8 @@ def discover(
     console.print("[bold]\U0001f50d Discovering project context...[/bold]\n")
 
     try:
-        key_pool = KeyPool(settings.google_api_keys)
-        llm = RotatingGeminiProvider(key_pool=key_pool, model_name=settings.gemini_model)
+        router = create_router(settings)
+        llm = router.create_provider(model=settings.gemini_model)
         orchestrator = DiscoveryOrchestrator(
             repo_provider=client,
             conversation=client,

@@ -119,11 +119,27 @@ class TestAnalyzeCodeChanges:
     def mock_settings(self) -> Settings:
         """Create mock settings."""
         settings = Mock(spec=Settings)
+        settings.llm_provider = "google"
+        settings.llm_fallback_provider = None
         settings.google_api_key = SecretStr("test-key")
         settings.google_api_keys = ["test-key"]
         settings.gemini_model = "gemini-pro"
         settings.gemini_model_fallback = "gemini-2.5-flash"
         settings.fallback_models = ["gemini-2.5-flash"]
+        settings.gemini_fallback_models = ["gemini-2.5-flash"]
+        settings.mistral_api_key = None
+        settings.mistral_api_keys = []
+        settings.mistral_model = "mistral-large-latest"
+        settings.mistral_fallback_models = []
+        settings.get_provider_model = lambda p: (
+            settings.mistral_model if p == "mistral" else settings.gemini_model
+        )
+        settings.get_provider_fallback_models = lambda p: (
+            settings.mistral_fallback_models if p == "mistral" else settings.gemini_fallback_models
+        )
+        settings.get_provider_api_keys = lambda p: (
+            settings.mistral_api_keys if p == "mistral" else settings.google_api_keys
+        )
         settings.review_max_files = 5
         settings.review_max_diff_lines = 10
         settings.review_split_threshold = 30_000
@@ -143,16 +159,16 @@ class TestAnalyzeCodeChanges:
         context.tasks = ()
         return context
 
-    @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_analyze_flow(
         self,
         mock_build_prompt: MagicMock,
-        mock_provider_cls: MagicMock,
+        mock_create_router: MagicMock,
         mock_context: ReviewContext,
         mock_settings: Settings,
     ) -> None:
-        """Test the full analysis flow delegates to RotatingGeminiProvider."""
+        """Test the full analysis flow via router."""
         mock_build_prompt.return_value = "Constructed Prompt"
 
         expected_result = ReviewResult(summary="LGTM")
@@ -165,7 +181,8 @@ class TestAnalyzeCodeChanges:
         mock_response.latency_ms = 42
         mock_response.estimated_cost_usd = 0.001
 
-        mock_provider_cls.return_value.generate.return_value = mock_response
+        mock_router = mock_create_router.return_value
+        mock_router.create_provider.return_value.generate.return_value = mock_response
 
         result = analyze_code_changes(mock_context, mock_settings)
 
@@ -177,23 +194,25 @@ class TestAnalyzeCodeChanges:
 
         mock_build_prompt.assert_called_once_with(mock_context, mock_settings)
 
-    @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_fallback_on_server_error(
         self,
         mock_build_prompt: MagicMock,
-        mock_provider_cls: MagicMock,
+        mock_create_router: MagicMock,
         mock_context: ReviewContext,
         mock_settings: Settings,
     ) -> None:
         """Test that ServerError on primary triggers fallback model."""
         mock_build_prompt.return_value = "prompt"
 
-        primary = Mock()
-        fallback = Mock()
-        mock_provider_cls.side_effect = [primary, fallback]
+        primary_provider = Mock()
+        fallback_provider = Mock()
 
-        primary.generate.side_effect = ServerError("503 overloaded")
+        mock_router = mock_create_router.return_value
+        mock_router.create_provider.side_effect = [primary_provider, fallback_provider]
+
+        primary_provider.generate.side_effect = ServerError("503 overloaded")
 
         expected = ReviewResult(summary="Fallback OK")
         mock_resp = Mock()
@@ -204,7 +223,7 @@ class TestAnalyzeCodeChanges:
         mock_resp.total_tokens = 120
         mock_resp.latency_ms = 100
         mock_resp.estimated_cost_usd = 0.001
-        fallback.generate.return_value = mock_resp
+        fallback_provider.generate.return_value = mock_resp
 
         result = analyze_code_changes(mock_context, mock_settings)
 
@@ -213,25 +232,27 @@ class TestAnalyzeCodeChanges:
         assert result.metrics.model_name == "gemini-2.5-flash"
         assert result.metrics.fallback_reason is not None
         assert "ServerError" in result.metrics.fallback_reason
-        assert mock_provider_cls.call_count == 2
+        assert mock_router.create_provider.call_count == 2
 
-    @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_fallback_on_rate_limit(
         self,
         mock_build_prompt: MagicMock,
-        mock_provider_cls: MagicMock,
+        mock_create_router: MagicMock,
         mock_context: ReviewContext,
         mock_settings: Settings,
     ) -> None:
         """Test that RateLimitError on primary triggers fallback model."""
         mock_build_prompt.return_value = "prompt"
 
-        primary = Mock()
-        fallback = Mock()
-        mock_provider_cls.side_effect = [primary, fallback]
+        primary_provider = Mock()
+        fallback_provider = Mock()
 
-        primary.generate.side_effect = RateLimitError("429 quota")
+        mock_router = mock_create_router.return_value
+        mock_router.create_provider.side_effect = [primary_provider, fallback_provider]
+
+        primary_provider.generate.side_effect = RateLimitError("429 quota")
 
         expected = ReviewResult(summary="OK")
         mock_resp = Mock()
@@ -242,53 +263,57 @@ class TestAnalyzeCodeChanges:
         mock_resp.total_tokens = 0
         mock_resp.latency_ms = 0
         mock_resp.estimated_cost_usd = 0.0
-        fallback.generate.return_value = mock_resp
+        fallback_provider.generate.return_value = mock_resp
 
         result = analyze_code_changes(mock_context, mock_settings)
 
         assert result.metrics is not None
         assert "RateLimitError" in result.metrics.fallback_reason  # type: ignore[operator]
 
-    @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_no_fallback_on_auth_error(
         self,
         mock_build_prompt: MagicMock,
-        mock_provider_cls: MagicMock,
+        mock_create_router: MagicMock,
         mock_context: ReviewContext,
         mock_settings: Settings,
     ) -> None:
         """Test that AuthenticationError is NOT caught for fallback."""
         mock_build_prompt.return_value = "prompt"
-        mock_provider_cls.return_value.generate.side_effect = AuthenticationError("Invalid API key")
+        mock_router = mock_create_router.return_value
+        mock_router.create_provider.return_value.generate.side_effect = AuthenticationError(
+            "Invalid API key",
+        )
 
         with pytest.raises(AuthenticationError):
             analyze_code_changes(mock_context, mock_settings)
 
-    @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_no_fallback_when_disabled(
         self,
         mock_build_prompt: MagicMock,
-        mock_provider_cls: MagicMock,
+        mock_create_router: MagicMock,
         mock_context: ReviewContext,
         mock_settings: Settings,
     ) -> None:
         """Test that ServerError propagates when fallback is disabled."""
         mock_build_prompt.return_value = "prompt"
         mock_settings.gemini_model_fallback = None
-        mock_settings.fallback_models = []
-        mock_provider_cls.return_value.generate.side_effect = ServerError("503")
+        mock_settings.gemini_fallback_models = []
+        mock_router = mock_create_router.return_value
+        mock_router.create_provider.return_value.generate.side_effect = ServerError("503")
 
         with pytest.raises(ServerError):
             analyze_code_changes(mock_context, mock_settings)
 
-    @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_primary_success_no_fallback_reason(
         self,
         mock_build_prompt: MagicMock,
-        mock_provider_cls: MagicMock,
+        mock_create_router: MagicMock,
         mock_context: ReviewContext,
         mock_settings: Settings,
     ) -> None:
@@ -304,101 +329,110 @@ class TestAnalyzeCodeChanges:
         mock_resp.total_tokens = 0
         mock_resp.latency_ms = 0
         mock_resp.estimated_cost_usd = 0.0
-        mock_provider_cls.return_value.generate.return_value = mock_resp
+        mock_router = mock_create_router.return_value
+        mock_router.create_provider.return_value.generate.return_value = mock_resp
 
         result = analyze_code_changes(mock_context, mock_settings)
 
         assert result.metrics is not None
         assert result.metrics.fallback_reason is None
 
-    @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_all_models_exhausted_raises_all_models_failed(
         self,
         mock_build_prompt: MagicMock,
-        mock_provider_cls: MagicMock,
+        mock_create_router: MagicMock,
         mock_context: ReviewContext,
         mock_settings: Settings,
     ) -> None:
         """Test AllModelsFailedError with is_quota=True when all models hit quota."""
         mock_build_prompt.return_value = "prompt"
 
-        primary = Mock()
-        fallback = Mock()
-        mock_provider_cls.side_effect = [primary, fallback]
+        primary_provider = Mock()
+        fallback_provider = Mock()
+        mock_router = mock_create_router.return_value
+        mock_router.create_provider.side_effect = [primary_provider, fallback_provider]
 
-        primary.generate.side_effect = QuotaExhaustedError("primary quota exceeded")
-        fallback.generate.side_effect = QuotaExhaustedError("fallback quota exceeded")
+        primary_provider.generate.side_effect = QuotaExhaustedError("primary quota exceeded")
+        fallback_provider.generate.side_effect = QuotaExhaustedError("fallback quota exceeded")
 
         with pytest.raises(AllModelsFailedError, match="All 2 model") as exc_info:
             analyze_code_changes(mock_context, mock_settings)
         assert exc_info.value.is_quota is True
 
-    @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_all_models_exhausted_server_error_not_quota(
         self,
         mock_build_prompt: MagicMock,
-        mock_provider_cls: MagicMock,
+        mock_create_router: MagicMock,
         mock_context: ReviewContext,
         mock_settings: Settings,
     ) -> None:
         """Test AllModelsFailedError with is_quota=False on mixed errors."""
         mock_build_prompt.return_value = "prompt"
 
-        primary = Mock()
-        fallback = Mock()
-        mock_provider_cls.side_effect = [primary, fallback]
+        primary_provider = Mock()
+        fallback_provider = Mock()
+        mock_router = mock_create_router.return_value
+        mock_router.create_provider.side_effect = [primary_provider, fallback_provider]
 
-        primary.generate.side_effect = ServerError("503 overloaded")
-        fallback.generate.side_effect = ServerError("503 overloaded")
+        primary_provider.generate.side_effect = ServerError("503 overloaded")
+        fallback_provider.generate.side_effect = ServerError("503 overloaded")
 
         with pytest.raises(
-            AllModelsFailedError, match=r"gemini-pro.*gemini-2\.5-flash"
+            AllModelsFailedError,
+            match=r"gemini-pro.*gemini-2\.5-flash",
         ) as exc_info:
             analyze_code_changes(mock_context, mock_settings)
         assert exc_info.value.is_quota is False
 
-    @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_all_models_exhausted_message_contains_model_names(
         self,
         mock_build_prompt: MagicMock,
-        mock_provider_cls: MagicMock,
+        mock_create_router: MagicMock,
         mock_context: ReviewContext,
         mock_settings: Settings,
     ) -> None:
         """Test that the error message names both primary and fallback models."""
         mock_build_prompt.return_value = "prompt"
 
-        primary = Mock()
-        fallback = Mock()
-        mock_provider_cls.side_effect = [primary, fallback]
+        primary_provider = Mock()
+        fallback_provider = Mock()
+        mock_router = mock_create_router.return_value
+        mock_router.create_provider.side_effect = [primary_provider, fallback_provider]
 
-        primary.generate.side_effect = QuotaExhaustedError("exhausted")
-        fallback.generate.side_effect = ServerError("503 overloaded")
+        primary_provider.generate.side_effect = QuotaExhaustedError("exhausted")
+        fallback_provider.generate.side_effect = ServerError("503 overloaded")
 
-        with pytest.raises(AllModelsFailedError, match=r"gemini-pro.*gemini-2\.5-flash"):
+        with pytest.raises(
+            AllModelsFailedError,
+            match=r"gemini-pro.*gemini-2\.5-flash",
+        ):
             analyze_code_changes(mock_context, mock_settings)
 
-    @patch("ai_reviewer.integrations.gemini.RotatingGeminiProvider")
+    @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_fallback_non_retriable_error_propagates_directly(
         self,
         mock_build_prompt: MagicMock,
-        mock_provider_cls: MagicMock,
+        mock_create_router: MagicMock,
         mock_context: ReviewContext,
         mock_settings: Settings,
     ) -> None:
         """Test that non-retriable fallback errors propagate without wrapping."""
         mock_build_prompt.return_value = "prompt"
 
-        primary = Mock()
-        fallback = Mock()
-        mock_provider_cls.side_effect = [primary, fallback]
+        primary_provider = Mock()
+        fallback_provider = Mock()
+        mock_router = mock_create_router.return_value
+        mock_router.create_provider.side_effect = [primary_provider, fallback_provider]
 
-        primary.generate.side_effect = ServerError("503")
-        fallback.generate.side_effect = AuthenticationError("bad key")
+        primary_provider.generate.side_effect = ServerError("503")
+        fallback_provider.generate.side_effect = AuthenticationError("bad key")
 
         with pytest.raises(AuthenticationError):
             analyze_code_changes(mock_context, mock_settings)

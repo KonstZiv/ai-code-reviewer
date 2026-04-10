@@ -424,14 +424,14 @@ class TestDiscoverCommand:
         assert "repo" in result.stdout.lower()
 
     @patch("ai_reviewer.discovery.DiscoveryOrchestrator")
-    @patch("ai_reviewer.llm.key_pool.RotatingGeminiProvider")
+    @patch("ai_reviewer.llm.router.create_router")
     @patch("ai_reviewer.cli._create_provider_client")
     @patch("ai_reviewer.cli.get_settings")
     def test_discover_json_output(
         self,
         mock_get_settings: MagicMock,
         mock_create_client: MagicMock,
-        mock_gemini_cls: MagicMock,
+        mock_create_router: MagicMock,
         mock_orch_cls: MagicMock,
     ) -> None:
         """Test that --json outputs valid JSON."""
@@ -454,14 +454,14 @@ class TestDiscoverCommand:
         assert parsed["framework"] == "Django 5.1"
 
     @patch("ai_reviewer.discovery.DiscoveryOrchestrator")
-    @patch("ai_reviewer.llm.key_pool.RotatingGeminiProvider")
+    @patch("ai_reviewer.llm.router.create_router")
     @patch("ai_reviewer.cli._create_provider_client")
     @patch("ai_reviewer.cli.get_settings")
     def test_discover_human_output_with_zones(
         self,
         mock_get_settings: MagicMock,
         mock_create_client: MagicMock,
-        mock_gemini_cls: MagicMock,
+        mock_create_router: MagicMock,
         mock_orch_cls: MagicMock,
     ) -> None:
         """Test human-friendly output includes attention zones."""
@@ -491,14 +491,14 @@ class TestDiscoverCommand:
         assert "Add bandit" in result.stdout
 
     @patch("ai_reviewer.discovery.DiscoveryOrchestrator")
-    @patch("ai_reviewer.llm.key_pool.RotatingGeminiProvider")
+    @patch("ai_reviewer.llm.router.create_router")
     @patch("ai_reviewer.cli._create_provider_client")
     @patch("ai_reviewer.cli.get_settings")
     def test_discover_verbose_shows_ci_tools(
         self,
         mock_get_settings: MagicMock,
         mock_create_client: MagicMock,
-        mock_gemini_cls: MagicMock,
+        mock_create_router: MagicMock,
         mock_orch_cls: MagicMock,
     ) -> None:
         """Test that --verbose shows CI tools."""

@@ -12,12 +12,16 @@ All settings are configured via environment variables.
 | Variable | Description | Example | How to get |
 |----------|-------------|---------|------------|
 | `AI_REVIEWER_GOOGLE_API_KEY` | Google Gemini API key (comma-separated for multi-key rotation) | `AIza...` | [Google AI Studio](https://aistudio.google.com/) |
+| `AI_REVIEWER_MISTRAL_API_KEY` | Mistral API key (comma-separated for multi-key rotation) | `sk-...` | [Mistral Console](https://console.mistral.ai/) |
 | `AI_REVIEWER_GITHUB_TOKEN` | GitHub token (for GitHub) | `ghp_...` | [Instructions](github.md#get-token) |
 | `AI_REVIEWER_GITLAB_TOKEN` | GitLab token (for GitLab) | `glpat-...` | [Instructions](gitlab.md#get-token) |
 
-!!! warning "At least one provider token required"
+!!! warning "At least one LLM API key required"
+    You need at least one LLM API key: `AI_REVIEWER_GOOGLE_API_KEY` **or** `AI_REVIEWER_MISTRAL_API_KEY` (or both).
+    The key for the primary provider (set by `AI_REVIEWER_LLM_PROVIDER`) is required.
+
+!!! warning "At least one platform token required"
     You need `AI_REVIEWER_GITHUB_TOKEN` **or** `AI_REVIEWER_GITLAB_TOKEN` depending on the platform.
-    These tokens are **provider-specific** — only one is required, matching the platform you use.
 
 !!! info "GitLab token types"
     For GitLab, you can use a **Personal Access Token** (works on all plans, including Free)
@@ -53,15 +57,29 @@ All settings are configured via environment variables.
     - 3-letter: `ukr`, `deu`, `spa`
     - Names: `English`, `Ukrainian`, `German`
 
-### LLM
+### LLM {#llm}
+
+#### Provider Selection
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `AI_REVIEWER_GEMINI_MODEL` | Gemini model | `gemini-2.5-flash` |
-| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Fallback model chain (comma-separated) | `gemini-3.1-flash-preview` |
-| `AI_REVIEWER_REVIEW_SPLIT_THRESHOLD` | Char threshold for code+test split review | `30000` |
+| `AI_REVIEWER_LLM_PROVIDER` | Primary LLM provider | `google` |
+| `AI_REVIEWER_LLM_FALLBACK_PROVIDER` | Fallback provider (used when primary is exhausted) | _(none)_ |
 
-**Available models:**
+Supported providers: `google`, `mistral`.
+
+When both primary and fallback providers are configured, the system tries all primary provider models first, then all fallback provider models. Example with `LLM_PROVIDER=mistral` and `LLM_FALLBACK_PROVIDER=google`:
+
+```
+mistral-large → mistral-small → gemini-2.5-flash → gemini-2.5-flash-lite
+```
+
+#### Google Gemini Models
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `AI_REVIEWER_GEMINI_MODEL` | Primary Gemini model | `gemini-2.5-flash` |
+| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Fallback model chain (comma-separated) | `gemini-3.1-flash-preview,...` |
 
 | Model | Description | Cost |
 |-------|-------------|------|
@@ -70,15 +88,42 @@ All settings are configured via environment variables.
 | `gemini-2.5-flash-lite` | Fastest and cheapest in 2.5 | $0.01875 / 1M input |
 | `gemini-2.5-pro` | Most powerful, deep reasoning | $1.25 / 1M input |
 
-!!! note "Pricing accuracy"
-    Prices are listed as of the release date and may change.
+:material-link: [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing)
 
-    Current information: [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing)
+#### Mistral Models
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `AI_REVIEWER_MISTRAL_MODEL` | Primary Mistral model | `mistral-large-latest` |
+| `AI_REVIEWER_MISTRAL_MODEL_FALLBACK` | Fallback model chain (comma-separated) | _(none)_ |
+| `AI_REVIEWER_MISTRAL_API_URL` | Custom API base URL | _(none)_ |
+
+| Model | Description | Context | Cost (input / output) |
+|-------|-------------|---------|----------------------|
+| `mistral-large-latest` | Most capable, MoE 41B/675B (default) | 256k | $0.50 / $1.50 |
+| `mistral-medium-latest` | Balanced performance/cost | 128k | $0.40 / $2.00 |
+| `mistral-small-latest` | Fast and cheap, hybrid 6.5B/119B | 256k | $0.15 / $0.60 |
+| `codestral-latest` | Optimized for code, FIM support | 128k | $0.30 / $0.90 |
+| `devstral-latest` | Coding agent, cheapest Mistral | 256k | $0.10 / $0.30 |
+
+!!! tip "Codestral free tier"
+    Codestral has a separate free tier at `https://codestral.mistral.ai` with its own API key.
+    Set `AI_REVIEWER_MISTRAL_API_URL=https://codestral.mistral.ai` and use a key from [codestral.mistral.ai](https://codestral.mistral.ai/).
+    The paid Codestral via `api.mistral.ai` does **not** require a custom URL.
+
+:material-link: [Mistral Pricing](https://mistral.ai/products/la-plateforme#pricing)
+
+#### Other Settings
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `AI_REVIEWER_REVIEW_SPLIT_THRESHOLD` | Char threshold for code+test split review | `30000` |
+
+!!! note "Pricing accuracy"
+    Prices are listed as of the release date and may change. Check the provider's pricing page for current information.
 
 !!! tip "Free Tier"
-    Pay attention to the **Free Tier** when using certain models.
-
-    In the vast majority of cases, the free limit is sufficient for code review of a team of **4-8 developers**.
+    Both Google Gemini and Mistral offer free tiers sufficient for code review of a team of **4-8 developers**. Combine two providers for maximum reliability.
 
 ### Review
 
@@ -136,7 +181,14 @@ It's convenient to store configuration in `.env`:
 
 ```bash
 # .env
+
+# LLM provider (pick one or both)
 AI_REVIEWER_GOOGLE_API_KEY=AIza...
+# AI_REVIEWER_MISTRAL_API_KEY=sk-...
+# AI_REVIEWER_LLM_PROVIDER=google
+# AI_REVIEWER_LLM_FALLBACK_PROVIDER=mistral
+
+# Platform token
 AI_REVIEWER_GITHUB_TOKEN=ghp_...
 
 # Optional

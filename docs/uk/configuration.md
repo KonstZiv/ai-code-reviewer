@@ -12,12 +12,16 @@
 | Змінна | Опис | Приклад | Як отримати |
 |--------|------|---------|-------------|
 | `AI_REVIEWER_GOOGLE_API_KEY` | API ключ Google Gemini (через кому для ротації ключів) | `AIza...` | [Google AI Studio](https://aistudio.google.com/) |
+| `AI_REVIEWER_MISTRAL_API_KEY` | API ключ Mistral (через кому для ротації ключів) | `sk-...` | [Mistral Console](https://console.mistral.ai/) |
 | `AI_REVIEWER_GITHUB_TOKEN` | GitHub токен (для GitHub) | `ghp_...` | [Інструкція](github.md#get-token) |
 | `AI_REVIEWER_GITLAB_TOKEN` | GitLab токен (для GitLab) | `glpat-...` | [Інструкція](gitlab.md#get-token) |
 
-!!! warning "Мінімум один токен провайдера"
+!!! warning "Потрібен хоча б один API ключ LLM"
+    Потрібен хоча б один API ключ LLM: `AI_REVIEWER_GOOGLE_API_KEY` **або** `AI_REVIEWER_MISTRAL_API_KEY` (або обидва).
+    Ключ для основного провайдера (встановленого через `AI_REVIEWER_LLM_PROVIDER`) є обов'язковим.
+
+!!! warning "Мінімум один токен платформи"
     Потрібен `AI_REVIEWER_GITHUB_TOKEN` **або** `AI_REVIEWER_GITLAB_TOKEN` залежно від платформи.
-    Ці токени **специфічні для провайдера** — потрібен лише один, відповідний до платформи, яку ви використовуєте.
 
 !!! info "Типи токенів GitLab"
     Для GitLab можна використовувати **Personal Access Token** (працює на всіх планах, включаючи Free)
@@ -53,15 +57,29 @@
     - 3-літерні: `ukr`, `deu`, `spa`
     - Назви: `English`, `Ukrainian`, `German`
 
-### LLM
+### LLM {#llm}
+
+#### Вибір провайдера
 
 | Змінна | Опис | Default |
 |--------|------|---------|
-| `AI_REVIEWER_GEMINI_MODEL` | Модель Gemini | `gemini-2.5-flash` |
-| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Ланцюжок fallback-моделей (через кому) | `gemini-3.1-flash-preview` |
-| `AI_REVIEWER_REVIEW_SPLIT_THRESHOLD` | Поріг символів для split review (код+тести окремо) | `30000` |
+| `AI_REVIEWER_LLM_PROVIDER` | Основний LLM-провайдер | `google` |
+| `AI_REVIEWER_LLM_FALLBACK_PROVIDER` | Fallback-провайдер (використовується, коли основний вичерпано) | _(немає)_ |
 
-**Доступні моделі:**
+Підтримувані провайдери: `google`, `mistral`.
+
+Коли налаштовано і основний, і fallback-провайдер, система спочатку пробує всі моделі основного провайдера, потім всі моделі fallback-провайдера. Приклад з `LLM_PROVIDER=mistral` та `LLM_FALLBACK_PROVIDER=google`:
+
+```
+mistral-large → mistral-small → gemini-2.5-flash → gemini-2.5-flash-lite
+```
+
+#### Google Gemini Models
+
+| Змінна | Опис | Default |
+|--------|------|---------|
+| `AI_REVIEWER_GEMINI_MODEL` | Основна модель Gemini | `gemini-2.5-flash` |
+| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Ланцюжок fallback-моделей (через кому) | `gemini-3.1-flash-preview,...` |
 
 | Модель | Опис | Ціна |
 |--------|------|------|
@@ -70,15 +88,42 @@
 | `gemini-2.5-flash-lite` | Найшвидша і найдешевша в 2.5 | $0.01875 / 1M input |
 | `gemini-2.5-pro` | Найпотужніша, з глибоким reasoning | $1.25 / 1M input |
 
-!!! note "Актуальність цін"
-    Вартості вказані на день релізу і можуть змінюватись.
+:material-link: [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing)
 
-    Актуальна інформація: [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing)
+#### Mistral Models
+
+| Змінна | Опис | Default |
+|--------|------|---------|
+| `AI_REVIEWER_MISTRAL_MODEL` | Основна модель Mistral | `mistral-large-latest` |
+| `AI_REVIEWER_MISTRAL_MODEL_FALLBACK` | Ланцюжок fallback-моделей (через кому) | _(немає)_ |
+| `AI_REVIEWER_MISTRAL_API_URL` | Кастомний базовий URL API | _(немає)_ |
+
+| Модель | Опис | Контекст | Ціна (input / output) |
+|--------|------|----------|----------------------|
+| `mistral-large-latest` | Найпотужніша, MoE 41B/675B (за замовчуванням) | 256k | $0.50 / $1.50 |
+| `mistral-medium-latest` | Баланс продуктивності та вартості | 128k | $0.40 / $2.00 |
+| `mistral-small-latest` | Швидка і дешева, hybrid 6.5B/119B | 256k | $0.15 / $0.60 |
+| `codestral-latest` | Оптимізована для коду, підтримка FIM | 128k | $0.30 / $0.90 |
+| `devstral-latest` | Coding agent, найдешевша Mistral | 256k | $0.10 / $0.30 |
+
+!!! tip "Безкоштовний Codestral"
+    Codestral має окремий безкоштовний рівень на `https://codestral.mistral.ai` з власним API ключем.
+    Встановіть `AI_REVIEWER_MISTRAL_API_URL=https://codestral.mistral.ai` і використовуйте ключ з [codestral.mistral.ai](https://codestral.mistral.ai/).
+    Платний Codestral через `api.mistral.ai` **не** потребує окремого URL.
+
+:material-link: [Mistral Pricing](https://mistral.ai/products/la-plateforme#pricing)
+
+#### Інші налаштування
+
+| Змінна | Опис | Default |
+|--------|------|---------|
+| `AI_REVIEWER_REVIEW_SPLIT_THRESHOLD` | Поріг символів для split review (код+тести окремо) | `30000` |
+
+!!! note "Актуальність цін"
+    Вартості вказані на день релізу і можуть змінюватись. Актуальна інформація на сторінці цін провайдера.
 
 !!! tip "Free Tier"
-    Звертайте увагу на **Free Tier** у використанні певних моделей.
-
-    У переважній більшості випадків безкоштовного ліміту достатньо для code review команди **4-8 розробників**.
+    І Google Gemini, і Mistral пропонують безкоштовні рівні, достатні для code review команди **4-8 розробників**. Поєднайте двох провайдерів для максимальної надійності.
 
 ### Review
 
@@ -136,10 +181,17 @@
 
 ```bash
 # .env
+
+# LLM-провайдер (оберіть один або обидва)
 AI_REVIEWER_GOOGLE_API_KEY=AIza...
+# AI_REVIEWER_MISTRAL_API_KEY=sk-...
+# AI_REVIEWER_LLM_PROVIDER=google
+# AI_REVIEWER_LLM_FALLBACK_PROVIDER=mistral
+
+# Токен платформи
 AI_REVIEWER_GITHUB_TOKEN=ghp_...
 
-# Optional
+# Опціональні
 AI_REVIEWER_LANGUAGE=uk
 AI_REVIEWER_LANGUAGE_MODE=adaptive
 AI_REVIEWER_GEMINI_MODEL=gemini-2.5-flash

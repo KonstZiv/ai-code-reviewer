@@ -4,52 +4,95 @@ Pon en marcha AI Code Reviewer en 5 minutos en GitHub o GitLab.
 
 ---
 
-## Paso 1: Obtener clave API
+## Paso 1: Elige tu proveedor LLM y obtén una clave API
 
-Para que AI Reviewer funcione, necesitas una clave de Google Gemini API.
+AI Reviewer soporta múltiples proveedores LLM. Elige uno (o usa ambos para fallback):
 
-1. Ve a [Google AI Studio](https://aistudio.google.com/)
-2. Inicia sesión con tu cuenta de Google
-3. Haz clic en **"Get API key"** → **"Create API key"**
-4. Copia la clave (comienza con `AIza...`)
+=== "Google Gemini (predeterminado)"
+
+    1. Ve a [Google AI Studio](https://aistudio.google.com/)
+    2. Inicia sesión con tu cuenta de Google
+    3. Haz clic en **"Get API key"** → **"Create API key"**
+    4. Copia la clave (comienza con `AIza...`)
+
+    !!! tip "Nivel gratuito"
+        Gemini API tiene un nivel gratuito: 15 solicitudes por minuto, suficiente para la mayoría de los equipos de 4-8 desarrolladores.
+
+=== "Mistral AI"
+
+    1. Ve a [Mistral Console](https://console.mistral.ai/)
+    2. Regístrate o inicia sesión
+    3. Navega a **API Keys** → **Create new key**
+    4. Copia la clave (comienza con `sk-...`)
+
+    !!! tip "Nivel gratuito"
+        Mistral ofrece un nivel gratuito para experimentación. Después de registrarte, obtienes créditos API gratuitos para probar todos los modelos. Límites actuales: [Mistral Pricing](https://mistral.ai/products/la-plateforme#pricing).
+
+    !!! tip "Codestral gratuito"
+        Codestral (un modelo especializado en código) tiene su propio nivel gratuito con **endpoint y clave separados**:
+
+        1. Vaya a [codestral.mistral.ai](https://codestral.mistral.ai/)
+        2. Genere una clave API de Codestral
+        3. Configure `AI_REVIEWER_MISTRAL_API_URL=https://codestral.mistral.ai`
+        4. Configure `AI_REVIEWER_MISTRAL_MODEL=codestral-latest`
+
+        Esta clave funciona **solo** con `codestral-latest` en el endpoint de Codestral.
+
+=== "Ambos (Mistral primario + Google fallback)"
+
+    Obtén **ambas claves** usando las instrucciones anteriores. Esto te da:
+
+    - Mistral como modelo primario (ej. `mistral-large-latest`)
+    - Google Gemini como fallback automático si Mistral no está disponible
+
+    Esta es la configuración más confiable para uso en producción.
 
 !!! warning "Guarda la clave"
-    La clave solo se muestra una vez. Guárdala en un lugar seguro.
-
-!!! tip "Nivel gratuito"
-    Gemini API tiene un nivel gratuito: 15 solicitudes por minuto, suficiente para la mayoría de los proyectos.
+    Las claves API solo se muestran una vez. Guárdalas en un lugar seguro.
 
 ---
 
-## Paso 2: Añadir clave al entorno del repositorio
-
-La clave debe añadirse como variable secreta en tu repositorio.
+## Paso 2: Añadir secretos al repositorio
 
 === "GitHub"
 
     **Ruta:** Repository → `Settings` → `Secrets and variables` → `Actions` → `New repository secret`
 
-    | Campo | Valor |
-    |-------|-------|
-    | **Name** | `AI_REVIEWER_GOOGLE_API_KEY` |
-    | **Secret** | Tu clave (`AIza...`) |
+    === "Google only"
 
-    Haz clic en **"Add secret"**.
+        | Name | Value |
+        |------|-------|
+        | `AI_REVIEWER_GOOGLE_API_KEY` | Tu clave Gemini (`AIza...`) |
+
+    === "Mistral only"
+
+        | Name | Value |
+        |------|-------|
+        | `AI_REVIEWER_MISTRAL_API_KEY` | Tu clave Mistral (`sk-...`) |
+
+    === "Ambos proveedores"
+
+        | Name | Value |
+        |------|-------|
+        | `AI_REVIEWER_MISTRAL_API_KEY` | Tu clave Mistral (`sk-...`) |
+        | `AI_REVIEWER_GOOGLE_API_KEY` | Tu clave Gemini (`AIza...`) |
+
+    Haz clic en **"Add secret"** para cada uno.
 
     ??? info "Instrucciones detalladas con capturas de pantalla"
         1. Abre tu repositorio en GitHub
         2. Haz clic en **Settings** (engranaje en el menú superior)
         3. En el menú izquierdo, busca **Secrets and variables** → **Actions**
         4. Haz clic en el botón verde **New repository secret**
-        5. En el campo **Name** ingresa: `AI_REVIEWER_GOOGLE_API_KEY`
-        6. En el campo **Secret** pega tu clave
-        7. Haz clic en **Add secret**
+        5. Ingresa el nombre y pega tu clave
+        6. Haz clic en **Add secret**
+        7. Repite para cada secreto
 
     :material-book-open-variant: [Documentación oficial de GitHub: Encrypted secrets](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions)
 
 === "GitLab"
 
-    Para GitLab necesitas crear un **token de GitLab** y añadir dos variables.
+    Para GitLab también necesitas un **token de GitLab** para publicar comentarios.
 
     ### Paso 2a: Crear un token de GitLab
 
@@ -66,7 +109,7 @@ La clave debe añadirse como variable secreta en tu repositorio.
         Haz clic en **"Create personal access token"** → **Copia el token** (¡solo se muestra una vez!)
 
         !!! warning "Los comentarios aparecerán bajo tu nombre de usuario"
-            A diferencia de los Project Access Tokens, un Personal Access Token está vinculado a tu cuenta. Todos los comentarios de revisión se publicarán en tu nombre.
+            Un Personal Access Token está vinculado a tu cuenta. Todos los comentarios de revisión se publicarán en tu nombre.
 
         :material-book-open-variant: [GitLab Docs: Personal access tokens](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html)
 
@@ -94,12 +137,27 @@ La clave debe añadirse como variable secreta en tu repositorio.
 
     **Ruta:** Project → `Settings` → `CI/CD` → `Variables`
 
-    Añade **dos** variables:
+    === "Google only"
 
-    | Key | Value | Flags |
-    |-----|-------|-------|
-    | `AI_REVIEWER_GOOGLE_API_KEY` | Tu clave Gemini (`AIza...`) | :white_check_mark: Mask variable, :x: **Desmarca** Protected |
-    | `AI_REVIEWER_GITLAB_TOKEN` | Token del paso 2a | :white_check_mark: Mask variable, :x: **Desmarca** Protected |
+        | Key | Value | Flags |
+        |-----|-------|-------|
+        | `AI_REVIEWER_GOOGLE_API_KEY` | Tu clave Gemini | :white_check_mark: Mask, :x: Desmarca Protected |
+        | `AI_REVIEWER_GITLAB_TOKEN` | Token del paso 2a | :white_check_mark: Mask, :x: Desmarca Protected |
+
+    === "Mistral only"
+
+        | Key | Value | Flags |
+        |-----|-------|-------|
+        | `AI_REVIEWER_MISTRAL_API_KEY` | Tu clave Mistral | :white_check_mark: Mask, :x: Desmarca Protected |
+        | `AI_REVIEWER_GITLAB_TOKEN` | Token del paso 2a | :white_check_mark: Mask, :x: Desmarca Protected |
+
+    === "Ambos proveedores"
+
+        | Key | Value | Flags |
+        |-----|-------|-------|
+        | `AI_REVIEWER_MISTRAL_API_KEY` | Tu clave Mistral | :white_check_mark: Mask, :x: Desmarca Protected |
+        | `AI_REVIEWER_GOOGLE_API_KEY` | Tu clave Gemini | :white_check_mark: Mask, :x: Desmarca Protected |
+        | `AI_REVIEWER_GITLAB_TOKEN` | Token del paso 2a | :white_check_mark: Mask, :x: Desmarca Protected |
 
     !!! warning "¡Desmarca «Protected»!"
         Por defecto, GitLab marca las nuevas variables como **Protected**. Las variables Protected **solo están disponibles en ramas protegidas** (ej. `main`), pero los pipelines de MR se ejecutan en ramas de origen **no protegidas** — la variable estará vacía y obtendrás **401 Unauthorized**.
@@ -107,21 +165,6 @@ La clave debe añadirse como variable secreta en tu repositorio.
     !!! danger "`CI_JOB_TOKEN` no funciona"
         El `CI_JOB_TOKEN` automático de GitLab **no puede publicar comentarios** en Merge Requests.
         **Debes** crear un Personal Access Token (o Project Access Token en Premium+).
-
-    ??? info "Instrucciones detalladas"
-        1. Abre tu proyecto en GitLab
-        2. Ve a **Settings** → **CI/CD**
-        3. Expande la sección **Variables**
-        4. Haz clic en **Add variable**
-        5. Añade `AI_REVIEWER_GOOGLE_API_KEY`:
-            - Key: `AI_REVIEWER_GOOGLE_API_KEY`
-            - Value: tu clave Gemini API
-            - Flags: Mask variable ✓
-        6. Haz clic en **Add variable**
-        7. Repite para `AI_REVIEWER_GITLAB_TOKEN`:
-            - Key: `AI_REVIEWER_GITLAB_TOKEN`
-            - Value: token del paso 2a
-            - Flags: Mask variable ✓
 
     :material-book-open-variant: [GitLab Docs: CI/CD variables](https://docs.gitlab.com/ee/ci/variables/)
 
@@ -131,118 +174,219 @@ La clave debe añadirse como variable secreta en tu repositorio.
 
 === "GitHub"
 
-    ### Opción A: Nuevo archivo workflow
+    Crea el archivo `.github/workflows/ai-review.yml`:
 
-    Si aún no usas GitHub Actions, o quieres un archivo separado para AI Review:
+    === "Google only"
 
-    1. Crea la carpeta `.github/workflows/` en la raíz del repositorio (si no existe)
-    2. Crea el archivo `ai-review.yml` en esa carpeta
-    3. Copia este código:
+        ```yaml
+        name: AI Code Review
 
-    ```yaml
-    name: AI Code Review
+        on:
+          pull_request:
+            types: [opened, synchronize, reopened]
 
-    on:
-      pull_request:
-        types: [opened, synchronize, reopened]
+        concurrency:
+          group: ai-review-${{ github.event.pull_request.number }}
+          cancel-in-progress: true
 
-    concurrency:
-      group: ai-review-${{ github.event.pull_request.number }}
-      cancel-in-progress: true
+        jobs:
+          review:
+            runs-on: ubuntu-latest
+            if: github.event.pull_request.head.repo.full_name == github.repository
+            permissions:
+              contents: read
+              pull-requests: write
 
-    jobs:
-      review:
-        runs-on: ubuntu-latest
-        # No ejecutar para PRs de forks (sin acceso a secretos)
-        if: github.event.pull_request.head.repo.full_name == github.repository
-        permissions:
-          contents: read
-          pull-requests: write
+            steps:
+              - uses: KonstZiv/ai-code-reviewer@v1
+                with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  google_api_key: ${{ secrets.AI_REVIEWER_GOOGLE_API_KEY }}
+        ```
 
-        steps:
-          - uses: KonstZiv/ai-code-reviewer@v1
-            with:
-              github_token: ${{ secrets.GITHUB_TOKEN }}
-              google_api_key: ${{ secrets.AI_REVIEWER_GOOGLE_API_KEY }}
-    ```
+    === "Mistral only"
+
+        ```yaml
+        name: AI Code Review
+
+        on:
+          pull_request:
+            types: [opened, synchronize, reopened]
+
+        concurrency:
+          group: ai-review-${{ github.event.pull_request.number }}
+          cancel-in-progress: true
+
+        jobs:
+          review:
+            runs-on: ubuntu-latest
+            if: github.event.pull_request.head.repo.full_name == github.repository
+            permissions:
+              contents: read
+              pull-requests: write
+
+            steps:
+              - uses: KonstZiv/ai-code-reviewer@v1
+                with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  mistral_api_key: ${{ secrets.AI_REVIEWER_MISTRAL_API_KEY }}
+                  llm_provider: mistral
+        ```
+
+    === "Ambos (Mistral primario)"
+
+        ```yaml
+        name: AI Code Review
+
+        on:
+          pull_request:
+            types: [opened, synchronize, reopened]
+
+        concurrency:
+          group: ai-review-${{ github.event.pull_request.number }}
+          cancel-in-progress: true
+
+        jobs:
+          review:
+            runs-on: ubuntu-latest
+            if: github.event.pull_request.head.repo.full_name == github.repository
+            permissions:
+              contents: read
+              pull-requests: write
+
+            steps:
+              - uses: KonstZiv/ai-code-reviewer@v1
+                with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  mistral_api_key: ${{ secrets.AI_REVIEWER_MISTRAL_API_KEY }}
+                  google_api_key: ${{ secrets.AI_REVIEWER_GOOGLE_API_KEY }}
+                  llm_provider: mistral
+                  llm_fallback_provider: google
+        ```
+
+    === "Codestral free tier"
+
+        ```yaml
+        name: AI Code Review
+
+        on:
+          pull_request:
+            types: [opened, synchronize, reopened]
+
+        concurrency:
+          group: ai-review-${{ github.event.pull_request.number }}
+          cancel-in-progress: true
+
+        jobs:
+          review:
+            runs-on: ubuntu-latest
+            if: github.event.pull_request.head.repo.full_name == github.repository
+            permissions:
+              contents: read
+              pull-requests: write
+
+            steps:
+              - uses: KonstZiv/ai-code-reviewer@v1
+                with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  mistral_api_key: ${{ secrets.AI_REVIEWER_MISTRAL_API_KEY }}
+                  llm_provider: mistral
+                  mistral_model: codestral-latest
+                  mistral_api_url: https://codestral.mistral.ai
+        ```
+
+        !!! note "Clave de Codestral"
+            Use la clave de [codestral.mistral.ai](https://codestral.mistral.ai/), no la clave API regular de Mistral.
 
     !!! info "Sobre `GITHUB_TOKEN`"
         `secrets.GITHUB_TOKEN` es un **token automático** que GitHub crea para cada workflow run. **No necesitas** añadirlo manualmente a los secretos — ya está disponible.
 
-        Los permisos del token se definen en la sección `permissions` del archivo workflow.
-
         :material-book-open-variant: [GitHub Docs: Automatic token authentication](https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication)
-
-    4. Haz commit y push del archivo
-
-    ### Opción B: Añadir a workflow existente
-
-    Si ya tienes `.github/workflows/` con otros jobs, añade este job a tu archivo existente:
-
-    ```yaml
-    # Añade este job a tu archivo workflow existente
-    ai-review:
-      runs-on: ubuntu-latest
-      if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-      permissions:
-        contents: read
-        pull-requests: write
-      steps:
-        - uses: KonstZiv/ai-code-reviewer@v1
-          with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            google_api_key: ${{ secrets.AI_REVIEWER_GOOGLE_API_KEY }}
-    ```
-
-    !!! note "Verifica triggers"
-        Asegúrate de que tu workflow tenga `on: pull_request` entre los triggers.
 
 === "GitLab"
 
-    ### Opción A: Nuevo archivo CI
+    Crea o actualiza `.gitlab-ci.yml`:
 
-    Si aún no tienes `.gitlab-ci.yml`:
+    === "Google only"
 
-    1. Crea el archivo `.gitlab-ci.yml` en la raíz del repositorio
-    2. Copia este código:
+        ```yaml
+        stages:
+          - review
 
-    ```yaml
-    stages:
-      - review
+        ai-review:
+          image: ghcr.io/konstziv/ai-code-reviewer:1
+          stage: review
+          script:
+            - ai-review
+          rules:
+            - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+          allow_failure: true
+        ```
 
-    ai-review:
-      image: ghcr.io/konstziv/ai-code-reviewer:1
-      stage: review
-      script:
-        - ai-review
-      rules:
-        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      allow_failure: true
-    ```
+        Las variables CI/CD `AI_REVIEWER_GOOGLE_API_KEY` y `AI_REVIEWER_GITLAB_TOKEN` del paso 2b están disponibles automáticamente.
 
-    Las variables CI/CD `AI_REVIEWER_GOOGLE_API_KEY` y `AI_REVIEWER_GITLAB_TOKEN` se heredan automáticamente.
+    === "Mistral only"
 
-    3. Haz commit y push del archivo
+        ```yaml
+        stages:
+          - review
 
-    ### Opción B: Añadir a CI existente
+        ai-review:
+          image: ghcr.io/konstziv/ai-code-reviewer:1
+          stage: review
+          variables:
+            AI_REVIEWER_LLM_PROVIDER: mistral
+          script:
+            - ai-review
+          rules:
+            - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+          allow_failure: true
+        ```
 
-    Si ya tienes `.gitlab-ci.yml`:
+        Las variables CI/CD `AI_REVIEWER_MISTRAL_API_KEY` y `AI_REVIEWER_GITLAB_TOKEN` del paso 2b están disponibles automáticamente.
 
-    1. Añade `review` a la lista de `stages` (si necesitas un stage separado)
-    2. Añade este job:
+    === "Ambos (Mistral primario)"
 
-    ```yaml
-    ai-review:
-      image: ghcr.io/konstziv/ai-code-reviewer:1
-      stage: review  # o test, u otro stage existente
-      script:
-        - ai-review
-      rules:
-        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      allow_failure: true
-    ```
+        ```yaml
+        stages:
+          - review
 
-    Las variables CI/CD se heredan automáticamente.
+        ai-review:
+          image: ghcr.io/konstziv/ai-code-reviewer:1
+          stage: review
+          variables:
+            AI_REVIEWER_LLM_PROVIDER: mistral
+            AI_REVIEWER_LLM_FALLBACK_PROVIDER: google
+          script:
+            - ai-review
+          rules:
+            - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+          allow_failure: true
+        ```
+
+        Las tres variables CI/CD (`AI_REVIEWER_MISTRAL_API_KEY`, `AI_REVIEWER_GOOGLE_API_KEY`, `AI_REVIEWER_GITLAB_TOKEN`) del paso 2b están disponibles automáticamente.
+
+    === "Codestral free tier"
+
+        ```yaml
+        stages:
+          - review
+
+        ai-review:
+          image: ghcr.io/konstziv/ai-code-reviewer:1
+          stage: review
+          variables:
+            AI_REVIEWER_LLM_PROVIDER: mistral
+            AI_REVIEWER_MISTRAL_MODEL: codestral-latest
+            AI_REVIEWER_MISTRAL_API_URL: https://codestral.mistral.ai
+          script:
+            - ai-review
+          rules:
+            - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+          allow_failure: true
+        ```
+
+        Las variables CI/CD `AI_REVIEWER_MISTRAL_API_KEY` (use la clave de Codestral) y `AI_REVIEWER_GITLAB_TOKEN` del Paso 2b están disponibles automáticamente.
 
 ---
 
@@ -270,6 +414,10 @@ Cada comentario contiene:
 - Sugerencia de corrección
 - Sección colapsable "¿Por qué importa esto?"
 
+En el pie del comentario se muestra qué modelo y proveedor se utilizó:
+
+> _Model: Google / gemini-2.5-flash | Tokens: 1,234 | Latency: 2.3s | Est. cost: $0.0012_
+
 ---
 
 ## Solución de Problemas
@@ -278,23 +426,20 @@ Cada comentario contiene:
 
 Verifica la lista:
 
-- [ ] ¿`AI_REVIEWER_GOOGLE_API_KEY` añadido como secreto?
+- [ ] ¿Clave API añadida como secreto? (`AI_REVIEWER_GOOGLE_API_KEY` o `AI_REVIEWER_MISTRAL_API_KEY`)
+- [ ] ¿`llm_provider` configurado correctamente si usas Mistral? (predeterminado es `google`)
 - [ ] ¿`github_token` pasado explícitamente? (para GitHub)
 - [ ] Para GitLab: ¿`AI_REVIEWER_GITLAB_TOKEN` configurado con un Personal Access Token?
 - [ ] ¿El job de CI terminó exitosamente? (revisa logs)
 - [ ] Para GitHub: ¿tiene `permissions: pull-requests: write`?
 - [ ] Para PRs de forks: los secretos no están disponibles — comportamiento esperado
 
-### ¿En los logs muestra `--help`?
-
-Esto significa que el CLI no recibió los parámetros necesarios. Verifica:
-
-- Si `github_token` / `AI_REVIEWER_GITLAB_TOKEN` se pasó explícitamente
-- Si el formato YAML es correcto (¡indentación!)
-
 ### ¿Rate limit?
 
-Gemini free tier: 15 solicitudes por minuto. Espera un minuto e intenta de nuevo.
+- **Gemini** free tier: 15 solicitudes por minuto
+- **Mistral** free tier: límites actuales en [Mistral Pricing](https://mistral.ai/products/la-plateforme#pricing)
+
+Espera un minuto e intenta de nuevo, o configura un [proveedor de fallback](configuration.md#llm).
 
 :point_right: [Todos los problemas y soluciones →](troubleshooting.md)
 
@@ -305,6 +450,7 @@ Gemini free tier: 15 solicitudes por minuto. Espera un minuto e intenta de nuevo
 | Tarea | Documento |
 |-------|-----------|
 | Configurar idioma de respuestas | [Configuración](configuration.md) |
+| Configuración avanzada de proveedores LLM | [Configuración → LLM](configuration.md#llm) |
 | Configuración avanzada de GitHub | [Guía de GitHub](github.md) |
 | Configuración avanzada de GitLab | [Guía de GitLab](gitlab.md) |
 | Ejemplos de workflows | [Ejemplos](examples/index.md) |
