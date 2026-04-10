@@ -289,7 +289,10 @@ class CodeIssue(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    category: IssueCategory = Field(..., description="Category of the issue")
+    category: IssueCategory = Field(
+        default=IssueCategory.CODE_QUALITY,
+        description="Category of the issue",
+    )
     severity: IssueSeverity = Field(..., description="Severity level")
     title: str = Field(..., min_length=1, description="Short title of the issue")
     description: str = Field(..., min_length=1, description="Detailed description")
