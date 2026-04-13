@@ -27,6 +27,7 @@ from ai_reviewer.llm.base import LLMProvider, LLMResponse
 from ai_reviewer.utils.retry import (
     AuthenticationError,
     ForbiddenError,
+    NotFoundError,
     QuotaExhaustedError,
     RateLimitError,
     ServerError,
@@ -42,8 +43,8 @@ logger = logging.getLogger(__name__)
 # Gemini pricing per 1M tokens (as of February 2026)
 # https://ai.google.dev/pricing
 GEMINI_PRICING: dict[str, dict[str, float]] = {
-    # Gemini 3.1 (preview)
-    "gemini-3.1-flash-preview": {"input": 0.075, "output": 0.30},
+    # Gemini 3.x (preview)
+    "gemini-3-flash-preview": {"input": 0.075, "output": 0.30},
     "gemini-3.1-flash-lite-preview": {"input": 0.01875, "output": 0.075},
     "gemini-3.1-pro-preview": {"input": 1.25, "output": 5.00},
     # Gemini 2.5
@@ -158,10 +159,12 @@ def _match_by_error_message(e: Exception) -> Exception:
         return RateLimitError(f"Gemini: {e}")
     if any(kw in error_msg for kw in ("500", "502", "503", "504", "server error", "deadline")):
         return ServerError(f"Gemini: {e}")
+    if "404" in error_msg or "not_found" in error_msg or "not found" in error_msg:
+        return NotFoundError(f"Gemini: {e}")
     return e
 
 
-def _convert_google_exception(e: Exception) -> Exception:
+def _convert_google_exception(e: Exception) -> Exception:  # noqa: PLR0911
     """Convert Google API exception to the internal exception hierarchy.
 
     Checks concrete ``google.api_core.exceptions`` types first, then
@@ -185,6 +188,9 @@ def _convert_google_exception(e: Exception) -> Exception:
 
     if isinstance(e, google_exceptions.PermissionDenied):
         return ForbiddenError(f"Gemini: {e}")
+
+    if isinstance(e, google_exceptions.NotFound):
+        return NotFoundError(f"Gemini: {e}")
 
     if isinstance(
         e,

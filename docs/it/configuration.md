@@ -79,12 +79,12 @@ mistral-large → mistral-small → gemini-2.5-flash → gemini-2.5-flash-lite
 | Variabile | Descrizione | Default |
 |-----------|-------------|---------|
 | `AI_REVIEWER_GEMINI_MODEL` | Modello Gemini primario | `gemini-2.5-flash` |
-| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Catena di modelli di fallback (separati da virgola) | `gemini-3.1-flash-preview,...` |
+| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Catena di modelli di fallback (separati da virgola) | `gemini-3-flash-preview,...` |
 
 | Modello | Descrizione | Costo |
 |---------|-------------|-------|
 | `gemini-2.5-flash` | Veloce, stabile, con ragionamento (predefinito) | $0.075 / 1M input |
-| `gemini-3.1-flash-preview` | Flash di classe frontier (anteprima) | $0.075 / 1M input |
+| `gemini-3-flash-preview` | Flash di classe frontier (anteprima) | $0.075 / 1M input |
 | `gemini-2.5-flash-lite` | Il piu veloce e economico in 2.5 | $0.01875 / 1M input |
 | `gemini-2.5-pro` | Piu potente, con ragionamento profondo | $1.25 / 1M input |
 

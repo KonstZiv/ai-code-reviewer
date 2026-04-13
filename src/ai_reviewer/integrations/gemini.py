@@ -33,6 +33,7 @@ from ai_reviewer.llm.gemini import (
 from ai_reviewer.llm.router import create_router
 from ai_reviewer.utils.retry import (
     AllModelsFailedError,
+    NotFoundError,
     QuotaExhaustedError,
     RateLimitError,
     ServerError,
@@ -235,7 +236,7 @@ def _call_llm(
                 response_schema=ReviewResult,
             )
             break  # success
-        except (ServerError, RateLimitError, QuotaExhaustedError) as err:
+        except (ServerError, RateLimitError, QuotaExhaustedError, NotFoundError) as err:
             failures.append((model_name, err))
             logger.warning(
                 "Model %s (%s) failed (%s: %s). %d model(s) remaining.",

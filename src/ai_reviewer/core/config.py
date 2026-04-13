@@ -250,7 +250,7 @@ class Settings(BaseSettings):
         description="Gemini model to use for analysis",
     )
     gemini_model_fallback: str | None = Field(
-        default="gemini-3.1-flash-preview,gemini-2.5-flash-lite,gemini-3.1-flash-lite-preview",
+        default="gemini-3-flash-preview,gemini-2.5-flash-lite,gemini-3.1-flash-lite-preview",
         validation_alias=AliasChoices("AI_REVIEWER_GEMINI_MODEL_FALLBACK", "GEMINI_MODEL_FALLBACK"),
         description="Comma-separated fallback model chain (empty to disable)",
     )

@@ -226,7 +226,7 @@ jobs:
 | `llm_fallback_provider` | Fallback LLM provider | _(none)_ |
 | `github_token` | GitHub token | `${{ github.token }}` |
 | `gemini_model` | Gemini model | `gemini-2.5-flash` |
-| `gemini_model_fallback` | Gemini fallback model chain | `gemini-3.1-flash-preview,...` |
+| `gemini_model_fallback` | Gemini fallback model chain | `gemini-3-flash-preview,...` |
 | `mistral_model` | Mistral model | `mistral-large-latest` |
 | `mistral_model_fallback` | Mistral fallback model chain | _(none)_ |
 | `mistral_api_url` | Custom Mistral API URL (e.g. `https://codestral.mistral.ai`) | _(none)_ |

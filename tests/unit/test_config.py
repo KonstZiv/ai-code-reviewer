@@ -46,7 +46,7 @@ class TestSettings:
             # Check defaults
             assert settings.gemini_model == "gemini-2.5-flash"
             assert settings.gemini_model_fallback == (
-                "gemini-3.1-flash-preview,gemini-2.5-flash-lite,gemini-3.1-flash-lite-preview"
+                "gemini-3-flash-preview,gemini-2.5-flash-lite,gemini-3.1-flash-lite-preview"
             )
             assert settings.log_level == "INFO"
             assert settings.review_max_files == 20

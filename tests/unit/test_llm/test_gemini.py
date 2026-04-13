@@ -26,6 +26,7 @@ from ai_reviewer.llm.gemini import (
 from ai_reviewer.utils.retry import (
     AuthenticationError,
     ForbiddenError,
+    NotFoundError,
     QuotaExhaustedError,
     RateLimitError,
     ServerError,
@@ -306,6 +307,22 @@ class TestConvertGoogleException:
         result = _convert_google_exception(exc)
         assert isinstance(result, ForbiddenError)
 
+    def test_not_found_becomes_not_found_error(self) -> None:
+        """Test NotFound (unknown model) → NotFoundError."""
+        exc = google_exceptions.NotFound("models/bogus is not found")
+        result = _convert_google_exception(exc)
+        assert isinstance(result, NotFoundError)
+
+    def test_404_in_message_becomes_not_found_error(self) -> None:
+        """Test fallback: '404 NOT_FOUND' in message → NotFoundError.
+
+        Covers genai_errors.ClientError whose message starts with the
+        textual status (e.g. ``404 NOT_FOUND. {...}``).
+        """
+        exc = Exception("404 NOT_FOUND. models/gemini-9.9 is not found for v1beta")
+        result = _convert_google_exception(exc)
+        assert isinstance(result, NotFoundError)
+
     def test_internal_server_error_becomes_server_error(self) -> None:
         """Test InternalServerError → ServerError."""
         exc = google_exceptions.InternalServerError("Oops")
@@ -521,7 +538,7 @@ class TestCalculateCost:
     def test_pricing_table_has_expected_models(self) -> None:
         """Test that GEMINI_PRICING contains expected models."""
         expected = [
-            "gemini-3.1-flash-preview",
+            "gemini-3-flash-preview",
             "gemini-2.5-flash",
             "gemini-2.0-flash",
             "gemini-1.5-flash",
