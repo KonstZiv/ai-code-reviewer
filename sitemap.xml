@@ -1,0 +1,927 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/api/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/api/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/api/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/api/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/api/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/api/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/api/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/configuration/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/configuration/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/discovery/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/discovery/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/github/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/github/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/github/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/github/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/github/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/github/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/github/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/gitlab/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/gitlab/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/installation/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/installation/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/installation/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/installation/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/installation/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/installation/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/installation/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/quick-start/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/quick-start/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/troubleshooting/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/troubleshooting/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/examples/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/examples/github-advanced/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/github-advanced/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/examples/github-minimal/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/github-minimal/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/examples/gitlab-advanced/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-advanced/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/examples/gitlab-minimal/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-minimal/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/api/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/api/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/api/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/api/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/api/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/api/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/api/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/configuration/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/configuration/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/discovery/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/discovery/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/github/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/github/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/github/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/github/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/github/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/github/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/github/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/gitlab/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/gitlab/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/installation/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/installation/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/installation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/installation/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/installation/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/installation/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/installation/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/quick-start/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/quick-start/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/troubleshooting/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/troubleshooting/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/examples/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/examples/github-advanced/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/github-advanced/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/examples/github-minimal/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/github-minimal/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-advanced/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-advanced/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-minimal/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-minimal/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/api/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/api/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/api/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/api/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/api/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/api/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/api/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/configuration/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/configuration/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/discovery/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/discovery/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/github/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/github/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/github/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/github/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/github/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/github/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/github/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/gitlab/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/gitlab/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/installation/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/installation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/installation/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/installation/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/installation/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/installation/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/installation/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/quick-start/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/quick-start/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/troubleshooting/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/troubleshooting/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/examples/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/examples/github-advanced/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/github-advanced/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/examples/github-minimal/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/github-minimal/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-advanced/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-advanced/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-minimal/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-minimal/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/api/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/api/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/api/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/api/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/api/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/api/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/api/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/configuration/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/configuration/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/discovery/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/discovery/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/github/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/github/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/github/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/github/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/github/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/github/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/github/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/gitlab/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/gitlab/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/installation/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/installation/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/installation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/installation/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/installation/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/installation/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/installation/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/quick-start/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/quick-start/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/troubleshooting/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/troubleshooting/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/examples/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/examples/github-advanced/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/github-advanced/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/examples/github-minimal/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/github-minimal/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-advanced/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-advanced/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-minimal/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-minimal/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/api/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/api/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/api/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/api/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/api/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/api/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/api/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/configuration/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/configuration/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/discovery/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/discovery/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/github/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/github/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/github/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/github/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/github/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/github/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/github/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/gitlab/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/gitlab/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/installation/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/installation/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/installation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/installation/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/installation/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/installation/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/installation/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/quick-start/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/quick-start/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/troubleshooting/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/troubleshooting/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/examples/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/examples/github-advanced/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/github-advanced/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/examples/github-minimal/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/github-minimal/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-advanced/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-advanced/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-minimal/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-minimal/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/api/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/api/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/api/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/api/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/api/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/api/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/api/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/configuration/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/configuration/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/discovery/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/discovery/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/discovery/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/github/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/github/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/github/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/github/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/github/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/github/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/github/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/gitlab/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/gitlab/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/gitlab/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/installation/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/installation/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/installation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/installation/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/installation/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/installation/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/installation/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/quick-start/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/quick-start/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/troubleshooting/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/troubleshooting/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/examples/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/examples/github-advanced/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/github-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/github-advanced/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/examples/github-minimal/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/github-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/github-minimal/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-advanced/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-advanced/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-advanced/"/>
+    </url>
+    <url>
+        <loc>https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-minimal/</loc>
+        <lastmod>2026-04-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="it" href="https://konstziv.github.io/ai-code-reviewer/it/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://konstziv.github.io/ai-code-reviewer/de/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://konstziv.github.io/ai-code-reviewer/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://konstziv.github.io/ai-code-reviewer/es/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="sr" href="https://konstziv.github.io/ai-code-reviewer/sr/examples/gitlab-minimal/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://konstziv.github.io/ai-code-reviewer/uk/examples/gitlab-minimal/"/>
+    </url>
+</urlset>

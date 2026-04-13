@@ -1,0 +1,2575 @@
+
+<!doctype html>
+<html lang="sr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="AI-powered code review tool with inline suggestions for GitHub and GitLab">
+      
+      
+        <meta name="author" content="Kostyantin Zivenko">
+      
+      
+        <link rel="canonical" href="https://konstziv.github.io/ai-code-reviewer/sr/gitlab/">
+      
+      
+        <link rel="prev" href="../github/">
+      
+      
+        <link rel="next" href="../api/">
+      
+      
+        
+          <link rel="alternate" href="../../gitlab/" hreflang="en">
+        
+          <link rel="alternate" href="../../uk/gitlab/" hreflang="uk">
+        
+          <link rel="alternate" href="../../de/gitlab/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/gitlab/" hreflang="es">
+        
+          <link rel="alternate" href="./" hreflang="sr">
+        
+          <link rel="alternate" href="../../it/gitlab/" hreflang="it">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>GitLab - AI ReviewBot</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gitlab" class="md-skip">
+          Иди на текст
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Заглавље">
+    <a href="../" title="AI ReviewBot" class="md-header__button md-logo" aria-label="AI ReviewBot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 14h-1c0-3.87-3.13-7-7-7h-1V5.73A2 2 0 1 0 10 4c0 .74.4 1.39 1 1.73V7h-1c-3.87 0-7 3.13-7 7H2c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h1v1a2 2 0 0 0 2 2h14c1.11 0 2-.89 2-2v-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1M9.79 16.5C9.4 15.62 8.53 15 7.5 15s-1.9.62-2.29 1.5c-.13-.31-.21-.64-.21-1a2.5 2.5 0 0 1 5 0c0 .36-.08.69-.21 1m9 0c-.39-.88-1.29-1.5-2.29-1.5s-1.9.62-2.29 1.5c-.13-.31-.21-.64-.21-1a2.5 2.5 0 0 1 5 0c0 .36-.08.69-.21 1"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI ReviewBot
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              GitLab
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Изабери језик">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../gitlab/" hreflang="en" class="md-select__link">
+              🇬🇧 English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../uk/gitlab/" hreflang="uk" class="md-select__link">
+              🇺🇦 Українська
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/gitlab/" hreflang="de" class="md-select__link">
+              🇩🇪 Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/gitlab/" hreflang="es" class="md-select__link">
+              🇪🇸 Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="sr" class="md-select__link">
+              🇲🇪 Crnogorski
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../it/gitlab/" hreflang="it" class="md-select__link">
+              🇮🇹 Italiano
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Претрага" placeholder="Претрага" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Претрага">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Дељење" aria-label="Дељење" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очисти" aria-label="Очисти" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Иницијализујем претрагу
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/KonstZiv/ai-code-reviewer" title="Иди у репозиторијум" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KonstZiv/ai-code-reviewer
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Табови" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Početna
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../installation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Instalacija
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../quick-start/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Brzi početak
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../configuration/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Konfiguracija
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../discovery/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Analiza projekta
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../github/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  GitHub
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  GitLab
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  CLI Referenca
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../examples/" class="md-tabs__link">
+          
+  
+  
+  Primjeri
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../troubleshooting/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Rješavanje problema
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Навигација" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="AI ReviewBot" class="md-nav__button md-logo" aria-label="AI ReviewBot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 14h-1c0-3.87-3.13-7-7-7h-1V5.73A2 2 0 1 0 10 4c0 .74.4 1.39 1 1.73V7h-1c-3.87 0-7 3.13-7 7H2c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h1v1a2 2 0 0 0 2 2h14c1.11 0 2-.89 2-2v-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1M9.79 16.5C9.4 15.62 8.53 15 7.5 15s-1.9.62-2.29 1.5c-.13-.31-.21-.64-.21-1a2.5 2.5 0 0 1 5 0c0 .36-.08.69-.21 1m9 0c-.39-.88-1.29-1.5-2.29-1.5s-1.9.62-2.29 1.5c-.13-.31-.21-.64-.21-1a2.5 2.5 0 0 1 5 0c0 .36-.08.69-.21 1"/></svg>
+
+    </a>
+    AI ReviewBot
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/KonstZiv/ai-code-reviewer" title="Иди у репозиторијум" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KonstZiv/ai-code-reviewer
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Početna
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instalacija
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brzi početak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Konfiguracija
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../discovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analiza projekta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../github/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GitHub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GitLab
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GitLab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Садржај">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Садржај
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tokeni
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tokeni">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Personal Access Token (PAT)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Access Token ( Premium/Ultimate)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-varijable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI/CD varijable
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CI/CD varijable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dodavanje-varijabli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dodavanje varijabli
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#triggeri" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Triggeri
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Triggeri">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preporuceni-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preporučeni trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternativni-trigger-onlyexcept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternativni trigger (only/except)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primjeri-job-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primjeri job-a
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Primjeri job-a">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minimalni" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimalni
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#puni-preporuceno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Puni (preporučeno)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sa-prilagoenom-fazom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sa prilagođenom fazom
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-hosted-gitlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Self-hosted GitLab
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Self-hosted GitLab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#konfiguracija" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Konfiguracija
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-registar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker registar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gitlab-ci-varijable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitLab CI varijable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variable-driven" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Konfiguracija putem CI/CD varijabli
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Konfiguracija putem CI/CD varijabli">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#podesavanje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Podešavanje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#konfiguracija-job-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Konfiguracija job-a
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prebacivanje-preseta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prebacivanje preseta
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rezultat-revizije" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rezultat revizije
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rezultat revizije">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#biljeske-komentari" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bilješke (komentari)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diskusije-inline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diskusije (inline)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rezime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rezime
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rjesavanje-problema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rješavanje problema
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rješavanje problema">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#revizija-ne-objavljuje-komentare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revizija ne objavljuje komentare
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#401-unauthorized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "401 Unauthorized"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#403-forbidden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "403 Forbidden"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#404-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "404 Not Found"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rate-limit-429" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rate Limit (429)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#najbolje-prakse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Najbolje prakse
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Najbolje prakse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-koristite-pat-za-punu-funkcionalnost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Koristite PAT za punu funkcionalnost
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-dodajte-allow_failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Dodajte allow_failure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-podesite-timeout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Podesite timeout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ucinite-job-prekidivim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Učinite job prekidivim
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-ne-cekajte-druge-faze" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Ne čekajte druge faze
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sljedeci-korak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sljedeći korak
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Referenca
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Primjeri
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Primjeri
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Primjeri
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/github-minimal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GitHub: Minimalni primjer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/github-advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GitHub: Napredni primjer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/gitlab-minimal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GitLab: Minimalni primjer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/gitlab-advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GitLab: Napredni primjer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rješavanje problema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Садржај">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Садржај
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tokeni
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tokeni">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Personal Access Token (PAT)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Access Token ( Premium/Ultimate)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-varijable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI/CD varijable
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CI/CD varijable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dodavanje-varijabli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dodavanje varijabli
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#triggeri" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Triggeri
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Triggeri">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preporuceni-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preporučeni trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternativni-trigger-onlyexcept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternativni trigger (only/except)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primjeri-job-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primjeri job-a
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Primjeri job-a">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minimalni" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimalni
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#puni-preporuceno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Puni (preporučeno)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sa-prilagoenom-fazom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sa prilagođenom fazom
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-hosted-gitlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Self-hosted GitLab
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Self-hosted GitLab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#konfiguracija" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Konfiguracija
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-registar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker registar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gitlab-ci-varijable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitLab CI varijable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variable-driven" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Konfiguracija putem CI/CD varijabli
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Konfiguracija putem CI/CD varijabli">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#podesavanje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Podešavanje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#konfiguracija-job-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Konfiguracija job-a
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prebacivanje-preseta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prebacivanje preseta
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rezultat-revizije" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rezultat revizije
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rezultat revizije">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#biljeske-komentari" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bilješke (komentari)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diskusije-inline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diskusije (inline)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rezime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rezime
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rjesavanje-problema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rješavanje problema
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rješavanje problema">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#revizija-ne-objavljuje-komentare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revizija ne objavljuje komentare
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#401-unauthorized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "401 Unauthorized"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#403-forbidden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "403 Forbidden"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#404-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "404 Not Found"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rate-limit-429" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rate Limit (429)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#najbolje-prakse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Najbolje prakse
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Najbolje prakse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-koristite-pat-za-punu-funkcionalnost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Koristite PAT za punu funkcionalnost
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-dodajte-allow_failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Dodajte allow_failure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-podesite-timeout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Podesite timeout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ucinite-job-prekidivim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Učinite job prekidivim
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-ne-cekajte-druge-faze" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Ne čekajte druge faze
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sljedeci-korak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sljedeći korak
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="gitlab">GitLab<a class="headerlink" href="#gitlab" title="Permanent link">&para;</a></h1>
+<p>Detaljan vodič za integraciju sa GitLab CI.</p>
+<hr />
+<h2 id="tokens">Tokeni<a class="headerlink" href="#tokens" title="Permanent link">&para;</a></h2>
+<h3 id="get-token">Personal Access Token (PAT)<a class="headerlink" href="#get-token" title="Permanent link">&para;</a></h3>
+<p><strong>Preporučeno za sve GitLab planove</strong> (uključujući Free).</p>
+<div class="admonition danger">
+<p class="admonition-title"><code>CI_JOB_TOKEN</code> ne radi</p>
+<p>GitLab-ov automatski <code>CI_JOB_TOKEN</code> <strong>ne može postavljati komentare</strong> na Merge Request-e
+(Notes API zahtijeva <code>api</code> scope, koji <code>CI_JOB_TOKEN</code> nema).
+<strong>Morate</strong> koristiti Personal Access Token ili Project Access Token.</p>
+</div>
+<p><strong>Kako kreirati:</strong></p>
+<ol>
+<li>Idite na <strong>User Settings → Access Tokens → Add new token</strong><ul>
+<li>URL: <code>https://gitlab.com/-/user_settings/personal_access_tokens</code></li>
+</ul>
+</li>
+<li>Popunite polja:<ul>
+<li><strong>Token name:</strong> <code>ai-code-reviewer</code></li>
+<li><strong>Expiration date:</strong> podesite prema potrebi (npr. 1 godina)</li>
+<li><strong>Scopes:</strong> označite <strong><code>api</code></strong></li>
+</ul>
+</li>
+<li>Kliknite <strong>Create personal access token</strong></li>
+<li><strong>Kopirajte token odmah</strong> — GitLab ga prikazuje samo jednom!</li>
+</ol>
+<p><strong>Kako koristiti u CI-ju:</strong></p>
+<ol>
+<li>Idite na <strong>Settings → CI/CD → Variables → Add variable</strong></li>
+<li>
+<p>Dodajte varijablu:</p>
+<ul>
+<li><strong>Key:</strong> <code>AI_REVIEWER_GITLAB_TOKEN</code></li>
+<li><strong>Value:</strong> nalijepite vaš token</li>
+<li><strong>Flags:</strong> označite <strong>Masked</strong>, <img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/274c.svg" title=":x:" /> <strong>odznačite</strong> Protected</li>
+</ul>
+<p>Varijabla je automatski dostupna svim job-ovima — nije potreban YAML <code>variables:</code> mapping.</p>
+</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Odznačite «Protected»!</p>
+<p>Podrazumijevano, GitLab označava nove varijable kao <strong>Protected</strong>. Protected varijable su <strong>dostupne samo u zaštićenim granama</strong> (npr. <code>main</code>).</p>
+<p>MR pipeline-i se pokreću na <strong>nezaštićenim</strong> izvornim granama — varijabla će biti prazna i dobićete <strong>401 Unauthorized</strong>.</p>
+<p><strong>Uvijek odznačite «Protected»</strong> za <code>AI_REVIEWER_GITLAB_TOKEN</code> i <code>AI_REVIEWER_GOOGLE_API_KEY</code>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Sačuvajte token</p>
+<p>GitLab prikazuje token <strong>samo jednom</strong>. Sačuvajte ga odmah na sigurnom mjestu.</p>
+</div>
+<h3 id="project-token">Project Access Token (<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 16 3 5l5.5 5L12 4l3.5 6L21 5l-2 11zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14z"/></svg></span> Premium/Ultimate)<a class="headerlink" href="#project-token" title="Permanent link">&para;</a></h3>
+<p>Dostupan samo na <strong>GitLab Premium</strong> i <strong>Ultimate</strong> planovima. Dobar izbor ako preferirate token ograničen na projekat umjesto ličnog.</p>
+<p><strong>Prednosti u odnosu na PAT:</strong></p>
+<ul>
+<li>Ograničen na jedan projekat (nema pristupa drugim projektima)</li>
+<li>Može ga opozvati maintainer projekta (nema zavisnosti od konkretnog korisnika)</li>
+<li>Bolji za timove — nije vezan za lični nalog</li>
+</ul>
+<p><strong>Kako kreirati:</strong></p>
+<ol>
+<li>Idite na <strong>Project → Settings → Access Tokens</strong><ul>
+<li>URL: <code>https://gitlab.com/&lt;owner&gt;/&lt;repo&gt;/-/settings/access_tokens</code></li>
+</ul>
+</li>
+<li>Popunite polja:<ul>
+<li><strong>Token name:</strong> <code>ai-code-reviewer</code></li>
+<li><strong>Role:</strong> <code>Developer</code> (minimalno potreban)</li>
+<li><strong>Scopes:</strong> označite <strong><code>api</code></strong></li>
+</ul>
+</li>
+<li>Kliknite <strong>Create project access token</strong></li>
+<li><strong>Kopirajte token odmah</strong></li>
+</ol>
+<p><strong>Kako koristiti u CI-ju:</strong></p>
+<p>Isto kao PAT — dodajte kao <code>AI_REVIEWER_GITLAB_TOKEN</code> u CI/CD Variables:</p>
+<ol>
+<li><strong>Key:</strong> <code>AI_REVIEWER_GITLAB_TOKEN</code></li>
+<li><strong>Value:</strong> nalijepite vaš Project Access Token</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Koji token odabrati?</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Personal Access Token</th>
+<th>Project Access Token</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Plan</strong></td>
+<td>Svi (uključujući Free)</td>
+<td>Samo Premium/Ultimate</td>
+</tr>
+<tr>
+<td><strong>Podešavanje</strong></td>
+<td>Ručno</td>
+<td>Ručno</td>
+</tr>
+<tr>
+<td><strong>Opseg</strong></td>
+<td>Svi projekti korisnika</td>
+<td>Jedan projekat</td>
+</tr>
+<tr>
+<td><strong>Inline komentari</strong></td>
+<td><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+</tr>
+<tr>
+<td><strong>Najbolje za</strong></td>
+<td>Free plan + pune funkcije</td>
+<td>Timovi na Premium/Ultimate</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<h2 id="cicd-varijable">CI/CD varijable<a class="headerlink" href="#cicd-varijable" title="Permanent link">&para;</a></h2>
+<h3 id="dodavanje-varijabli">Dodavanje varijabli<a class="headerlink" href="#dodavanje-varijabli" title="Permanent link">&para;</a></h3>
+<p><code>Settings → CI/CD → Variables → Add variable</code></p>
+<table>
+<thead>
+<tr>
+<th>Varijabla</th>
+<th>Vrijednost</th>
+<th>Opcije</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AI_REVIEWER_GOOGLE_API_KEY</code></td>
+<td>Gemini API ključ</td>
+<td><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Masked, <img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/274c.svg" title=":x:" /> <strong>Uncheck</strong> Protected</td>
+</tr>
+<tr>
+<td><code>AI_REVIEWER_GITLAB_TOKEN</code></td>
+<td>Personal Access Token (scope: <code>api</code>)</td>
+<td><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Masked, <img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/274c.svg" title=":x:" /> <strong>Uncheck</strong> Protected</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Masked</p>
+<p>Uvijek omogućite <strong>Masked</strong> za tajne — neće se prikazivati u logovima.</p>
+</div>
+<hr />
+<h2 id="triggeri">Triggeri<a class="headerlink" href="#triggeri" title="Permanent link">&para;</a></h2>
+<h3 id="preporuceni-trigger">Preporučeni trigger<a class="headerlink" href="#preporuceni-trigger" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">rules</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$CI_PIPELINE_SOURCE == &quot;merge_request_event&quot;</span>
+</span></code></pre></div>
+<p>Ovo pokreće job samo za Merge Request pipeline-e.</p>
+<h3 id="alternativni-trigger-onlyexcept">Alternativni trigger (only/except)<a class="headerlink" href="#alternativni-trigger-onlyexcept" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">only</span><span class="p">:</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merge_requests</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">rules vs only</p>
+<p><code>rules</code> — novija sintaksa, preporučena od strane GitLab-a.</p>
+</div>
+<hr />
+<h2 id="primjeri-job-a">Primjeri job-a<a class="headerlink" href="#primjeri-job-a" title="Permanent link">&para;</a></h2>
+<h3 id="minimalni">Minimalni<a class="headerlink" href="#minimalni" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">ai-review</span><span class="p">:</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/konstziv/ai-code-reviewer:1</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">script</span><span class="p">:</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ai-review</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">rules</span><span class="p">:</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$CI_PIPELINE_SOURCE == &quot;merge_request_event&quot;</span>
+</span></code></pre></div>
+<p>CI/CD varijable <code>AI_REVIEWER_GOOGLE_API_KEY</code> i <code>AI_REVIEWER_GITLAB_TOKEN</code> se nasljeđuju automatski.</p>
+<h3 id="puni-preporuceno">Puni (preporučeno)<a class="headerlink" href="#puni-preporuceno" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">ai-review</span><span class="p">:</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/konstziv/ai-code-reviewer:1</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">script</span><span class="p">:</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ai-review</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">rules</span><span class="p">:</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$CI_PIPELINE_SOURCE == &quot;merge_request_event&quot;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="nt">allow_failure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10m</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="nt">variables</span><span class="p">:</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="nt">AI_REVIEWER_LANGUAGE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uk</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="nt">AI_REVIEWER_LANGUAGE_MODE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">adaptive</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span><span class="nt">interruptible</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
+<p><strong>Šta radi:</strong></p>
+<ul>
+<li><code>allow_failure: true</code> — MR nije blokiran ako revizija ne uspije</li>
+<li><code>timeout: 10m</code> — maksimalno 10 minuta</li>
+<li><code>interruptible: true</code> — može se otkazati na novi commit</li>
+</ul>
+<h3 id="sa-prilagoenom-fazom">Sa prilagođenom fazom<a class="headerlink" href="#sa-prilagoenom-fazom" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">stages</span><span class="p">:</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">review</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nt">ai-review</span><span class="p">:</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">review</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/konstziv/ai-code-reviewer:1</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="nt">script</span><span class="p">:</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ai-review</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span><span class="nt">rules</span><span class="p">:</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$CI_PIPELINE_SOURCE == &quot;merge_request_event&quot;</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">  </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w">  </span><span class="c1"># Ne čeka prethodne faze</span>
+</span></code></pre></div>
+<hr />
+<h2 id="self-hosted-gitlab">Self-hosted GitLab<a class="headerlink" href="#self-hosted-gitlab" title="Permanent link">&para;</a></h2>
+<h3 id="konfiguracija">Konfiguracija<a class="headerlink" href="#konfiguracija" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">variables</span><span class="p">:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">AI_REVIEWER_GITLAB_URL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://gitlab.mycompany.com</span>
+</span></code></pre></div>
+<h3 id="docker-registar">Docker registar<a class="headerlink" href="#docker-registar" title="Permanent link">&para;</a></h3>
+<p>Ako vaš GitLab nema pristup <code>ghcr.io</code>, kreirajte mirror:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Na mašini sa pristupom</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/konstziv/ai-code-reviewer:1
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>docker<span class="w"> </span>tag<span class="w"> </span>ghcr.io/konstziv/ai-code-reviewer:1<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span>gitlab.mycompany.com:5050/devops/ai-code-reviewer:latest
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>docker<span class="w"> </span>push<span class="w"> </span>gitlab.mycompany.com:5050/devops/ai-code-reviewer:latest
+</span></code></pre></div>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">ai-review</span><span class="p">:</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gitlab.mycompany.com:5050/devops/ai-code-reviewer:latest</span>
+</span></code></pre></div>
+<hr />
+<h2 id="gitlab-ci-varijable">GitLab CI varijable<a class="headerlink" href="#gitlab-ci-varijable" title="Permanent link">&para;</a></h2>
+<p>AI Code Reviewer automatski koristi:</p>
+<table>
+<thead>
+<tr>
+<th>Varijabla</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CI_PROJECT_PATH</code></td>
+<td><code>owner/repo</code></td>
+</tr>
+<tr>
+<td><code>CI_MERGE_REQUEST_IID</code></td>
+<td>Broj MR-a</td>
+</tr>
+<tr>
+<td><code>CI_SERVER_URL</code></td>
+<td>GitLab URL</td>
+</tr>
+</tbody>
+</table>
+<p>Ne morate proslijeđivati <code>--repo</code> i <code>--pr</code> — uzimaju se iz CI-ja automatski.</p>
+<hr />
+<h2 id="variable-driven">Konfiguracija putem CI/CD varijabli<a class="headerlink" href="#variable-driven" title="Permanent link">&para;</a></h2>
+<p>Koristite <strong>CI/CD Variables</strong> za prebacivanje između LLM provajdera i modela bez mijenjanja <code>.gitlab-ci.yml</code>. Ovo je korisno za poređenje kvaliteta revizije različitih modela na istom MR-u.</p>
+<h3 id="podesavanje">Podešavanje<a class="headerlink" href="#podesavanje" title="Permanent link">&para;</a></h3>
+<p><strong>CI/CD Variables</strong> (<code>Settings → CI/CD → Variables</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Varijabla</th>
+<th>Opis</th>
+<th>Opcije</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AI_REVIEWER_GOOGLE_API_KEY</code></td>
+<td>Gemini API ključ</td>
+<td><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Masked, <img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/274c.svg" title=":x:" /> Isključiti Protected</td>
+</tr>
+<tr>
+<td><code>AI_REVIEWER_MISTRAL_API_KEY</code></td>
+<td>Mistral API ključ</td>
+<td><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Masked, <img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/274c.svg" title=":x:" /> Isključiti Protected</td>
+</tr>
+<tr>
+<td><code>AI_REVIEWER_GITLAB_TOKEN</code></td>
+<td>GitLab token</td>
+<td><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Masked, <img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/274c.svg" title=":x:" /> Isključiti Protected</td>
+</tr>
+<tr>
+<td><code>AI_REVIEWER_LLM_PROVIDER</code></td>
+<td>Primarni provajder (<code>google</code>, <code>mistral</code>)</td>
+<td><img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/274c.svg" title=":x:" /> Isključiti Protected</td>
+</tr>
+<tr>
+<td><code>AI_REVIEWER_LLM_FALLBACK_PROVIDER</code></td>
+<td>Fallback provajder</td>
+<td><img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/274c.svg" title=":x:" /> Isključiti Protected</td>
+</tr>
+<tr>
+<td><code>AI_REVIEWER_MISTRAL_MODEL</code></td>
+<td>Mistral model</td>
+<td><img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/274c.svg" title=":x:" /> Isključiti Protected</td>
+</tr>
+<tr>
+<td><code>AI_REVIEWER_MISTRAL_API_URL</code></td>
+<td>Prilagođeni URL API-ja (za Codestral free tier)</td>
+<td><img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/274c.svg" title=":x:" /> Isključiti Protected</td>
+</tr>
+</tbody>
+</table>
+<h3 id="konfiguracija-job-a">Konfiguracija job-a<a class="headerlink" href="#konfiguracija-job-a" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">ai-review</span><span class="p">:</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/konstziv/ai-code-reviewer:1</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">review</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">script</span><span class="p">:</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ai-review</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="nt">rules</span><span class="p">:</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$CI_PIPELINE_SOURCE == &quot;merge_request_event&quot;</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">  </span><span class="nt">allow_failure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">  </span><span class="nt">interruptible</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
+<p>Sekcija <code>variables:</code> nije potrebna — sve <code>AI_REVIEWER_*</code> CI/CD varijable se nasljeđuju automatski.</p>
+<h3 id="prebacivanje-preseta">Prebacivanje preseta<a class="headerlink" href="#prebacivanje-preseta" title="Permanent link">&para;</a></h3>
+<p>Promijenite CI/CD Variables u GitLab interfejsu i kliknite <strong>Retry</strong> na pipeline istog MR-a:</p>
+<table>
+<thead>
+<tr>
+<th>Preset</th>
+<th><code>AI_REVIEWER_LLM_PROVIDER</code></th>
+<th><code>AI_REVIEWER_MISTRAL_MODEL</code></th>
+<th><code>AI_REVIEWER_MISTRAL_API_URL</code></th>
+<th><code>AI_REVIEWER_LLM_FALLBACK_PROVIDER</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gemini (podrazumijevano)</td>
+<td><code>google</code></td>
+<td><em>(prazno)</em></td>
+<td><em>(prazno)</em></td>
+<td><em>(prazno)</em></td>
+</tr>
+<tr>
+<td>Mistral Large</td>
+<td><code>mistral</code></td>
+<td><code>mistral-large-latest</code></td>
+<td><em>(prazno)</em></td>
+<td><code>google</code></td>
+</tr>
+<tr>
+<td>Codestral free</td>
+<td><code>mistral</code></td>
+<td><code>codestral-latest</code></td>
+<td><code>https://codestral.mistral.ai</code></td>
+<td><code>google</code></td>
+</tr>
+<tr>
+<td>Devstral</td>
+<td><code>mistral</code></td>
+<td><code>devstral-latest</code></td>
+<td><em>(prazno)</em></td>
+<td><code>google</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Codestral free tier ključ</p>
+<p>Za preset „Codestral free" <code>AI_REVIEWER_MISTRAL_API_KEY</code> mora sadržavati ključ sa <a href="https://codestral.mistral.ai/">codestral.mistral.ai</a>, ne sa <code>console.mistral.ai</code>.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Nije potrebno unositi u YAML</p>
+<p>Za razliku od GitHub Actions (gdje se inputi moraju eksplicitno mapirati), GitLab CI automatski prosljeđuje sve CI/CD varijable kao varijable okruženja. Samo ih postavite u interfejsu — aplikacija ih prepoznaje preko prefiksa <code>AI_REVIEWER_*</code>.</p>
+</div>
+<hr />
+<h2 id="rezultat-revizije">Rezultat revizije<a class="headerlink" href="#rezultat-revizije" title="Permanent link">&para;</a></h2>
+<h3 id="biljeske-komentari">Bilješke (komentari)<a class="headerlink" href="#biljeske-komentari" title="Permanent link">&para;</a></h3>
+<p>AI Review objavljuje komentare na MR kao bilješke.</p>
+<h3 id="diskusije-inline">Diskusije (inline)<a class="headerlink" href="#diskusije-inline" title="Permanent link">&para;</a></h3>
+<p>Za inline komentare, trebate Personal Access Token ili Project Access Token.</p>
+<p>Inline komentari se pojavljuju direktno pored linija koda u diff pogledu.</p>
+<h3 id="rezime">Rezime<a class="headerlink" href="#rezime" title="Permanent link">&para;</a></h3>
+<p>Na kraju revizije, objavljuje se bilješka Rezime sa:</p>
+<ul>
+<li>Ukupnom statistikom</li>
+<li>Metrikama</li>
+<li>Dobrim praksama</li>
+</ul>
+<hr />
+<h2 id="rjesavanje-problema">Rješavanje problema<a class="headerlink" href="#rjesavanje-problema" title="Permanent link">&para;</a></h2>
+<h3 id="revizija-ne-objavljuje-komentare">Revizija ne objavljuje komentare<a class="headerlink" href="#revizija-ne-objavljuje-komentare" title="Permanent link">&para;</a></h3>
+<p><strong>Provjerite:</strong></p>
+<ol>
+<li><code>AI_REVIEWER_GOOGLE_API_KEY</code> varijabla je podešena</li>
+<li><code>AI_REVIEWER_GITLAB_TOKEN</code> ima dovoljne dozvole (scope: <code>api</code>)</li>
+<li>Pipeline se pokreće za MR (ne za granu)</li>
+</ol>
+<h3 id="401-unauthorized">"401 Unauthorized"<a class="headerlink" href="#401-unauthorized" title="Permanent link">&para;</a></h3>
+<p><strong>Uzrok:</strong> Nevažeći token.</p>
+<p><strong>Rješenje:</strong></p>
+<ul>
+<li>Provjerite da token nije istekao</li>
+<li>Provjerite scope (potreban <code>api</code>)</li>
+</ul>
+<h3 id="403-forbidden">"403 Forbidden"<a class="headerlink" href="#403-forbidden" title="Permanent link">&para;</a></h3>
+<p><strong>Uzrok:</strong> Nedovoljne dozvole.</p>
+<p><strong>Rješenje:</strong></p>
+<ul>
+<li>Provjerite da koristite Personal Access Token (ne <code>CI_JOB_TOKEN</code>)</li>
+<li>Provjerite da token ima pristup projektu</li>
+</ul>
+<h3 id="404-not-found">"404 Not Found"<a class="headerlink" href="#404-not-found" title="Permanent link">&para;</a></h3>
+<p><strong>Uzrok:</strong> MR nije pronađen.</p>
+<p><strong>Rješenje:</strong></p>
+<ul>
+<li>Provjerite da se pipeline pokreće za MR</li>
+<li>Provjerite <code>CI_MERGE_REQUEST_IID</code></li>
+</ul>
+<h3 id="rate-limit-429">Rate Limit (429)<a class="headerlink" href="#rate-limit-429" title="Permanent link">&para;</a></h3>
+<p><strong>Uzrok:</strong> Prekoračeno API ograničenje.</p>
+<p><strong>Rješenje:</strong></p>
+<ul>
+<li>AI Code Reviewer automatski ponavlja sa eksponencijalnim backoff-om</li>
+<li>Ako se nastavi — sačekajte ili povećajte ograničenja</li>
+</ul>
+<hr />
+<h2 id="najbolje-prakse">Najbolje prakse<a class="headerlink" href="#najbolje-prakse" title="Permanent link">&para;</a></h2>
+<h3 id="1-koristite-pat-za-punu-funkcionalnost">1. Koristite PAT za punu funkcionalnost<a class="headerlink" href="#1-koristite-pat-za-punu-funkcionalnost" title="Permanent link">&para;</a></h3>
+<h3 id="2-dodajte-allow_failure">2. Dodajte allow_failure<a class="headerlink" href="#2-dodajte-allow_failure" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">allow_failure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
+<p>MR neće biti blokiran ako revizija ne uspije.</p>
+<h3 id="3-podesite-timeout">3. Podesite timeout<a class="headerlink" href="#3-podesite-timeout" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10m</span>
+</span></code></pre></div>
+<h3 id="4-ucinite-job-prekidivim">4. Učinite job prekidivim<a class="headerlink" href="#4-ucinite-job-prekidivim" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">interruptible</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
+<p>Stara revizija će se otkazati na novi commit.</p>
+<h3 id="5-ne-cekajte-druge-faze">5. Ne čekajte druge faze<a class="headerlink" href="#5-ne-cekajte-druge-faze" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+</span></code></pre></div>
+<p>Revizija će početi odmah, bez čekanja na build/test.</p>
+<hr />
+<h2 id="sljedeci-korak">Sljedeći korak<a class="headerlink" href="#sljedeci-korak" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../github/">GitHub integracija →</a></li>
+<li><a href="../api/">CLI referenca →</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Назад на врх
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Подножје" >
+        
+          
+          <a href="../github/" class="md-footer__link md-footer__link--prev" aria-label="Претходно: GitHub">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Претходно
+              </span>
+              <div class="md-ellipsis">
+                GitHub
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../api/" class="md-footer__link md-footer__link--next" aria-label="Следеће: CLI Referenca">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Следеће
+              </span>
+              <div class="md-ellipsis">
+                CLI Referenca
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024-2026 Kostyantin Zivenko
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/KonstZiv/ai-code-reviewer" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pypi.org/project/ai-reviewbot/" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/KonstZiv/ai-code-reviewer/pkgs/container/ai-code-reviewer" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0418\u0441\u043a\u043e\u043f\u0438\u0440\u0430\u043d\u043e \u0443 clipboard", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u0430\u0458 \u0443 clipboard", "search.result.more.one": "\u0458\u043e\u0448 1 \u043d\u0430 \u043e\u0432\u043e\u0458 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0438", "search.result.more.other": "\u0458\u043e\u0448 # \u043d\u0430 \u043e\u0432\u043e\u0458 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0438", "search.result.none": "\u041d\u0438\u0448\u0442\u0430 \u043d\u0438\u0458\u0435 \u043f\u0440\u043e\u043d\u0430\u0452\u0435\u043d\u043e", "search.result.one": "1 \u0440\u0435\u0437\u0443\u043b\u0442\u0430\u0442 \u043f\u0440\u0435\u0442\u0440\u0430\u0433\u0435", "search.result.other": "# \u0440\u0435\u0437\u0443\u043b\u0442\u0430\u0442\u0430 \u043f\u0440\u0435\u0442\u0440\u0430\u0433\u0435", "search.result.placeholder": "\u0423\u043d\u0435\u0441\u0438 \u043f\u043e\u0458\u0430\u043c \u043f\u0440\u0435\u0442\u0440\u0430\u0433\u0435", "search.result.term.missing": "\u041d\u0435\u0434\u043e\u0441\u0442\u0430\u0458\u0435", "select.version": "\u0418\u0437\u0430\u0431\u0435\u0440\u0438 \u0432\u0435\u0440\u0437\u0438\u0458\u0443"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

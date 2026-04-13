@@ -1,0 +1,21 @@
+/* Custom styles for AI Code Reviewer documentation */
+
+/* Language selector icon - change from translate to globe/earth */
+.md-select__icon svg {
+  display: none;
+}
+
+.md-select__icon::before {
+  content: "🌐";
+  font-size: 1.2rem;
+}
+
+/* Make language dropdown wider for flags */
+.md-select__inner {
+  min-width: 10rem;
+}
+
+/* Better spacing for flag emojis in dropdown */
+.md-select__link {
+  padding: 0.4rem 1rem;
+}
