@@ -8,7 +8,7 @@ resolution-markers = [
 
 [[package]]
 name = "ai-reviewbot"
-version = "1.0.0b9"
+version = "1.0.0b13"
 source = { editable = "." }
 dependencies = [
     { name = "google-api-core" },

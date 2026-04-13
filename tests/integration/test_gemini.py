@@ -33,6 +33,7 @@ from ai_reviewer.integrations.gemini import (
 from ai_reviewer.utils.retry import (
     AllModelsFailedError,
     AuthenticationError,
+    NotFoundError,
     QuotaExhaustedError,
     RateLimitError,
     ServerError,
@@ -272,6 +273,46 @@ class TestAnalyzeCodeChanges:
 
     @patch("ai_reviewer.integrations.gemini.create_router")
     @patch("ai_reviewer.integrations.gemini.build_review_prompt")
+    def test_fallback_on_not_found(
+        self,
+        mock_build_prompt: MagicMock,
+        mock_create_router: MagicMock,
+        mock_context: ReviewContext,
+        mock_settings: Settings,
+    ) -> None:
+        """Test that NotFoundError (404 unknown model) triggers fallback."""
+        mock_build_prompt.return_value = "prompt"
+
+        primary_provider = Mock()
+        fallback_provider = Mock()
+
+        mock_router = mock_create_router.return_value
+        mock_router.create_provider.side_effect = [primary_provider, fallback_provider]
+
+        primary_provider.generate.side_effect = NotFoundError(
+            "Gemini: 404 NOT_FOUND. models/bogus-model is not found"
+        )
+
+        expected = ReviewResult(summary="Recovered")
+        mock_resp = Mock()
+        mock_resp.content = expected
+        mock_resp.model_name = "gemini-2.5-flash"
+        mock_resp.prompt_tokens = 0
+        mock_resp.completion_tokens = 0
+        mock_resp.total_tokens = 0
+        mock_resp.latency_ms = 0
+        mock_resp.estimated_cost_usd = 0.0
+        fallback_provider.generate.return_value = mock_resp
+
+        result = analyze_code_changes(mock_context, mock_settings)
+
+        assert result.summary == "Recovered"
+        assert result.metrics is not None
+        assert "NotFoundError" in result.metrics.fallback_reason  # type: ignore[operator]
+        assert mock_router.create_provider.call_count == 2
+
+    @patch("ai_reviewer.integrations.gemini.create_router")
+    @patch("ai_reviewer.integrations.gemini.build_review_prompt")
     def test_no_fallback_on_auth_error(
         self,
         mock_build_prompt: MagicMock,
@@ -448,7 +489,7 @@ class TestReExports:
 
     def test_gemini_pricing_reexported(self) -> None:
         """Test that GEMINI_PRICING is re-exported."""
-        assert "gemini-3.1-flash-preview" in GEMINI_PRICING
+        assert "gemini-3-flash-preview" in GEMINI_PRICING
 
     def test_default_model_reexported(self) -> None:
         """Test that DEFAULT_MODEL is re-exported."""

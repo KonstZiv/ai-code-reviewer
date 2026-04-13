@@ -62,7 +62,7 @@ DEFAULT_CATALOG: tuple[ModelCard, ...] = (
         output_price_per_mtok=0.40,
     ),
     ModelCard(
-        name="gemini-3.1-flash-preview",
+        name="gemini-3-flash-preview",
         operator=Operator.GOOGLE,
         tags=frozenset({_L, _F, _SO, _LC}),
         context_window=1_048_576,

@@ -107,5 +107,5 @@ The reviewer displays estimated costs in the review footer. Typical costs:
 | Model | ~2000 tokens | ~10000 tokens |
 |-------|--------------|---------------|
 | gemini-2.5-flash | ~$0.0002 | ~$0.001 |
-| gemini-3.1-flash-preview | ~$0.0002 | ~$0.001 |
+| gemini-3-flash-preview | ~$0.0002 | ~$0.001 |
 | gemini-2.5-pro | ~$0.005 | ~$0.025 |

@@ -79,12 +79,12 @@ mistral-large → mistral-small → gemini-2.5-flash → gemini-2.5-flash-lite
 | Varijabla | Opis | Podrazumijevano |
 |----------|------|---------|
 | `AI_REVIEWER_GEMINI_MODEL` | Primarni Gemini model | `gemini-2.5-flash` |
-| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Lanac rezervnih modela (odvojenih zarezima) | `gemini-3.1-flash-preview,...` |
+| `AI_REVIEWER_GEMINI_MODEL_FALLBACK` | Lanac rezervnih modela (odvojenih zarezima) | `gemini-3-flash-preview,...` |
 
 | Model | Opis | Cijena |
 |-------|------|--------|
 | `gemini-2.5-flash` | Brz, stabilan, sa sposobnošću rasuđivanja (podrazumijevano) | $0.075 / 1M ulaz |
-| `gemini-3.1-flash-preview` | Frontier-klasa flash (pregled) | $0.075 / 1M ulaz |
+| `gemini-3-flash-preview` | Frontier-klasa flash (pregled) | $0.075 / 1M ulaz |
 | `gemini-2.5-flash-lite` | Najbrži i najjeftiniji u 2.5 | $0.01875 / 1M ulaz |
 | `gemini-2.5-pro` | Najmoćniji, sa dubokim rasuđivanjem | $1.25 / 1M ulaz |
 
